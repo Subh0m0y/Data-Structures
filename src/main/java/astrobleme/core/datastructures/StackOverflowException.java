@@ -26,6 +26,9 @@ package astrobleme.core.datastructures;
  * A custom Exception to define if the Stack has run out of space
  * (which may happen in case of a FixedStack or if the number of
  * elements is too large, comparable to {@link Integer#MAX_VALUE}).
+ *
+ * @author Subhomoy Haldar
+ * @version 2017.02.07
  */
 public class StackOverflowException extends RuntimeException {
     private final int maxSize;

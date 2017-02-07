@@ -23,7 +23,6 @@
 
 import astrobleme.core.datastructures.FixedStack;
 import astrobleme.core.datastructures.Stack;
-import astrobleme.core.datastructures.StackOverflowException;
 
 /**
  * @author Subhomoy Haldar
@@ -40,5 +39,6 @@ public class Test {
         }
         System.out.println(iStack.containsAll(1, 2, 3, 4));
         System.out.println(iStack.peek());
+        System.out.println(iStack);
     }
 }

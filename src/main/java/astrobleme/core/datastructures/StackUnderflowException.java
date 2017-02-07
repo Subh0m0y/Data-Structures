@@ -24,6 +24,9 @@ package astrobleme.core.datastructures;
 
 /**
  * This Exception is thrown when pop() is called on an empty Stack.
+ *
+ * @author Subhomoy Haldar
+ * @version 2017.02.07
  */
 public class StackUnderflowException extends RuntimeException {
     /**

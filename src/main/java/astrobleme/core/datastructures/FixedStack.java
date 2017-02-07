@@ -50,26 +50,48 @@ public class FixedStack<E> extends Stack<E> {
         top = -1;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     * @throws StackUnderflowException {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
-    public E pop() throws StackUnderflowException, ClassCastException {
+    public E pop() throws StackUnderflowException {
         if (top == -1) {
             throw new StackUnderflowException();
         }
         return (E) a[top--];
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
-    public E peek() throws ClassCastException {
+    public E peek() {
         return top == -1 ? null : (E) a[top];
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
     @Override
     public int size() {
         return top + 1;
     }
 
+    /**
+     * Checks if the given element is present in the collection.
+     *
+     * @param object The object to check for presence.
+     * @return {@code true} if the object is present.
+     */
     @Override
     public boolean contains(Object object) {
         for (int i = 0; i <= top; i++) {
@@ -87,9 +109,21 @@ public class FixedStack<E> extends Stack<E> {
         return false;
     }
 
+    /**
+     * Creates an iterator that prints out the elements in the order they will
+     * be popped.
+     *
+     * @return
+     */
     @Override
     public Iterator<E> iterator() {
-        return new ArrayIterator<>(Arrays.copyOf(a, size()));
+        Object[] array = new Object[size()];
+        // Reverse the array to show order in which elements will pop
+        int index = top, i = 0;
+        while (index >= 0) {
+            array[i++] = a[index--];
+        }
+        return new ArrayIterator<>(array);
     }
 
     @Override

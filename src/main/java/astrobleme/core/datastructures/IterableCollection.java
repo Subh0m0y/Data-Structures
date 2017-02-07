@@ -24,6 +24,7 @@ package astrobleme.core.datastructures;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.StringJoiner;
 
 /**
  * The bare-bones implementation that implements all the secondary methods, simplifying
@@ -222,5 +223,14 @@ public abstract class IterableCollection<E> implements Collection<E> {
             array[i] = (T) iterator.next();
         }
         return array;
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner joiner = new StringJoiner(", ", "[", "]");
+        for (E item : this) {
+            joiner.add(item.toString());
+        }
+        return joiner.toString();
     }
 }
