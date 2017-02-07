@@ -126,17 +126,22 @@ public class FixedStack<E> extends Stack<E> {
         return new ArrayIterator<>(array);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This can only work the number of times initially specified (as the capacity).
+     * Any more than the capacity, and it will throw an Exception.
+     *
+     * @param value The value to push onto the Stack.
+     * @return {@inheritDoc}
+     * @throws StackOverflowException If the FixedStack is full and can take
+     *                                no more elements.
+     */
     @Override
     public boolean push(E value) throws StackOverflowException {
         if (top == limit) {
             throw new StackOverflowException(limit + 1);
         }
-        a[++top] = value;
-        return true;
-    }
-
-    @Override
-    public boolean add(E value) {
         a[++top] = value;
         return true;
     }

@@ -225,6 +225,12 @@ public abstract class IterableCollection<E> implements Collection<E> {
         return array;
     }
 
+    /**
+     * Formats this collection as a String. This internally uses the
+     * {@link Object#toString()} method of the elements to generate the String.
+     *
+     * @return This collection as a String, formatted for displaying.
+     */
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner(", ", "[", "]");

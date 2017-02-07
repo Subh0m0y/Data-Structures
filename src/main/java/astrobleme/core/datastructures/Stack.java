@@ -42,8 +42,19 @@ public abstract class Stack<E> extends IterableCollection<E> {
      * @throws StackOverflowException If the fixed Stack is full or it has
      *                                too many elements.
      */
-    public boolean push(E value) throws StackOverflowException {
-        return add(value);
+    public abstract boolean push(E value) throws StackOverflowException;
+
+    /**
+     * Adds the element to this stack. This is the same as pushing it
+     * onto the Stack. This may throw a {@link StackOverflowException}
+     * depending on the implementation as well as the circumstances.
+     *
+     * @param value The value to add to the Stack.
+     * @return {@code true} if the element was successfully added to the Stack.
+     */
+    @Override
+    public boolean add(E value) {
+        return push(value);
     }
 
     /**
@@ -72,10 +83,7 @@ public abstract class Stack<E> extends IterableCollection<E> {
     @Override
     public void clear() {
         while (!isEmpty()) {
-            try {
-                pop();
-            } catch (StackUnderflowException ignore) {
-            }
+            pop();
         }
     }
 
