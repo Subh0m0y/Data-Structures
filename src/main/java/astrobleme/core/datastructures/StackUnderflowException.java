@@ -20,25 +20,19 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-import astrobleme.core.datastructures.FixedStack;
-import astrobleme.core.datastructures.Stack;
-import astrobleme.core.datastructures.StackOverflowException;
+package astrobleme.core.datastructures;
 
 /**
- * @author Subhomoy Haldar
- * @version 2017.02.05
+ * This Exception is thrown when pop() is called on an empty Stack.
  */
-public class Test {
-    public static void main(String[] args) {
-        Stack<Integer> iStack = new FixedStack<>(10);
-        for (int i = 0; i < 10; i++) {
-            iStack.push(i);
-        }
-        for (int i : iStack) {
-            System.out.println(i);
-        }
-        System.out.println(iStack.containsAll(1, 2, 3, 4));
-        System.out.println(iStack.peek());
+public class StackUnderflowException extends RuntimeException {
+    /**
+     * Returns the message that is displayed when the Exception is thrown.
+     *
+     * @return The message that is displayed when the Exception is thrown.
+     */
+    @Override
+    public String getMessage() {
+        return "No more elements to pop from Stack.";
     }
 }

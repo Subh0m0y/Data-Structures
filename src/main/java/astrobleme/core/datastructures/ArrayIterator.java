@@ -18,7 +18,6 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- *
  */
 
 package astrobleme.core.datastructures;
@@ -37,7 +36,7 @@ import java.util.NoSuchElementException;
  */
 class ArrayIterator<E> implements Iterator<E> {
 
-    private final E[] array;
+    private final Object[] array;
     private final int size;
     private int index;
 
@@ -46,7 +45,7 @@ class ArrayIterator<E> implements Iterator<E> {
      *
      * @param elements The array whose elements to traverse.
      */
-    public ArrayIterator(E... elements) {
+    public ArrayIterator(Object... elements) {
         array = elements;
         size = array.length;
         index = 0;
@@ -69,9 +68,10 @@ class ArrayIterator<E> implements Iterator<E> {
      * there are no more elements.
      * @throws NoSuchElementException If we are out of elements to return.
      */
+    @SuppressWarnings("unchecked")
     public E next() throws NoSuchElementException {
         if (hasNext()) {
-            return array[index++];
+            return (E) array[index++];
         } else {
             throw new NoSuchElementException("Out of elements for iteration.");
         }

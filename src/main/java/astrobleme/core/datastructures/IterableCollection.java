@@ -18,7 +18,6 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
- *
  */
 
 package astrobleme.core.datastructures;
@@ -39,6 +38,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      *
      * @return {@code true} if this {@link Collection} has no elements.
      */
+    @Override
     public boolean isEmpty() {
         return size() == 0;
     }
@@ -47,19 +47,40 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * Returns {@code true} if this collection contains all the elements in the
      * given collection. It is also assumed that the elements of both the collections
      * are compatible (i.e. can be casted without any problem or loss of data).
-     * <p>
-     * This will throw an {@link UnsupportedOperationException} if the implementation
-     * is immutable or does not support addition of elements.
      *
      * @param collection The generic collection whose elements are to be checked for
      *                   their presence in this collection.
      * @return {@code true} if this collection contains all the elements in the
      * given collection.
+     */
+    @Override
+    public boolean containsAll(Collection<?> collection) {
+        for (Object element : collection) {
+            if (!contains(element)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns {@code true} if this collection contains all the elements in the
+     * given array. It is also assumed that the elements of both the collections
+     * are compatible (i.e. can be casted without any problem or loss of data).
+     * <p>
+     * This will throw an {@link UnsupportedOperationException} if the implementation
+     * is immutable or does not support addition of elements.
+     *
+     * @param elements The array whose elements are to be checked for
+     *                 their presence in this collection.
+     * @return {@code true} if this collection contains all the elements in the
+     * given collection.
      * @throws ClassCastException If the types of one or more elements in the specified
      *                            collection are incompatible with this collection.
      */
-    public boolean containsAll(Collection<?> collection) {
-        for (Object element : collection) {
+    @SuppressWarnings("unchecked")
+    public boolean containsAll(E... elements) {
+        for (E element : elements) {
             if (!contains(element)) {
                 return false;
             }
@@ -73,7 +94,10 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * @param collection The collection whose elements to add.
      * @return {@code true} if at least one addition was successful, resulting in
      * modification of the collection.
+     * @throws ClassCastException If the types of one or more elements in the specified
+     *                            collection are incompatible with this collection.
      */
+    @Override
     public boolean addAll(Collection<? extends E> collection) {
         boolean added = false;
         for (E element : collection) {
@@ -90,6 +114,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * @return {@code true} if at least one addition was successful, resulting in
      * modification of the collection.
      */
+    @SuppressWarnings("unchecked")
     public boolean addAll(E... elements) {
         boolean added = false;
         for (E element : elements) {
@@ -122,6 +147,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * @return {@code true} if at least one addition was successful, resulting in
      * modification of the collection.
      */
+    @SuppressWarnings("unchecked")
     public boolean removeAll(E... elements) {
         boolean removed = false;
         for (E element : elements) {
@@ -138,6 +164,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * @return {@code true} if at least one uncommon element was removed, resulting in
      * modification of the collection.
      */
+    @Override
     public boolean retainAll(Collection<?> collection) {
         boolean modified = false;
         for (Object element : collection) {
@@ -157,6 +184,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * @return The elements of this collection in an {@link Object} array of length
      * {@link #size()}.
      */
+    @Override
     public Object[] toArray() {
         Iterator<E> iterator = iterator();
         int size = size();
@@ -181,6 +209,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * @throws ClassCastException If the any element of this collection cannot be
      *                            casted to the given type.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         Iterator<E> iterator = iterator();

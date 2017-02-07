@@ -20,25 +20,35 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-import astrobleme.core.datastructures.FixedStack;
-import astrobleme.core.datastructures.Stack;
-import astrobleme.core.datastructures.StackOverflowException;
+package astrobleme.core.datastructures;
 
 /**
- * @author Subhomoy Haldar
- * @version 2017.02.05
+ * A custom Exception to define if the Stack has run out of space
+ * (which may happen in case of a FixedStack or if the number of
+ * elements is too large, comparable to {@link Integer#MAX_VALUE}).
  */
-public class Test {
-    public static void main(String[] args) {
-        Stack<Integer> iStack = new FixedStack<>(10);
-        for (int i = 0; i < 10; i++) {
-            iStack.push(i);
-        }
-        for (int i : iStack) {
-            System.out.println(i);
-        }
-        System.out.println(iStack.containsAll(1, 2, 3, 4));
-        System.out.println(iStack.peek());
+public class StackOverflowException extends RuntimeException {
+    private final int maxSize;
+
+    /**
+     * Creates a custom Exception with fixed size or -1 if it is expandable.
+     *
+     * @param size The capacity of the Stack or -1 to indicate an expandable
+     *             Stack.
+     */
+    StackOverflowException(final int size) {
+        maxSize = size;
+    }
+
+    /**
+     * Returns the message that is displayed when the Exception is thrown.
+     *
+     * @return The message that is displayed when the Exception is thrown.
+     */
+    @Override
+    public String getMessage() {
+        return maxSize != -1
+                ? "Cannot store any more elements in Stack of size : " + maxSize
+                : "Too many elements, cannot accommodate.";
     }
 }
