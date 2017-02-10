@@ -22,7 +22,6 @@
 
 package astrobleme.core.datastructures;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -111,9 +110,11 @@ public class FixedStack<E> extends Stack<E> {
 
     /**
      * Creates an iterator that prints out the elements in the order they will
-     * be popped.
+     * be popped. This iterator is read-only. It cannot be used to modify this
+     * Stack in any way. It should only be used to iterate over the elements.
      *
-     * @return
+     * @return The iterator that prints out the elements in the order they will
+     * be popped.
      */
     @Override
     public Iterator<E> iterator() {

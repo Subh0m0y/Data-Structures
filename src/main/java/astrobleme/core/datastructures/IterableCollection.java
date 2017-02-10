@@ -116,7 +116,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * modification of the collection.
      */
     @SuppressWarnings("unchecked")
-    public boolean addAll(E... elements) {
+    boolean addAll(E... elements) {
         boolean added = false;
         for (E element : elements) {
             added |= add(element);
@@ -149,7 +149,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      * modification of the collection.
      */
     @SuppressWarnings("unchecked")
-    public boolean removeAll(E... elements) {
+    boolean removeAll(E... elements) {
         boolean removed = false;
         for (E element : elements) {
             removed |= remove(element);
