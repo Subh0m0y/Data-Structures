@@ -20,30 +20,22 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-import astrobleme.core.datastructures.FixedQueue;
-import astrobleme.core.datastructures.FixedStack;
-import astrobleme.core.datastructures.Queue;
-import astrobleme.core.datastructures.Stack;
+package astrobleme.core.datastructures;
 
 /**
+ * This Exception is thrown when dequeue() is called on an empty Queue.
+ *
  * @author Subhomoy Haldar
- * @version 2017.02.05
+ * @version 2017.02.11
  */
-public class Test {
-    public static void main(String[] args) {
-        Stack<Integer> stack1 = new FixedStack<>(10);
-        Stack<Integer> stack2 = new FixedStack<>(10);
-        for (int i = 0; i < 10; i++) {
-            stack1.push(i);
-            stack2.push(i);
-        }
-        System.out.println(stack1);
-        assert stack1.equals(stack2);
-        while (!stack1.isEmpty()) {
-            System.out.println(stack1.pop());
-        }
-        stack2.clear();
-        assert stack1.equals(stack2);
+public class QueueUnderflowException extends RuntimeException {
+    /**
+     * Returns the message that is displayed when the Exception is thrown.
+     *
+     * @return The message that is displayed when the Exception is thrown.
+     */
+    @Override
+    public String getMessage() {
+        return "No more elements to dequeue from Queue";
     }
 }

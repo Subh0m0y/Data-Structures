@@ -25,47 +25,49 @@ package astrobleme.core.datastructures;
 import java.util.Iterator;
 
 /**
- * A concrete implementation of a Stack that has a fixed capacity. This
- * is meant too be used for speed. Ideally, the lack of resizing operations
- * and internal use of arrays makes it suitable for high-performance usage.
+ * A concrete array-based Queue that is meant to be light and fast. This is
+ * a fixed capacity Queue. At any given time it can hold a maximum of the
+ * quantity initially specified.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.07
+ * @version 2017.02.11
  */
-public class FixedStack<E> extends Stack<E> {
-
+public class FixedQueue<E> extends Queue<E> {
     private final Object[] a;
-    private final int limit;    // The maximum value that top is allowed to have
-    private int top;            // The index of the topmost element
+    private int front;
+    private int rear;
+    private int size;
 
     /**
-     * Creates a new Stack with the given size.
+     * Creates a new Queue with the specified capacity.
      *
-     * @param capacity The required capacity of the Stack.
+     * @param capacity The size of the Queue.
      */
-    public FixedStack(final int capacity) {
+    public FixedQueue(final int capacity) {
         a = new Object[capacity];
-        limit = capacity - 1;
-        top = -1;
+        front = rear = -1;
     }
 
     /**
      * {@inheritDoc}
-     * <p>
-     * This can only work the number of times initially specified (as the capacity).
-     * Any more than the capacity, and it will throw an Exception.
      *
-     * @param value The value to push onto the Stack.
+     * @param value {@inheritDoc}
      * @return {@inheritDoc}
-     * @throws StackOverflowException If the FixedStack is full and can take
-     *                                no more elements.
+     * @throws QueueOverflowException {@inheritDoc}
      */
     @Override
-    public boolean push(E value) throws StackOverflowException {
-        if (top == limit) {
-            throw new StackOverflowException(limit + 1);
+    public boolean enqueue(E value) throws QueueOverflowException {
+        if (front == -1) {
+            front = rear = 0;
+        } else {
+            int nextIndex = (rear + 1) % a.length;
+            if (nextIndex == front) {
+                throw new QueueOverflowException(a.length);
+            }
+            rear = nextIndex;
         }
-        a[++top] = value;
+        a[rear] = value;
+        size++;
         return true;
     }
 
@@ -73,15 +75,24 @@ public class FixedStack<E> extends Stack<E> {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @throws StackUnderflowException {@inheritDoc}
+     * @throws QueueUnderflowException {@inheritDoc}
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E pop() throws StackUnderflowException {
-        if (top == -1) {
-            throw new StackUnderflowException();
+    public E dequeue() throws QueueUnderflowException {
+        // If there are no elements
+        if (front == -1) {
+            throw new QueueUnderflowException();
         }
-        return (E) a[top--];
+        E value = (E) a[front];
+        if (front == rear) {
+            // Reset
+            front = rear = -1;
+        } else {
+            front = (front + 1) % a.length;
+        }
+        size--;
+        return value;
     }
 
     /**
@@ -92,17 +103,17 @@ public class FixedStack<E> extends Stack<E> {
     @Override
     @SuppressWarnings("unchecked")
     public E peek() {
-        return top == -1 ? null : (E) a[top];
+        return front != -1 ? (E) a[front] : null;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the number of elements in the Queue.
      *
-     * @return {@inheritDoc}
+     * @return The number of elements in the Queue.
      */
     @Override
     public int size() {
-        return top + 1;
+        return size;
     }
 
     /**
@@ -113,7 +124,7 @@ public class FixedStack<E> extends Stack<E> {
      */
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <= top; i++) {
+        for (int i = front; i != rear; i = (i + 1) % a.length) {
             Object item = a[i];
             if (item == null) {
                 if (object == null) {
@@ -129,20 +140,22 @@ public class FixedStack<E> extends Stack<E> {
     }
 
     /**
-     * Creates an iterator that returns the elements in the order they will
-     * be popped. This iterator is read-only. It cannot be used to modify this
-     * Stack in any way. It should only be used to iterate over the elements.
+     * Creates an iterator that returns the elements in the order they
+     * will be dequeue-ed. This iterator is read-only. It cannot be used
+     * to modify this Queue in any way. It should only be used to iterate
+     * over the elements.
      *
-     * @return The iterator that returns the elements in the order they will
-     * be popped.
+     * @return An iterator that returns the elements in the order they
+     * will be dequeue-ed.
      */
     @Override
     public Iterator<E> iterator() {
-        Object[] array = new Object[size()];
-        // Reverse the array to show order in which elements will pop
-        int index = top, i = 0;
-        while (index >= 0) {
-            array[i++] = a[index--];
+        Object[] array = new Object[size];
+        int index = 0;
+        int i = front;
+        while (index < size) {
+            array[index++] = a[i];
+            i = (i + 1) % a.length;
         }
         return new ArrayIterator<>(array);
     }

@@ -20,30 +20,39 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-import astrobleme.core.datastructures.FixedQueue;
-import astrobleme.core.datastructures.FixedStack;
-import astrobleme.core.datastructures.Queue;
-import astrobleme.core.datastructures.Stack;
+package astrobleme.core.datastructures;
 
 /**
+ * A custom Exception to indicate that the Queue has run out of space
+ * (which may happen in case of a FixedStack or if the number of
+ * elements is too large, comparable to {@link Integer#MAX_VALUE}).
+ *
  * @author Subhomoy Haldar
- * @version 2017.02.05
+ * @version 2017.02.10
  */
-public class Test {
-    public static void main(String[] args) {
-        Stack<Integer> stack1 = new FixedStack<>(10);
-        Stack<Integer> stack2 = new FixedStack<>(10);
-        for (int i = 0; i < 10; i++) {
-            stack1.push(i);
-            stack2.push(i);
-        }
-        System.out.println(stack1);
-        assert stack1.equals(stack2);
-        while (!stack1.isEmpty()) {
-            System.out.println(stack1.pop());
-        }
-        stack2.clear();
-        assert stack1.equals(stack2);
+public class QueueOverflowException extends RuntimeException {
+    private final int maxSize;
+
+    /**
+     * Creates a custom Exception with the fixed size specified, or
+     * -1 if it is expandable.
+     *
+     * @param size The capacity of the Queue or -1 to indicate an expandable
+     *             Queue.
+     */
+    public QueueOverflowException(final int size) {
+        this.maxSize = size;
+    }
+
+    /**
+     * Returns the message that is displayed when the Exception is thrown.
+     *
+     * @return The message that is displayed when the Exception is thrown.
+     */
+    @Override
+    public String getMessage() {
+        return maxSize != -1
+                ? "Cannot store more elements in Queue of size : " + maxSize
+                : "Too many elements, cannot accommodate.";
     }
 }

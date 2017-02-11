@@ -25,73 +25,69 @@ package astrobleme.core.datastructures;
 import java.util.Arrays;
 
 /**
- * A Stack is a simple data-structure that offers LIFO (last in first out)
- * functionality and is a central data structure in many important applications.
- * This is the superclass that defines all the properties that an implementation
- * of a Stack should have.
+ * A Queue is a simple data structure that offers FIFO (first in first out)
+ * functionality and is useful in many algorithms. This superclass defines
+ * all the operations that an implementation of a Queue should have.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.07
+ * @version 2017.02.10
  */
-public abstract class Stack<E> extends IterableCollection<E> {
+public abstract class Queue<E> extends IterableCollection<E> {
 
     /**
-     * Adds an element to the "top" of the stack. Unless another element is
-     * pushed onto the Stack, this element will be popped next.
+     * Adds an element to the "end" of the Queue. This will stay until all the
      *
-     * @param value The value to push onto the Stack.
+     * @param value The value to enqueue onto the Queue.
      * @return {@code true} if the element was added successfully.
-     * @throws StackOverflowException If the fixed Stack is full or it has
+     * @throws QueueOverflowException If the fixed Queue is full or it has
      *                                too many elements.
      */
-    public abstract boolean push(E value) throws StackOverflowException;
+    public abstract boolean enqueue(E value) throws QueueOverflowException;
 
     /**
-     * Adds the element to this stack. This is the same as pushing it
-     * onto the Stack. This may throw a {@link StackOverflowException}
+     * Adds the element to this queue. This is the same as enqueueing it
+     * onto the Queue. This may throw a {@link QueueOverflowException}
      * depending on the implementation as well as the circumstances.
      *
-     * @param value The value to add to the Stack.
-     * @return {@code true} if the element was successfully added to the Stack.
+     * @param value The value to add to Queue.
+     * @return {@code true} if the element was successfully added to the Queue.
      */
     @Override
     public boolean add(E value) {
-        return push(value);
+        return enqueue(value);
     }
 
     /**
-     * Returns the "topmost" element of the Stack, i.e. the one that was
-     * added last and removes it from the Stack.
+     * Returns the "front-most" element of the Queue, i.e. the element that has
+     * stayed for the longest in the Queue. This also removes the element from the Queue.
      *
-     * @return The "topmost" element of the Stack, i.e. the one that was
-     * added last.
-     * @throws StackUnderflowException If there are no more elements in
-     *                                 the Stack.
+     * @return The "front-most" element of the Queue, i.e. the element that has
+     * stayed for the longest in the Queue.
+     * @throws QueueUnderflowException
      */
-    public abstract E pop() throws StackUnderflowException;
+    public abstract E dequeue() throws QueueUnderflowException;
 
     /**
-     * Returns the "topmost" element of the Stack, i.e. the one that was
-     * added last but does not remove it from the Stack.
+     * Returns the "front-most" element of the Queue but does not remove it.
+     * This does not throw an Exception if the queue is empty.
      *
-     * @return The "topmost" element of the Stack, i.e. the one that was
-     * added last, without removing it.
+     * @return The "front-most" element of the Queue but does not remove it.
      */
     public abstract E peek();
 
     /**
-     * Removes all the elements from this stack.
+     * Removes all the elements from this queue.
      */
     @Override
     public void clear() {
         while (!isEmpty()) {
-            pop();
+            dequeue();
         }
     }
 
     /**
      * Prevent removal of other types of elements. This is to ensure that it works
-     * in LIFO mode only. This is also to ensure good performance.
+     * in FIFO mode only. This is also to ensure good performance.
      *
      * @param object The object to remove. But it won't be removed.
      * @return Nothing. It'll throw an Exception.
@@ -99,22 +95,22 @@ public abstract class Stack<E> extends IterableCollection<E> {
      */
     @Override
     public boolean remove(Object object) {
-        throw new UnsupportedOperationException("Stacks work in LIFO mode only.");
+        throw new UnsupportedOperationException("Queues work in FIFO mode only.");
     }
 
     /**
-     * Returns {@code true} if the argument is a Stack and has the same elements
+     * Returns {@code true} if the argument is a Queue and has the same elements
      * in the same order.
      *
      * @param other The other object to check for equality.
-     * @return {@code true} if the argument is a Stack and has the same elements
+     * @return {@code true} if the argument is a Queue and has the same elements
      * in the same order.
      */
     public boolean equals(Object other) {
-        if (!(other instanceof Stack)) {
+        if (!(other instanceof Queue)) {
             return false;
         }
-        Stack stack = (Stack) other;
-        return Arrays.equals(stack.toArray(), toArray());
+        Queue queue = (Queue) other;
+        return Arrays.equals(queue.toArray(), toArray());
     }
 }
