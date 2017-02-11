@@ -53,16 +53,16 @@ public class FixedQueue<E> extends Queue<E> {
      *
      * @param value {@inheritDoc}
      * @return {@inheritDoc}
-     * @throws QueueOverflowException {@inheritDoc}
+     * @throws OverflowException {@inheritDoc}
      */
     @Override
-    public boolean enqueue(E value) throws QueueOverflowException {
+    public boolean enqueue(E value) throws OverflowException {
         if (front == -1) {
             front = rear = 0;
         } else {
             int nextIndex = (rear + 1) % a.length;
             if (nextIndex == front) {
-                throw new QueueOverflowException(a.length);
+                throw new OverflowException(a.length);
             }
             rear = nextIndex;
         }
@@ -75,14 +75,14 @@ public class FixedQueue<E> extends Queue<E> {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @throws QueueUnderflowException {@inheritDoc}
+     * @throws UnderflowException {@inheritDoc}
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E dequeue() throws QueueUnderflowException {
+    public E dequeue() throws UnderflowException {
         // If there are no elements
         if (front == -1) {
-            throw new QueueUnderflowException();
+            throw new UnderflowException();
         }
         E value = (E) a[front];
         if (front == rear) {

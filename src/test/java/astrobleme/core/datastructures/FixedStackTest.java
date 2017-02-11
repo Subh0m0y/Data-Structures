@@ -50,7 +50,7 @@ public class FixedStackTest {
         }
     }
 
-    private static final int LENGTH = 20_000;
+    private static final int LENGTH = 30_000;
     private static final int BOUND = LENGTH * 2;
     private static final int SEARCH_LIMIT = LENGTH * 3;
     private static final Random RANDOM = new Random();
@@ -74,7 +74,7 @@ public class FixedStackTest {
         boolean exceptionCaught = false;
         try {
             stack.pop();
-        } catch (StackUnderflowException e) {
+        } catch (UnderflowException e) {
             exceptionCaught = true;
         }
         assertTrue(exceptionCaught);
@@ -132,7 +132,7 @@ public class FixedStackTest {
         boolean exceptionCaught = false;
         try {
             stack.add(12);
-        } catch (StackOverflowException e) {
+        } catch (OverflowException e) {
             exceptionCaught = true;
         }
         assertTrue(exceptionCaught);

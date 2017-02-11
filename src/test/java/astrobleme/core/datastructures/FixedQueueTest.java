@@ -22,20 +22,14 @@
 
 package astrobleme.core.datastructures;
 
+import static org.testng.Assert.*;
+
 /**
- * This Exception is thrown when pop() is called on an empty Stack.
+ * Tests for FixedQueue. Intentionally trivial.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.07
+ * @version 2017.02.11
  */
-public class StackUnderflowException extends RuntimeException {
-    /**
-     * Returns the message that is displayed when the Exception is thrown.
-     *
-     * @return The message that is displayed when the Exception is thrown.
-     */
-    @Override
-    public String getMessage() {
-        return "No more elements to pop from Stack.";
-    }
+public class FixedQueueTest {
+
 }

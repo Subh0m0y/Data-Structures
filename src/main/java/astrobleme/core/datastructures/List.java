@@ -87,6 +87,27 @@ public abstract class List<E> extends IterableCollection<E> {
     }
 
     /**
+     * Adds the given element to the end of the list. If the List is fixed
+     * capacity then it may throw an Exception when the List is full.
+     *
+     * @param value The value to add to the list.
+     * @return {@code true} if the element was successfully added to the List.
+     */
+    @Override
+    public boolean add(E value) {
+        add(size(), value);
+        return true;
+    }
+
+    /**
+     * Returns the first index of the value if present or -1 if it is absent.
+     *
+     * @param value The value to search for.
+     * @return The first index of the value if present or -1 if it is absent.
+     */
+    public abstract int indexOf(Object value);
+
+    /**
      * To be used internally by the subclasses as a quick way to validate indices.
      *
      * @param index The index to check.

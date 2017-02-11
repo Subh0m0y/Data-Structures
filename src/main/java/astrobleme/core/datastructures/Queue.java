@@ -39,14 +39,14 @@ public abstract class Queue<E> extends IterableCollection<E> {
      *
      * @param value The value to enqueue onto the Queue.
      * @return {@code true} if the element was added successfully.
-     * @throws QueueOverflowException If the fixed Queue is full or it has
-     *                                too many elements.
+     * @throws OverflowException If the fixed Queue is full or it has
+     *                           too many elements.
      */
-    public abstract boolean enqueue(E value) throws QueueOverflowException;
+    public abstract boolean enqueue(E value) throws OverflowException;
 
     /**
      * Adds the element to this queue. This is the same as enqueueing it
-     * onto the Queue. This may throw a {@link QueueOverflowException}
+     * onto the Queue. This may throw a {@link OverflowException}
      * depending on the implementation as well as the circumstances.
      *
      * @param value The value to add to Queue.
@@ -63,9 +63,9 @@ public abstract class Queue<E> extends IterableCollection<E> {
      *
      * @return The "front-most" element of the Queue, i.e. the element that has
      * stayed for the longest in the Queue.
-     * @throws QueueUnderflowException
+     * @throws UnderflowException If there are no more elements to remove the Queue.
      */
-    public abstract E dequeue() throws QueueUnderflowException;
+    public abstract E dequeue() throws UnderflowException;
 
     /**
      * Returns the "front-most" element of the Queue but does not remove it.

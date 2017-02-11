@@ -41,14 +41,14 @@ public abstract class Stack<E> extends IterableCollection<E> {
      *
      * @param value The value to push onto the Stack.
      * @return {@code true} if the element was added successfully.
-     * @throws StackOverflowException If the fixed Stack is full or it has
+     * @throws OverflowException If the fixed Stack is full or it has
      *                                too many elements.
      */
-    public abstract boolean push(E value) throws StackOverflowException;
+    public abstract boolean push(E value) throws OverflowException;
 
     /**
      * Adds the element to this stack. This is the same as pushing it
-     * onto the Stack. This may throw a {@link StackOverflowException}
+     * onto the Stack. This may throw a {@link OverflowException}
      * depending on the implementation as well as the circumstances.
      *
      * @param value The value to add to the Stack.
@@ -65,10 +65,10 @@ public abstract class Stack<E> extends IterableCollection<E> {
      *
      * @return The "topmost" element of the Stack, i.e. the one that was
      * added last.
-     * @throws StackUnderflowException If there are no more elements in
+     * @throws UnderflowException If there are no more elements in
      *                                 the Stack.
      */
-    public abstract E pop() throws StackUnderflowException;
+    public abstract E pop() throws UnderflowException;
 
     /**
      * Returns the "topmost" element of the Stack, i.e. the one that was

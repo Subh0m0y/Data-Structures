@@ -23,12 +23,26 @@
 package astrobleme.core.datastructures;
 
 /**
- * This Exception is thrown when dequeue() is called on an empty Queue.
+ * A custom Exception to define if the Stack or Queue or List or any other Collection
+ * has run out of space (which may happen in case of a FixedStack or if the number of
+ * elements is too large, comparable to {@link Integer#MAX_VALUE}).
  *
  * @author Subhomoy Haldar
- * @version 2017.02.11
+ * @version 2017.02.07
  */
-public class QueueUnderflowException extends RuntimeException {
+public class OverflowException extends RuntimeException {
+    private final int maxSize;
+
+    /**
+     * Creates a custom Exception with fixed size or -1 if it is expandable.
+     *
+     * @param size The capacity of the Stack or -1 to indicate an expandable
+     *             Collection.
+     */
+    OverflowException(final int size) {
+        maxSize = size;
+    }
+
     /**
      * Returns the message that is displayed when the Exception is thrown.
      *
@@ -36,6 +50,8 @@ public class QueueUnderflowException extends RuntimeException {
      */
     @Override
     public String getMessage() {
-        return "No more elements to dequeue from Queue";
+        return maxSize != -1
+                ? "Cannot store any more elements in Collection of size : " + maxSize
+                : "Too many elements, cannot accommodate.";
     }
 }

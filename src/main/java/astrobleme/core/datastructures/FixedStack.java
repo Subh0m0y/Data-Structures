@@ -57,13 +57,13 @@ public class FixedStack<E> extends Stack<E> {
      *
      * @param value The value to push onto the Stack.
      * @return {@inheritDoc}
-     * @throws StackOverflowException If the FixedStack is full and can take
+     * @throws OverflowException If the FixedStack is full and can take
      *                                no more elements.
      */
     @Override
-    public boolean push(E value) throws StackOverflowException {
+    public boolean push(E value) throws OverflowException {
         if (top == limit) {
-            throw new StackOverflowException(limit + 1);
+            throw new OverflowException(limit + 1);
         }
         a[++top] = value;
         return true;
@@ -73,13 +73,13 @@ public class FixedStack<E> extends Stack<E> {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @throws StackUnderflowException {@inheritDoc}
+     * @throws UnderflowException {@inheritDoc}
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E pop() throws StackUnderflowException {
+    public E pop() throws UnderflowException {
         if (top == -1) {
-            throw new StackUnderflowException();
+            throw new UnderflowException();
         }
         return (E) a[top--];
     }

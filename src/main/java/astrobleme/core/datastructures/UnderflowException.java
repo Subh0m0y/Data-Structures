@@ -23,26 +23,13 @@
 package astrobleme.core.datastructures;
 
 /**
- * A custom Exception to define if the Stack has run out of space
- * (which may happen in case of a FixedStack or if the number of
- * elements is too large, comparable to {@link Integer#MAX_VALUE}).
+ * This Exception is thrown when pop() is called on an empty Stack or dequeue()
+ * or some similar removal operation is called on a Collection.
  *
  * @author Subhomoy Haldar
  * @version 2017.02.07
  */
-public class StackOverflowException extends RuntimeException {
-    private final int maxSize;
-
-    /**
-     * Creates a custom Exception with fixed size or -1 if it is expandable.
-     *
-     * @param size The capacity of the Stack or -1 to indicate an expandable
-     *             Stack.
-     */
-    StackOverflowException(final int size) {
-        maxSize = size;
-    }
-
+public class UnderflowException extends RuntimeException {
     /**
      * Returns the message that is displayed when the Exception is thrown.
      *
@@ -50,8 +37,6 @@ public class StackOverflowException extends RuntimeException {
      */
     @Override
     public String getMessage() {
-        return maxSize != -1
-                ? "Cannot store any more elements in Stack of size : " + maxSize
-                : "Too many elements, cannot accommodate.";
+        return "No more elements to pop from Stack.";
     }
 }
