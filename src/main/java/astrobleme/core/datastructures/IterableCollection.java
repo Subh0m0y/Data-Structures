@@ -80,7 +80,7 @@ public abstract class IterableCollection<E> implements Collection<E> {
      *                            collection are incompatible with this collection.
      */
     @SuppressWarnings("unchecked")
-    public boolean containsAll(E... elements) {
+    boolean containsAll(E... elements) {
         for (E element : elements) {
             if (!contains(element)) {
                 return false;
