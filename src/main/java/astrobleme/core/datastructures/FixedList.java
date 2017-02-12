@@ -37,11 +37,23 @@ public class FixedList<E> extends List<E> {
     private final Object[] a;
     private int size;
 
+    /**
+     * Creates a List with the given capacity.
+     *
+     * @param capacity The maxium capacity of the List.
+     */
     public FixedList(final int capacity) {
         a = new Object[capacity];
         size = 0;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param index The index of the element sought.
+     * @return {@inheritDoc}
+     * @throws IndexOutOfBoundsException {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public E get(int index) throws IndexOutOfBoundsException {
@@ -49,6 +61,14 @@ public class FixedList<E> extends List<E> {
         return (E) a[index];
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param index   The index of the element to be replaced.
+     * @param element The new element to replace the old one.
+     * @return
+     * @throws IndexOutOfBoundsException {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public E set(int index, E element) throws IndexOutOfBoundsException {
@@ -58,6 +78,13 @@ public class FixedList<E> extends List<E> {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param index   The position to insert the new element at.
+     * @param element The element to insert.
+     * @throws IndexOutOfBoundsException {@inheritDoc}
+     */
     @Override
     public void add(int index, E element) throws IndexOutOfBoundsException {
         checkIndex(index);
@@ -73,6 +100,12 @@ public class FixedList<E> extends List<E> {
         a[index] = element;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param index The position of the element to delete.
+     * @return {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public E remove(int index) {
@@ -84,25 +117,33 @@ public class FixedList<E> extends List<E> {
         return element;
     }
 
+    /**
+     * Returns the number of elements currently in the List.
+     *
+     * @return The number of elements currently in the List.
+     */
     @Override
     public int size() {
         return size;
     }
 
+    /**
+     * Returns {@code true} if the given object is present in the list.
+     *
+     * @param object The object to look for.
+     * @return {@code true} if the given object is present in the list.
+     */
     @Override
     public boolean contains(Object object) {
-        for (Object element : a) {
-            if (object == null) {
-                if (element == null) {
-                    return true;
-                }
-            } else if (element.equals(object)) {
-                return true;
-            }
-        }
-        return false;
+        return indexOf(object) > -1;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param value The value to search for.
+     * @return {@inheritDoc}
+     */
     @Override
     public int indexOf(Object value) {
         for (int i = 0; i < size; i++) {
@@ -119,6 +160,12 @@ public class FixedList<E> extends List<E> {
         return -1;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param value The value to search for.
+     * @return {@inheritDoc}
+     */
     @Override
     public int lastIndexOf(Object value) {
         for (int i = size - 1; i >= 0; i--) {
@@ -135,11 +182,27 @@ public class FixedList<E> extends List<E> {
         return -1;
     }
 
+    /**
+     * Returns an iterator over the elements in the List, in the order they
+     * are present.
+     *
+     * @return An iterator over the elements in the List, in the order they
+     * are present.
+     */
     @Override
     public Iterator<E> iterator() {
         return new ArrayIterator<>(Arrays.copyOf(a, size));
     }
 
+    /**
+     * This method removes the first occurrence of the specified element in
+     * this List. Returns {@code true} if the element was successfully removed
+     * or {@code false} if the element is not present.
+     *
+     * @param object The object to remove.
+     * @return {@code true} if the element was successfully removed or
+     * {@code false} if the element is not present.
+     */
     @Override
     public boolean remove(Object object) {
         int position = indexOf(object);
@@ -150,6 +213,9 @@ public class FixedList<E> extends List<E> {
         return true;
     }
 
+    /**
+     * Empties the list and resets it.
+     */
     @Override
     public void clear() {
         for (int i = 0; i < size; i++) {
