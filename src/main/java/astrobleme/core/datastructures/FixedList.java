@@ -120,6 +120,22 @@ public class FixedList<E> extends List<E> {
     }
 
     @Override
+    public int lastIndexOf(Object value) {
+        for (int i = size - 1; i >= 0; i--) {
+            if (value == null) {
+                if (a[i] == null) {
+                    return i;
+                }
+            } else {
+                if (a[i].equals(value)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    @Override
     public Iterator<E> iterator() {
         return new ArrayIterator<>(Arrays.copyOf(a, size));
     }

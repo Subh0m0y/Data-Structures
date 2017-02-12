@@ -22,7 +22,7 @@
 
 package astrobleme.core.datastructures;
 
-import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * A Queue is a simple data structure that offers FIFO (first in first out)
@@ -111,6 +111,16 @@ public abstract class Queue<E> extends IterableCollection<E> {
             return false;
         }
         Queue queue = (Queue) other;
-        return Arrays.equals(queue.toArray(), toArray());
+        if (size() != queue.size()) {
+            return false;
+        }
+        Iterator iterator1 = iterator();
+        Iterator iterator2 = queue.iterator();
+        while (iterator1.hasNext()) {
+            if (!iterator1.next().equals(iterator2.next())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

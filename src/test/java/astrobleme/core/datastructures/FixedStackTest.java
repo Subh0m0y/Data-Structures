@@ -195,4 +195,20 @@ public class FixedStackTest {
         assertTrue(Arrays.equals(stack.toArray(new Integer[0]), storage));
         assertEquals(stack.toString(), Arrays.toString(storage));
     }
+
+    @Test
+    public void testEquals() throws Exception {
+        Stack<Integer> stack1 = new FixedStack<>(LENGTH);
+        Stack<Integer> stack2 = new FixedStack<>(LENGTH);
+        for (int i = 0; i < LENGTH; i++) {
+            int randomInt = RANDOM.nextInt(BOUND);
+            stack1.push(randomInt);
+            stack2.push(randomInt);
+        }
+        assertEquals(stack1, stack2);
+        int element = stack2.pop() + 1;
+        assertNotEquals(stack1, stack2);
+        stack2.push(element);
+        assertNotEquals(stack1, stack2);
+    }
 }

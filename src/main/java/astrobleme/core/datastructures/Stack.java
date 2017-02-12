@@ -22,7 +22,7 @@
 
 package astrobleme.core.datastructures;
 
-import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * A Stack is a simple data-structure that offers LIFO (last in first out)
@@ -42,7 +42,7 @@ public abstract class Stack<E> extends IterableCollection<E> {
      * @param value The value to push onto the Stack.
      * @return {@code true} if the element was added successfully.
      * @throws OverflowException If the fixed Stack is full or it has
-     *                                too many elements.
+     *                           too many elements.
      */
     public abstract boolean push(E value) throws OverflowException;
 
@@ -66,7 +66,7 @@ public abstract class Stack<E> extends IterableCollection<E> {
      * @return The "topmost" element of the Stack, i.e. the one that was
      * added last.
      * @throws UnderflowException If there are no more elements in
-     *                                 the Stack.
+     *                            the Stack.
      */
     public abstract E pop() throws UnderflowException;
 
@@ -115,6 +115,16 @@ public abstract class Stack<E> extends IterableCollection<E> {
             return false;
         }
         Stack stack = (Stack) other;
-        return Arrays.equals(stack.toArray(), toArray());
+        if (size() != stack.size()) {
+            return false;
+        }
+        Iterator iterator1 = iterator();
+        Iterator iterator2 = stack.iterator();
+        while (iterator1.hasNext()) {
+            if (!iterator1.next().equals(iterator2.next())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

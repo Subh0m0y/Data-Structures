@@ -108,6 +108,16 @@ public abstract class List<E> extends IterableCollection<E> {
     public abstract int indexOf(Object value);
 
     /**
+     * Returns the last index of the position of presence of the value
+     * or -1 if it is absent in the list.
+     *
+     * @param value The value to search for.
+     * @return The last index of the position of presence of the value
+     * or -1 if it is absent in the list.
+     */
+    public abstract int lastIndexOf(Object value);
+
+    /**
      * To be used internally by the subclasses as a quick way to validate indices.
      *
      * @param index The index to check.
