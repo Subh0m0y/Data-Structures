@@ -128,17 +128,6 @@ public class FixedList<E> extends List<E> {
     }
 
     /**
-     * Returns {@code true} if the given object is present in the list.
-     *
-     * @param object The object to look for.
-     * @return {@code true} if the given object is present in the list.
-     */
-    @Override
-    public boolean contains(Object object) {
-        return indexOf(object) > -1;
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @param value The value to search for.

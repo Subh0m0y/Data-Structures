@@ -22,9 +22,9 @@
 
 
 import astrobleme.core.datastructures.FixedStack;
+import astrobleme.core.datastructures.LinkedStack;
 import astrobleme.core.datastructures.Stack;
 
-import java.util.Set;
 
 /**
  * @author Subhomoy Haldar
@@ -32,16 +32,18 @@ import java.util.Set;
  */
 public class Test {
     public static void main(String[] args) {
-        Stack<Integer> stack1 = new FixedStack<>(10);
-        Stack<Integer> stack2 = new FixedStack<>(10);
-        for (int i = 0; i < 10; i++) {
+        int size = 1_000_000;
+        Stack<Integer> stack1 = new LinkedStack<>();
+        Stack<Integer> stack2 = new FixedStack<>(size);
+        for (int i = 0; i < size; i++) {
             stack1.push(i);
             stack2.push(i);
         }
-        System.out.println(stack1);
+        //System.out.println(stack1);
         assert stack1.equals(stack2);
         while (!stack1.isEmpty()) {
-            System.out.println(stack1.pop());
+            //System.out.println(stack1.pop());
+            stack1.pop();
         }
         stack2.clear();
         assert stack1.equals(stack2);

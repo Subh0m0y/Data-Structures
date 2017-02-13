@@ -118,6 +118,17 @@ public abstract class List<E> extends IterableCollection<E> {
     public abstract int lastIndexOf(Object value);
 
     /**
+     * Returns {@code true} if the given object is present in the list.
+     *
+     * @param object The object to look for.
+     * @return {@code true} if the given object is present in the list.
+     */
+    @Override
+    public boolean contains(Object object) {
+        return indexOf(object) > -1;
+    }
+
+    /**
      * To be used internally by the subclasses as a quick way to validate indices.
      *
      * @param index The index to check.
