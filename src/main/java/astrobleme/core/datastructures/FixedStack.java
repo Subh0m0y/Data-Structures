@@ -146,4 +146,22 @@ public class FixedStack<E> extends Stack<E> {
         }
         return container;
     }
+
+    /**
+     * Returns an exact copy of this FixedStack with the same capacity and
+     * the same state of elements and top index.
+     * <p>
+     * If the elements are mutable, then the two Stacks might not be
+     * completely independent. It is encouraged to keep the elements
+     * immutable.
+     *
+     * @return An exact copy of this Fixed Stack.
+     */
+    @Override
+    public Stack<E> copy() {
+        FixedStack<E> copy = new FixedStack<E>(a.length);
+        System.arraycopy(a, 0, copy.a, 0, a.length);
+        copy.top = top;
+        return copy;
+    }
 }

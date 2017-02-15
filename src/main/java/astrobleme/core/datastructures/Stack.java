@@ -66,4 +66,12 @@ public abstract class Stack<E> extends Container<E> {
      * @return The most recently added element.
      */
     public abstract E peek();
+
+    /**
+     * Creates an exact copy of the Stack, with the same initial parameters
+     * (like capacity) and the same state of elements.
+     *
+     * @return An exact copy of this Stack.
+     */
+    public abstract Stack<E> copy();
 }

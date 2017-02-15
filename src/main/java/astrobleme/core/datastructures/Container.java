@@ -22,6 +22,7 @@
 
 package astrobleme.core.datastructures;
 
+import java.util.Arrays;
 import java.util.StringJoiner;
 
 /**
@@ -115,5 +116,26 @@ public abstract class Container<E> {
             joiner.add(element == this ? "(this container)" : element.toString());
         }
         return joiner.toString();
+    }
+
+    /**
+     * A simple implementation of the {@link Object#equals(Object)} method  that
+     * relies on the {@link #toArray()} method. If there is a possibility that
+     * the number of elements might exceed the specified array limit, then it is
+     * advised to override this method and provide a custom logic.
+     *
+     * @param object The object to check against.
+     * @return {@code true} if the given object is a Container and has the same
+     * elements in the order specified by their definition (which may imply no
+     * order).
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Container)) {
+            return false;
+        }
+        Container container = (Container) object;
+        return size() == container.size()
+                && Arrays.equals(toArray(), container.toArray());
     }
 }
