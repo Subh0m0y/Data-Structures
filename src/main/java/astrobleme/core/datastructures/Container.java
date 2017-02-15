@@ -75,7 +75,7 @@ public abstract class Container<E> {
      *
      * @return The elements of this Container in an array, if possible.
      */
-    abstract Object[] toArray();
+    public abstract Object[] toArray();
 
     /**
      * Returns the elements of the Container in the given array, if it
@@ -92,7 +92,7 @@ public abstract class Container<E> {
      * @throws ClassCastException If the elements cannot be converted to
      *                            the given type.
      */
-    abstract <T extends E> T[] toArray(T[] array) throws ClassCastException;
+    public abstract <T extends E> T[] toArray(T[] array) throws ClassCastException;
 
     /**
      * Returns the String representation of this Container. If it has elements

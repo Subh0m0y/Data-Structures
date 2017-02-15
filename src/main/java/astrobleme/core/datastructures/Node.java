@@ -23,25 +23,17 @@
 package astrobleme.core.datastructures;
 
 /**
- * A utility class that performs operation on arrays.
+ * A simple, re-usable Node wrapper that contains an element and one pointer to
+ * the "next" Node.
  *
  * @author Subhomoy Haldar
  * @version 2017.02.15
  */
-public class ArrayUtil {
-    /**
-     * Reverses the elements of the given array within the specified range.
-     *
-     * @param a    The array to change.
-     * @param from The starting index (inclusive).
-     * @param to   The ending index (exclusive).
-     * @param <T>  The type of the array.
-     */
-    public static <T> void reverse(T[] a, int from, int to) {
-        for (int i = from, j = to - 1; i < j; i++, j--) {
-            T temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
+class Node<E> {
+    final E data;
+    Node<E> next;
+
+    Node(final E data) {
+        this.data = data;
     }
 }

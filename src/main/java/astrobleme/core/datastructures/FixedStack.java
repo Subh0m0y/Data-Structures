@@ -112,7 +112,7 @@ public class FixedStack<E> extends Stack<E> {
      * @return The elements of this Container in an array.
      */
     @Override
-    Object[] toArray() {
+    public Object[] toArray() {
         Object[] elements = Arrays.copyOf(a, top + 1);
         ArrayUtil.reverse(elements, 0, elements.length);
         return elements;
@@ -132,7 +132,7 @@ public class FixedStack<E> extends Stack<E> {
      */
     @Override
     @SuppressWarnings("unchecked")
-    <T extends E> T[] toArray(T[] array) {
+    public <T extends E> T[] toArray(T[] array) {
         T[] container;
         if (array.length > top) {
             container = array;

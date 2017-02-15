@@ -21,8 +21,11 @@
  */
 
 
-import astrobleme.core.datastructures.FixedStack;
+import astrobleme.core.datastructures.ArrayUtil;
+import astrobleme.core.datastructures.LinkedStack;
 import astrobleme.core.datastructures.Stack;
+
+import java.util.Arrays;
 
 /**
  * @author Subhomoy Haldar
@@ -30,12 +33,19 @@ import astrobleme.core.datastructures.Stack;
  */
 public class Test {
     public static void main(String[] args) {
-        int size = 20_000_000;
-        Stack<Integer> stack = new FixedStack<>(size);
+        int size = 100_000_000;
+        Integer[] storage = new Integer[size];
+        Stack<Integer> stack = new LinkedStack<>();
         for (int i = 0; i < size; i++) {
             stack.push(i);
+            storage[i] = i;
         }
+        assert stack.equals(stack.copy());
         assert stack.peek() == size - 1;
+
+        ArrayUtil.reverse(storage, 0, size);
+        assert Arrays.equals(storage, stack.toArray(new Integer[size]));
+
         for (int i = size - 1; i >= 0; i--) {
             assert i == stack.pop();
         }
