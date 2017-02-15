@@ -37,6 +37,6 @@ public class UnderflowException extends RuntimeException {
      */
     @Override
     public String getMessage() {
-        return "No more elements to pop from Stack.";
+        return "No more elements to remove from Container.";
     }
 }

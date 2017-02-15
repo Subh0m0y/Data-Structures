@@ -22,14 +22,16 @@
 
 package astrobleme.core.datastructures;
 
-import static org.testng.Assert.*;
-
 /**
- * Tests for FixedQueue. Intentionally trivial.
- *
  * @author Subhomoy Haldar
- * @version 2017.02.11
+ * @version 2017.02.15
  */
-public class FixedQueueTest {
-
+public class ArrayUtil {
+    public static <T> void reverse(T[] a, int from, int to) {
+        for (int i = from, j = to - 1; i < j; i++, j--) {
+            T temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+    }
 }

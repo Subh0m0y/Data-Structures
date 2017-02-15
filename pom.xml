@@ -40,7 +40,7 @@
         </plugins>
     </build>
     <name>Data Structures</name>
-    <description>A library of well-implemented Data Structures of all sorts.</description>
+    <description>A library of well-implemented Data Structures commonly used in Computer Science.</description>
     <licenses>
         <license>
             <name>MIT License</name>

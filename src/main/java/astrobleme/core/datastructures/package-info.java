@@ -21,31 +21,10 @@
  */
 
 /**
- * A collection of various types of data structures from the commonplace to
- * the uncommon. Implementations are meant to adhere as closely as possible
- * to the practices and conventions followed by the authors of the core
- * library: the Collections Framework (in java.util). This is to ensure
- * maximum compatibility and integration with the core features of the language.
- * <p>
- * Iterators are a necessity if the data structure is meant to be a usable
- * Collection. Therefore, a set of standard iterator implementations are provided
- * for reuse. For sake of simplicity, iterators are generally not used for removal
- * of elements.
- * <p>
- * Data Structures are made generic for maximum ease of use. If you need to store
- * or process primitive (built-in) data types, use their corresponding wrapper
- * classes. For example, use {@link java.lang.Long} for {@code long},
- * {@link java.lang.Integer} for {@code int}, {@link java.lang.Boolean} for
- * {@code boolean} and so on.
- * <p>
- * It is important to note that the implementations are <strong>not thread-safe</strong>
- * and should not be used for concurrent operations. In such cases, the user is
- * advised to use the default implementations provided in the JDK. There maybe a few
- * thread-safe implementations of a few data structures, but it's better to assume that
- * nothing here is thread-safe and should probably not be used in cases where concurrent
- * handling of collections is necessary.
+ * This project contains efficient, light-weight, fast implementations of Data
+ * Structures that are commonly used in Computer Science.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.05
+ * @version 2017.02.15
  */
 package astrobleme.core.datastructures;

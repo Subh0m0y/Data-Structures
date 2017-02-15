@@ -1,0 +1,119 @@
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2016-2017 Subhomoy Haldar
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
+package astrobleme.core.datastructures;
+
+import java.util.StringJoiner;
+
+/**
+ * This is the root of the Container hierarchy. This contains methods
+ * that provide a common skeletal structure to all implementations. The
+ * modifying methods will have different names, depending on the type of
+ * data structure it is.
+ *
+ * @author Subhomoy Haldar
+ * @version 2017.02.15
+ */
+public abstract class Container<E> {
+    /**
+     * Returns the number of elements currently in the Container. It is
+     * guaranteed to be a non-negative number.
+     * <p>
+     * <b>NOTE:</b> If the number of elements exceeds
+     * {@link Long#MAX_VALUE Integer#MAX_VALUE}, then it will return
+     * {@code Long#MAX_VALUE}.
+     *
+     * @return The number of elements in this Container.
+     */
+    abstract long size();
+
+    /**
+     * Returns {@code true} if the number of elements in this Container is
+     * within the allowed maximum size for arrays, and hopefully it might
+     * be able to create an array out of it.
+     * <p>
+     * However, it depends on the amount of memory allocated by the VM and
+     * even smaller sizes may cause a {@link OutOfMemoryError}. It is advised
+     * to re-start the vm with different arguments to allow for allocation
+     * of more memory if needed. It is encouraged to compactify the element type
+     * instead, to reduce overhead.
+     *
+     * @return {@code false} if it is absolutely impossible to represent it
+     * as an array.
+     */
+    boolean willProbablyFitArray() {
+        // The value allowed by most VMs:
+        final long MAX = Integer.MAX_VALUE - 8;
+        return size() <= MAX;
+    }
+
+    /**
+     * Returns the elements of this Container in an array, if possible.
+     * <p>
+     * If it cannot fit the data into an array, and assuming no
+     * {@link OutOfMemoryError} is thrown, this method will return {@code null}.
+     *
+     * @return The elements of this Container in an array, if possible.
+     */
+    abstract Object[] toArray();
+
+    /**
+     * Returns the elements of the Container in the given array, if it
+     * can accommodate, or a new array of the same type.
+     * <p>
+     * If it cannot fit the data into an array, and assuming no
+     * {@link OutOfMemoryError} is thrown, this method will return {@code null}.
+     *
+     * @param array The array in which to store the elements if possible,
+     *              or in a new array of the same type.
+     * @param <T>   The type of the array needed.
+     * @return The elements of the Container in the given array, if it
+     * can accommodate, or a new array of the same type.
+     * @throws ClassCastException If the elements cannot be converted to
+     *                            the given type.
+     */
+    abstract <T extends E> T[] toArray(T[] array) throws ClassCastException;
+
+    /**
+     * Returns the String representation of this Container. If it has elements
+     * within the specified limit, then it tries to return a String with a
+     * description of all the elements inside it. If it has too many elements,
+     * then it just returns the class name followed by the number of elements.
+     *
+     * @return The String representation of this Container.
+     */
+    @Override
+    public String toString() {
+        // The String representation will be stored in a char array ultimately.
+        // So, it'd be better if was representable as an array.
+        // Otherwise, don't bother. Just return the class name and size.
+        if (!willProbablyFitArray()) {
+            return this.getClass().getName() + " : " + size();
+        }
+        Object[] array = toArray();
+        StringJoiner joiner = new StringJoiner(", ", "[", "]");
+        for (Object element : array) {
+            joiner.add(element == this ? "(this container)" : element.toString());
+        }
+        return joiner.toString();
+    }
+}

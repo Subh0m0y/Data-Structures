@@ -22,58 +22,65 @@
 
 package astrobleme.core.datastructures;
 
-import java.util.Iterator;
+import java.util.Arrays;
 
 /**
- * A concrete implementation of a Stack that has a fixed capacity. This
- * is meant too be used for speed. Ideally, the lack of resizing operations
- * and internal use of arrays makes it suitable for high-performance usage.
+ * An array-based implementation of a Stack that has a fixed capacity.
+ * It is designed to be light-weight and fast.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.07
+ * @version 2017.02.15
  */
 public class FixedStack<E> extends Stack<E> {
-
     private final Object[] a;
-    private final int limit;    // The maximum value that top is allowed to have
-    private int top;            // The index of the topmost element
+    private int top;
 
     /**
-     * Creates a new Stack with the given size.
+     * Creates a new Stack with the given capacity.
      *
-     * @param capacity The required capacity of the Stack.
+     * @param capacity The required capacity.
      */
     public FixedStack(final int capacity) {
         a = new Object[capacity];
-        limit = capacity - 1;
         top = -1;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the number of elements currently in the Stack. It is
+     * guaranteed to be a non-negative number.
      * <p>
-     * This can only work the number of times initially specified (as the capacity).
-     * Any more than the capacity, and it will throw an Exception.
      *
-     * @param value The value to push onto the Stack.
-     * @return {@inheritDoc}
-     * @throws OverflowException If the FixedStack is full and can take
-     *                                no more elements.
+     * @return The number of elements in this Stack.
      */
     @Override
-    public boolean push(E value) throws OverflowException {
-        if (top == limit) {
-            throw new OverflowException(limit + 1);
-        }
-        a[++top] = value;
-        return true;
+    public long size() {
+        return top + 1;
     }
 
     /**
-     * {@inheritDoc}
+     * Adds an element onto the Stack. This element (if successfully pushed
+     * onto the Stack) will the one that will be returned by a subsequent
+     * call to {@link #pop()}.
      *
-     * @return {@inheritDoc}
-     * @throws UnderflowException {@inheritDoc}
+     * @param element The element to push onto the Stack.
+     * @throws OverflowException If the Stack tries to exceed its fixed capacity
+     *                           or cannot accommodate too many elements.
+     */
+    @Override
+    public void push(E element) throws OverflowException {
+        if (top == a.length - 1) {
+            throw new OverflowException(a.length);
+        }
+        a[++top] = element;
+    }
+
+    /**
+     * Returns the element that was most recently added to the Stack and
+     * also removes it from the Stack. If the Stack is empty, that is no
+     * element was added, it will throw an {@link UnderflowException}.
+     *
+     * @return The most recently added element.
+     * @throws UnderflowException If the Stack is empty.
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -85,9 +92,11 @@ public class FixedStack<E> extends Stack<E> {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the element that was most recently added to the Stack but
+     * does not remove it. If the Stack is empty, it will not throw an
+     * Exception. Instead, it returns {@code null}.
      *
-     * @return {@inheritDoc}
+     * @return The most recently added element.
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -96,54 +105,45 @@ public class FixedStack<E> extends Stack<E> {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the elements of this Stack in an array. It creates an
+     * independent "snapshot" of its contents when this method is invoked,
+     * which is not affected when the Stack is modified later.
      *
-     * @return {@inheritDoc}
+     * @return The elements of this Container in an array.
      */
     @Override
-    public int size() {
-        return top + 1;
+    Object[] toArray() {
+        Object[] elements = Arrays.copyOf(a, top + 1);
+        ArrayUtil.reverse(elements, 0, elements.length);
+        return elements;
     }
 
     /**
-     * Checks if the given element is present in the collection.
+     * Returns the snapshot of the elements of the Stack in the given array,
+     * if it can accommodate, or a new array of the same type.
+     * <p>
+     * If it cannot fit the data into an array, and assuming no
+     * {@link OutOfMemoryError} is thrown, this method will return {@code null}.
      *
-     * @param object The object to check for presence.
-     * @return {@code true} if the object is present.
+     * @param array The array in which to store the elements if possible,
+     *              or in a new array of the same type.
+     * @return The elements of the Container in the given array, if it
+     * can accommodate, or a new array of the same type.
      */
     @Override
-    public boolean contains(Object object) {
-        for (int i = 0; i <= top; i++) {
-            Object item = a[i];
-            if (item == null) {
-                if (object == null) {
-                    return true;
-                }
-            } else {
-                if (item.equals(object)) {
-                    return true;
-                }
-            }
+    @SuppressWarnings("unchecked")
+    <T extends E> T[] toArray(T[] array) {
+        T[] container;
+        if (array.length > top) {
+            container = array;
+        } else {
+            container = (T[]) java.lang.reflect.Array.newInstance(
+                    array.getClass().getComponentType(), top + 1
+            );
         }
-        return false;
-    }
-
-    /**
-     * Creates an iterator that returns the elements in the order they will
-     * be popped. This iterator is read-only. It cannot be used to modify this
-     * Stack in any way. It should only be used to iterate over the elements.
-     *
-     * @return The iterator that returns the elements in the order they will
-     * be popped.
-     */
-    @Override
-    public Iterator<E> iterator() {
-        Object[] array = new Object[size()];
-        // Reverse the array to show order in which elements will pop
-        int index = top, i = 0;
-        while (index >= 0) {
-            array[i++] = a[index--];
+        for (int i = 0, j = top; i <= top; i++, j--) {
+            container[j] = (T) a[i];
         }
-        return new ArrayIterator<>(array);
+        return container;
     }
 }

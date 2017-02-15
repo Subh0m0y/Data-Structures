@@ -23,7 +23,7 @@
 package astrobleme.core.datastructures;
 
 /**
- * A custom Exception to define if the Stack or Queue or List or any other Collection
+ * A custom Exception to define if the Stack or Queue or any other Container
  * has run out of space (which may happen in case of a FixedStack or if the number of
  * elements is too large, comparable to {@link Integer#MAX_VALUE}).
  *
@@ -51,7 +51,7 @@ public class OverflowException extends RuntimeException {
     @Override
     public String getMessage() {
         return maxSize != -1
-                ? "Cannot store any more elements in Collection of size : " + maxSize
+                ? "Cannot store any more elements in Container of size : " + maxSize
                 : "Too many elements, cannot accommodate.";
     }
 }
