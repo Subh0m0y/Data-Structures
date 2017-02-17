@@ -22,7 +22,7 @@
 
 
 import astrobleme.core.datastructures.ArrayUtil;
-import astrobleme.core.datastructures.LinkedStack;
+import astrobleme.core.datastructures.FixedStack;
 import astrobleme.core.datastructures.Stack;
 
 import java.util.Arrays;
@@ -33,9 +33,9 @@ import java.util.Arrays;
  */
 public class Test {
     public static void main(String[] args) {
-        int size = 100_000_000;
+        int size = 10_000_000;
         Integer[] storage = new Integer[size];
-        Stack<Integer> stack = new LinkedStack<>();
+        Stack<Integer> stack = new FixedStack<>(size);
         for (int i = 0; i < size; i++) {
             stack.push(i);
             storage[i] = i;

@@ -23,6 +23,9 @@
 package astrobleme.core.datastructures;
 
 /**
+ * A Linked-List based implementation of a Stack that has the potential to
+ * store more elements than an array can (depending on the VM configuration).
+ *
  * @author Subhomoy Haldar
  * @version 2017.02.15
  */
@@ -30,6 +33,9 @@ public class LinkedStack<E> extends Stack<E> {
     private Node<E> top;
     private long size;
 
+    /**
+     * Creates a new empty Stack.
+     */
     public LinkedStack() {
         top = null;
         size = 0;

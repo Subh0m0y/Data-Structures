@@ -74,4 +74,14 @@ public abstract class Stack<E> extends Container<E> {
      * @return An exact copy of this Stack.
      */
     public abstract Stack<E> copy();
+
+    /**
+     * Removes all of its elements.
+     */
+    @Override
+    public void clear() {
+        while (!isEmpty()) {
+            pop();
+        }
+    }
 }

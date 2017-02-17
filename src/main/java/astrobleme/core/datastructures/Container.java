@@ -95,6 +95,20 @@ public abstract class Container<E> {
     public abstract <T extends E> T[] toArray(T[] array) throws ClassCastException;
 
     /**
+     * Returns {@code true} if this Container has no elements.
+     *
+     * @return {@code true} if this Container has no elements.
+     */
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    /**
+     * Removes all of its elements.
+     */
+    public abstract void clear();
+
+    /**
      * Returns the String representation of this Container. If it has elements
      * within the specified limit, then it tries to return a String with a
      * description of all the elements inside it. If it has too many elements,
