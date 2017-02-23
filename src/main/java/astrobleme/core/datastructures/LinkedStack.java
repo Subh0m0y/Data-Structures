@@ -75,10 +75,12 @@ public class LinkedStack<E> extends Stack<E> {
         if (top == null) {
             // No elements
             top = node;
+            size++;
             return;
         }
         node.setNext(top);
         top = node;
+        size++;
     }
 
     /**
@@ -97,6 +99,7 @@ public class LinkedStack<E> extends Stack<E> {
         }
         E data = top.data;
         top = top.getNext();
+        size--;
         return data;
     }
 
@@ -217,6 +220,8 @@ public class LinkedStack<E> extends Stack<E> {
             if (!node1.data.equals(node2.data)) {
                 return false;
             }
+            node1 = node1.getNext();
+            node2 = node2.getNext();
         }
         return node1 == null && node2 == null;
     }

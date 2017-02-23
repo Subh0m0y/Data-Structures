@@ -31,23 +31,23 @@ import java.util.Random;
 import static org.testng.Assert.*;
 
 /**
- * Mostly trivial test cases.
+ * Trivial test cases.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.15
+ * @version 2017.02.24
  */
-public class FixedStackTest {
+public class LinkedStackTest {
 
     private final int size = 1_000_000;
     private final int limit = size * 2;
     private final Random random = new Random();
 
-    private FixedStack<Integer> stack;
+    private LinkedStack<Integer> stack;
     private Integer[] mirror;
 
     @BeforeMethod
     public void setUp() throws Exception {
-        stack = new FixedStack<>(size);
+        stack = new LinkedStack<>();
         mirror = new Integer[size];
         for (int i = size - 1; i >= 0; i--) {
             int randomInt = random.nextInt(limit);
