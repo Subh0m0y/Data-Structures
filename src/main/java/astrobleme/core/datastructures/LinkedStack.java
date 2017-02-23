@@ -22,6 +22,10 @@
 
 package astrobleme.core.datastructures;
 
+import astrobleme.core.datastructures.exceptions.OverflowException;
+import astrobleme.core.datastructures.exceptions.UnderflowException;
+import astrobleme.core.datastructures.nodes.SinglyLinkedNode;
+
 /**
  * A Linked-List based implementation of a Stack that has the potential to
  * store more elements than an array can (depending on the VM configuration).
@@ -30,7 +34,7 @@ package astrobleme.core.datastructures;
  * @version 2017.02.15
  */
 public class LinkedStack<E> extends Stack<E> {
-    private Node<E> top;
+    private SinglyLinkedNode<E> top;
     private long size;
 
     /**
@@ -67,13 +71,13 @@ public class LinkedStack<E> extends Stack<E> {
      */
     @Override
     public void push(E element) throws OverflowException {
-        Node<E> node = new Node<>(element);
+        SinglyLinkedNode<E> node = new SinglyLinkedNode<>(element);
         if (top == null) {
             // No elements
             top = node;
             return;
         }
-        node.next = top;
+        node.setNext(top);
         top = node;
     }
 
@@ -92,7 +96,7 @@ public class LinkedStack<E> extends Stack<E> {
             throw new UnderflowException();
         }
         E data = top.data;
-        top = top.next;
+        top = top.getNext();
         return data;
     }
 
@@ -123,10 +127,10 @@ public class LinkedStack<E> extends Stack<E> {
         }
         Object[] array = new Object[(int) size];
         int index = 0;
-        Node<E> current = top;
+        SinglyLinkedNode<E> current = top;
         while (current != null) {
             array[index++] = current.data;
-            current = current.next;
+            current = current.getNext();
         }
         return array;
     }
@@ -157,10 +161,10 @@ public class LinkedStack<E> extends Stack<E> {
             );
         }
         int index = 0;
-        Node<E> current = top;
+        SinglyLinkedNode<E> current = top;
         while (current != null) {
             container[index++] = (T) current.data;
-            current = current.next;
+            current = current.getNext();
         }
         return container;
     }
@@ -173,13 +177,13 @@ public class LinkedStack<E> extends Stack<E> {
      */
     @Override
     public Stack<E> copy() {
-        Node<E> top2 = new Node<>(top.data);
-        Node<E> node1 = top;
-        Node<E> node2 = top2;
-        while (node1.next != null) {
-            node1 = node1.next;
-            node2.next = new Node<>(node1.data);
-            node2 = node2.next;
+        SinglyLinkedNode<E> top2 = new SinglyLinkedNode<>(top.data);
+        SinglyLinkedNode<E> node1 = top;
+        SinglyLinkedNode<E> node2 = top2;
+        while (node1.getNext() != null) {
+            node1 = node1.getNext();
+            node2.setNext(new SinglyLinkedNode<>(node1.data));
+            node2 = node2.getNext();
         }
         LinkedStack<E> copy = new LinkedStack<>();
         copy.top = top2;
@@ -207,8 +211,8 @@ public class LinkedStack<E> extends Stack<E> {
         if (size != stack.size) {
             return false;
         }
-        Node node1 = top;
-        Node node2 = stack.top;
+        SinglyLinkedNode node1 = top;
+        SinglyLinkedNode node2 = stack.top;
         while (node1 != null && node2 != null) {
             if (!node1.data.equals(node2.data)) {
                 return false;

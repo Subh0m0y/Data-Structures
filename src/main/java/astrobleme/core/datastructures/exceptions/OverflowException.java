@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.exceptions;
 
 /**
  * A custom Exception to define if the Stack or Queue or any other Container

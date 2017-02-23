@@ -23,6 +23,9 @@
 package astrobleme.core.datastructures;
 
 
+import astrobleme.core.datastructures.exceptions.OverflowException;
+import astrobleme.core.datastructures.exceptions.UnderflowException;
+
 /**
  * Defines the basic structure for all Stacks. A Stack is a data structure
  * that provides LIFO (last in first out) functionality. It achieves this

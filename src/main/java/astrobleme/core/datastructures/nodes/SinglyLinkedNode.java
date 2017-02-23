@@ -20,23 +20,28 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.nodes;
 
 /**
- * This Exception is thrown when pop() is called on an empty Stack or dequeue()
- * or some similar removal operation is called on a Collection.
+ * A simple, re-usable SinglyLinkedNode wrapper that contains an element and one pointer to
+ * the "next" SinglyLinkedNode.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.07
+ * @version 2017.02.15
  */
-public class UnderflowException extends RuntimeException {
-    /**
-     * Returns the message that is displayed when the Exception is thrown.
-     *
-     * @return The message that is displayed when the Exception is thrown.
-     */
-    @Override
-    public String getMessage() {
-        return "No more elements to remove from Container.";
+public class SinglyLinkedNode<E> {
+    public final E data;
+    private SinglyLinkedNode<E> next;
+
+    public SinglyLinkedNode(final E data) {
+        this.data = data;
+    }
+
+    public SinglyLinkedNode<E> getNext() {
+        return next;
+    }
+
+    public void setNext(SinglyLinkedNode<E> next) {
+        this.next = next;
     }
 }

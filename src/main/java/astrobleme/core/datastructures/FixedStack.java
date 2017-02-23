@@ -22,6 +22,9 @@
 
 package astrobleme.core.datastructures;
 
+import astrobleme.core.datastructures.exceptions.OverflowException;
+import astrobleme.core.datastructures.exceptions.UnderflowException;
+
 import java.util.Arrays;
 
 /**
