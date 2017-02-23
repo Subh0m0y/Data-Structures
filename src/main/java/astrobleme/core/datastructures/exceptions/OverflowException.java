@@ -39,7 +39,7 @@ public class OverflowException extends RuntimeException {
      * @param size The capacity of the Stack or -1 to indicate an expandable
      *             Collection.
      */
-    OverflowException(final int size) {
+    public OverflowException(final int size) {
         maxSize = size;
     }
 

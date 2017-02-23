@@ -40,7 +40,7 @@ public abstract class Container<E> {
      * guaranteed to be a non-negative number.
      * <p>
      * <b>NOTE:</b> If the number of elements exceeds
-     * {@link Long#MAX_VALUE Integer#MAX_VALUE}, then it will return
+     * {@link Long#MAX_VALUE Long#MAX_VALUE}, then it will return
      * {@code Long#MAX_VALUE}.
      *
      * @return The number of elements in this Container.
@@ -49,12 +49,12 @@ public abstract class Container<E> {
 
     /**
      * Returns {@code true} if the number of elements in this Container is
-     * within the allowed maximum size for arrays, and hopefully it might
+     * within the allowed maximum size for arrays, and hopefully, it might
      * be able to create an array out of it.
      * <p>
      * However, it depends on the amount of memory allocated by the VM and
      * even smaller sizes may cause a {@link OutOfMemoryError}. It is advised
-     * to re-start the vm with different arguments to allow for allocation
+     * to re-start the VM with different arguments to allow for allocation
      * of more memory if needed. It is encouraged to compactify the element type
      * instead, to reduce overhead.
      *

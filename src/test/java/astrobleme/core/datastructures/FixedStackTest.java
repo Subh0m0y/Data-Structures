@@ -31,6 +31,8 @@ import java.util.Random;
 import static org.testng.Assert.*;
 
 /**
+ * Mostly trivial test cases.
+ *
  * @author Subhomoy Haldar
  * @version 2017.02.15
  */
