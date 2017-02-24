@@ -46,14 +46,14 @@ public class LinkedStack<E> extends Stack<E> {
     }
 
     /**
-     * Returns the number of elements currently in the Container. It is
+     * Returns the number of elements currently in the Stack. It is
      * guaranteed to be a non-negative number.
      * <p>
      * <b>NOTE:</b> If the number of elements exceeds
      * {@link Long#MAX_VALUE Integer#MAX_VALUE}, then it will return
      * {@code Long#MAX_VALUE}.
      *
-     * @return The number of elements in this Container.
+     * @return The number of elements in this Stack.
      */
     @Override
     long size() {
@@ -75,11 +75,10 @@ public class LinkedStack<E> extends Stack<E> {
         if (top == null) {
             // No elements
             top = node;
-            size++;
-            return;
+        } else {
+            node.setNext(top);
+            top = node;
         }
-        node.setNext(top);
-        top = node;
         size++;
     }
 
@@ -184,6 +183,8 @@ public class LinkedStack<E> extends Stack<E> {
         SinglyLinkedNode<E> node1 = top;
         SinglyLinkedNode<E> node2 = top2;
         while (node1.getNext() != null) {
+            // Progress to the next node of this stack and get ready
+            // to link it to the node of the new stack.
             node1 = node1.getNext();
             node2.setNext(new SinglyLinkedNode<>(node1.data));
             node2 = node2.getNext();
@@ -195,18 +196,18 @@ public class LinkedStack<E> extends Stack<E> {
     }
 
     /**
-     * A simple implementation of the {@link Object#equals(Object)} method  that
-     * relies on the {@link #toArray()} method. If there is a possibility that
-     * the number of elements might exceed the specified array limit, then it is
-     * advised to override this method and provide a custom logic.
+     * Override of the standard implementation, allowing for checking potentially
+     * large LinkedStacks reliably.
      *
      * @param object The object to check against.
      * @return {@code true} if the given object is a LinkedStack and has the same
-     * elements in the order specified by their definition (which may imply no
-     * order).
+     * elements in the required order.
      */
     @Override
     public boolean equals(Object object) {
+        // See if the given object is a different type of Container.
+        // If it is a LinkedStack then bingo! Otherwise fallback to
+        // the default implementation of equals().
         if (!(object instanceof LinkedStack)) {
             return super.equals(object);
         }

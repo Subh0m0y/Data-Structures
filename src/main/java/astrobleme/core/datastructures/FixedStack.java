@@ -40,10 +40,15 @@ public class FixedStack<E> extends Stack<E> {
 
     /**
      * Creates a new Stack with the given capacity.
+     * <p>
+     * <b>NOTE:</b> The capacity must be non-negative.
      *
-     * @param capacity The required capacity.
+     * @param capacity The required non-negative capacity.
      */
     public FixedStack(final int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Capacity must be non-negative.");
+        }
         a = new Object[capacity];
         top = -1;
     }
