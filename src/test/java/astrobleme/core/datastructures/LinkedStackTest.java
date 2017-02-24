@@ -63,16 +63,17 @@ public class LinkedStackTest {
 
     @Test
     public void testPush() throws Exception {
-        int[] store = new int[size];
+        mirror = new Integer[size];
         stack.clear();
+        assertTrue(stack.isEmpty());
         for (int i = 0, j = size - 1; i < size; i++, j--) {
             int randomInt = random.nextInt(limit);
             stack.push(randomInt);
-            store[j] = randomInt;
+            mirror[j] = randomInt;
             assertEquals(randomInt, stack.peek().intValue());
             assertEquals(i + 1, stack.size());
         }
-        for (int element : store) {
+        for (int element : mirror) {
             assertEquals(element, stack.pop().intValue());
         }
     }

@@ -31,50 +31,56 @@ import java.util.Random;
 import static org.testng.Assert.*;
 
 /**
- * Mostly trivial test cases.
+ * Trivial test cases.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.15
+ * @version 2017.02.24
  */
-public class FixedStackTest {
+public class FixedQueueTest {
 
     private final int size = 1_000_000;
     private final int limit = size * 2;
     private final Random random = new Random();
 
-    private FixedStack<Integer> stack;
+    private FixedQueue<Integer> queue;
     private Integer[] mirror;
 
     @BeforeMethod
     public void setUp() throws Exception {
-        stack = new FixedStack<>(size);
+        queue = new FixedQueue<>(size);
         mirror = new Integer[size];
-        for (int i = size - 1; i >= 0; i--) {
+        // Randomly enqueue some elements to see how
+        // resetting works
+        for (int i = 0; i < size; i++) {
+            queue.enqueue(i);
+        }
+        for (int i = 0; i < size; i++) {
             int randomInt = random.nextInt(limit);
             mirror[i] = randomInt;
-            stack.push(randomInt);
+            queue.dequeue();
+            queue.enqueue(randomInt);
         }
     }
 
     @Test
     public void testSize() throws Exception {
-        assertEquals(size, stack.size());
+        assertEquals(size, queue.size());
     }
 
     @Test
-    public void testPush() throws Exception {
+    public void testEnqueue() throws Exception {
         mirror = new Integer[size];
-        stack.clear();
-        assertTrue(stack.isEmpty());
-        for (int i = 0, j = size - 1; i < size; i++, j--) {
+        queue.clear();
+        assertTrue(queue.isEmpty());
+        for (int i = 0; i < size; i++) {
             int randomInt = random.nextInt(limit);
-            stack.push(randomInt);
-            mirror[j] = randomInt;
-            assertEquals(randomInt, stack.peek().intValue());
-            assertEquals(i + 1, stack.size());
+            queue.enqueue(randomInt);
+            mirror[i] = randomInt;
+            assertEquals(i + 1, queue.size());
         }
         for (int element : mirror) {
-            assertEquals(element, stack.pop().intValue());
+            assertEquals(element, queue.peek().intValue());
+            assertEquals(element, queue.dequeue().intValue());
         }
     }
 
@@ -82,24 +88,24 @@ public class FixedStackTest {
     public void testToArray() throws Exception {
         Object[] array = new Object[size];
         System.arraycopy(mirror, 0, array, 0, size);
-        assertEquals(array, stack.toArray());
-        assertEquals(mirror, stack.toArray(new Integer[size]));
+        assertEquals(array, queue.toArray());
+        assertEquals(mirror, queue.toArray(new Integer[size]));
     }
 
     @Test
     public void testCopy() throws Exception {
-        Stack<Integer> copy = stack.copy();
-        assertEquals(copy, stack);
+        Queue<Integer> copy = queue.copy();
+        assertEquals(copy, queue);
         assertEquals(copy.toArray(new Integer[size]), mirror);
     }
 
     @Test
     public void testWillProbablyFitArray() throws Exception {
-        assertTrue(stack.willProbablyFitArray());
+        assertTrue(queue.willProbablyFitArray());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(Arrays.toString(mirror), stack.toString());
+        assertEquals(Arrays.toString(mirror), queue.toString());
     }
 }
