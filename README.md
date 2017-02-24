@@ -1,8 +1,7 @@
 #Data Structures
 
-This project is meant to house implementations of all sorts of
-Data Structures. From the common-place to the uncommon and rarely
-heard of. The implementations are in Java.
+This project is meant to house implementations of commonly-used Data Structures
+and rarely some uncommon ones. The implementations are in Java.
 
 The main aims of this project are:
 
