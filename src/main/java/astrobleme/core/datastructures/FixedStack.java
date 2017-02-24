@@ -91,7 +91,9 @@ public class FixedStack<E> extends Stack<E> {
         if (top == -1) {
             throw new UnderflowException();
         }
-        return (E) a[top--];
+        E element = (E) a[top];
+        a[top--] = null;    // Remove the reference to help GC
+        return element;
     }
 
     /**

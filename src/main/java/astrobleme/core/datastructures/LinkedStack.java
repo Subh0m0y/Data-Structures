@@ -214,8 +214,11 @@ public class LinkedStack<E> extends Stack<E> {
         if (size != stack.size) {
             return false;
         }
+        // NOTE: Node 1 is for this stack and node 2
+        // is for the other stack.
         SinglyLinkedNode node1 = top;
         SinglyLinkedNode node2 = stack.top;
+        // Iterate until one of them gets exhausted
         while (node1 != null && node2 != null) {
             if (!node1.data.equals(node2.data)) {
                 return false;
@@ -223,6 +226,7 @@ public class LinkedStack<E> extends Stack<E> {
             node1 = node1.getNext();
             node2 = node2.getNext();
         }
+        // Ensure that both of the lists got exhausted
         return node1 == null && node2 == null;
     }
 }

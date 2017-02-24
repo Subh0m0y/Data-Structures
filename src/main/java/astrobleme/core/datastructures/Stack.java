@@ -47,7 +47,7 @@ public abstract class Stack<E> extends Container<E> {
      *
      * @param element The element to push onto the Stack.
      * @throws OverflowException If the Stack tries to exceed its fixed capacity
-     *                           or cannot accommodate too many elements.
+     *                           or cannot accommodate any more elements.
      */
     public abstract void push(E element) throws OverflowException;
 
@@ -76,6 +76,7 @@ public abstract class Stack<E> extends Container<E> {
      *
      * @return An exact copy of this Stack.
      */
+    @Override
     public abstract Stack<E> copy();
 
     /**

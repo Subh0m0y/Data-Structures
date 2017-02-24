@@ -109,6 +109,16 @@ public abstract class Container<E> {
     public abstract void clear();
 
     /**
+     * Copies all the elements of this Container to a new one of the same
+     * type (i.e. returns a FixedStack for a FixedStack and so on).
+     *
+     * @return A new Container with the same elements in the same order
+     * (if order is defined) and the same properties as this Container.
+     */
+    public abstract Container copy();
+
+
+    /**
      * Returns the String representation of this Container. If it has elements
      * within the specified limit, then it tries to return a String with a
      * description of all the elements inside it. If it has too many elements,
