@@ -105,6 +105,12 @@ public class BinaryNode<E extends Comparable<E>> {
         return right != null;
     }
 
+    /**
+     * Returns the number of children this node has. A child
+     * is defined as a non-null node that this node links to.
+     *
+     * @return The number of children this node has.
+     */
     public int numberOfChildren() {
         int count = 0;
         if (hasLeft()) count++;
@@ -112,6 +118,14 @@ public class BinaryNode<E extends Comparable<E>> {
         return count;
     }
 
+    /**
+     * Creates a new node with the same children as this node, but
+     * with the specified data.
+     *
+     * @param data The data to transplant in this node.
+     * @return A new node with the same children as this node, but
+     * with the specified data.
+     */
     public BinaryNode<E> transplant(final E data) {
         BinaryNode<E> node = new BinaryNode<>(data);
         node.setLeft(this.getLeft());
@@ -119,6 +133,11 @@ public class BinaryNode<E extends Comparable<E>> {
         return node;
     }
 
+    /**
+     * Creates a new independent subtree from this node.
+     *
+     * @return A new independent subtree from this node.
+     */
     public BinaryNode<E> copy() {
         BinaryNode<E> copy = new BinaryNode<>(data);
         if (hasLeft()) copy.setLeft(getLeft().copy());
@@ -126,8 +145,49 @@ public class BinaryNode<E extends Comparable<E>> {
         return copy;
     }
 
+    /**
+     * Returns a String representation of this Node.
+     *
+     * @return A String representation of this Node.
+     */
     @Override
     public String toString() {
         return data.toString();
+    }
+
+    /**
+     * Returns {@code true} if the given object is a Node and it
+     * is exactly identical to this node, that is has the same
+     * data and children.
+     *
+     * @param object The object to check against.
+     * @return {@code true} if the given object is a Node and it
+     * is exactly identical to this node.
+     */
+    public boolean equals(Object object) {
+        if (!(object instanceof BinaryNode)) {
+            return false;
+        }
+        BinaryNode node = ((BinaryNode) object);
+        return node.data.equals(data)
+                && equals(left, node.left)
+                && equals(right, node.right);
+    }
+
+    /**
+     * Returns {@code true} if the subtrees represented by the two
+     * nodes are equal/identical.
+     *
+     * @param root1 The root of the first subtree.
+     * @param root2 The root of the second subtree.
+     * @return {@code true} if the subtrees represented by the two
+     * nodes are equal/identical.
+     */
+    private boolean equals(BinaryNode root1, BinaryNode root2) {
+        return root1 == root2
+                || !(root1 == null || root2 == null)
+                && root1.equals(root2)
+                && equals(root1.getLeft(), root2.getLeft())
+                && equals(root1.getRight(), root2.getRight());
     }
 }

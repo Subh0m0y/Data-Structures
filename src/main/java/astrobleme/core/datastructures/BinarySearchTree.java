@@ -511,9 +511,32 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      */
     @Override
     public BinarySearchTree<E> copy() {
-        BinarySearchTree<E> tree = new BinarySearchTree<E>();
+        BinarySearchTree<E> tree = new BinarySearchTree<>();
         tree.root = root.copy();
         tree.size = size;
         return tree;
+    }
+
+    /**
+     * If the given Object is a Tree, then checks if the tree has the
+     * same structure as this one.
+     * <p>
+     * If it is not a tree, then it checks if has the same elements
+     * in the same order as the inorder traversal would return.
+     *
+     * @param object The object to check against.
+     * @return {@code true} if the given object is a Container and has the same
+     * elements in the order specified by their definition (which may imply no
+     * order) or if it is an identical tree.
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof BinarySearchTree)) {
+            return super.equals(object);
+        }
+        BinarySearchTree tree = (BinarySearchTree) object;
+        return root == tree.root
+                || !(root == null || tree.root == null)
+                && root.equals(tree.root);
     }
 }
