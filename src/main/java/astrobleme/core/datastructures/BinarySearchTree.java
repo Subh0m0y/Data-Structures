@@ -314,24 +314,52 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
                 : new LinkedQueue<>();
     }
 
+    /**
+     * Returns a Queue with the elements in the order that would
+     * be obtained by a pre-order traversal of the Tree.
+     *
+     * @return A Queue with the elements in the order that would
+     * be obtained by a pre-order traversal of the Tree.
+     */
     public Queue<E> preOrder() {
         Queue<E> queue = newQueue();
         preOrder(root, queue);
         return queue;
     }
 
+    /**
+     * Returns a Queue with the elements in the order that would
+     * be obtained by a post-order traversal of the Tree.
+     *
+     * @return A Queue with the elements in the order that would
+     * be obtained by a post-order traversal of the Tree.
+     */
     public Queue<E> postOrder() {
         Queue<E> queue = newQueue();
         postOrder(root, queue);
         return queue;
     }
 
+    /**
+     * Returns a Queue with the elements in the order that would
+     * be obtained by an in-order traversal of the Tree.
+     *
+     * @return A Queue with the elements in the order that would
+     * be obtained by an in-order traversal of the Tree.
+     */
     public Queue<E> inOrder() {
         Queue<E> queue = newQueue();
         inOrder(root, queue);
         return queue;
     }
 
+    /**
+     * Performs a pre-order traversal on the given subtree and yields
+     * the elements to the queue.
+     *
+     * @param root  The root of the current subtree.
+     * @param queue The Queue to yield the elements to.
+     */
     private void preOrder(BinaryNode<E> root, Queue<E> queue) {
         if (root == null) {
             return;
@@ -341,6 +369,13 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         preOrder(root.getRight(), queue);
     }
 
+    /**
+     * Performs a post-order traversal on the given subtree and yields
+     * the elements to the queue.
+     *
+     * @param root  The root of the current subtree.
+     * @param queue The Queue to yield the elements to.
+     */
     private void postOrder(BinaryNode<E> root, Queue<E> queue) {
         if (root == null) {
             return;
@@ -350,6 +385,13 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         queue.enqueue(root.data);
     }
 
+    /**
+     * Performs a in-order traversal on the given subtree and yields
+     * the elements to the queue.
+     *
+     * @param root  The root of the current subtree.
+     * @param queue The Queue to yield the elements to.
+     */
     private void inOrder(BinaryNode<E> root, Queue<E> queue) {
         if (root == null) {
             return;
@@ -359,7 +401,13 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         inOrder(root.getRight(), queue);
     }
 
-    public Queue<E> BFS() {
+    /**
+     * Performs a breadth-first search on the tree and yields the
+     * elements to a Queue and returns it.
+     *
+     * @return The queue to store elements yielded by the BFS.
+     */
+    public Queue<E> bfs() {
         Queue<E> visited = newQueue();
         Queue<BinaryNode<E>> unvisited = newQueue();
         BinaryNode<E> node = root;
