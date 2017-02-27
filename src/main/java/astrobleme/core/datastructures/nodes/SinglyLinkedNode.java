@@ -23,24 +23,47 @@
 package astrobleme.core.datastructures.nodes;
 
 /**
- * A simple, re-usable SinglyLinkedNode wrapper that contains an element and one pointer to
+ * A simple, re-usable wrapper that contains an element and one pointer to
  * the "next" SinglyLinkedNode.
  *
  * @author Subhomoy Haldar
  * @version 2017.02.15
  */
 public class SinglyLinkedNode<E> {
+    /**
+     * This is the data that this Node wraps. Made public and
+     * final for easy and safe usage.
+     */
     public final E data;
     private SinglyLinkedNode<E> next;
 
+    /**
+     * Creates a new SinglyLinkedNode with the given data and
+     * and empty link.
+     *
+     * @param data The data for this Node.
+     */
     public SinglyLinkedNode(final E data) {
         this.data = data;
     }
 
+    /**
+     * Returns the Node that this one points to.
+     *
+     * @return The "next" node in the List.
+     */
     public SinglyLinkedNode<E> getNext() {
         return next;
     }
 
+    /**
+     * Updates the link for this Node.
+     * <p>
+     * <b>NOTE:</b> This link is allowed to be null, to help
+     * unlink the rest of the list and allow garbage collection.
+     *
+     * @param next The new Node to point to.
+     */
     public void setNext(SinglyLinkedNode<E> next) {
         this.next = next;
     }

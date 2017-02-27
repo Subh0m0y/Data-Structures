@@ -31,32 +31,19 @@ import java.util.Arrays;
  */
 public class Test {
     public static void main(String[] args) {
-        int size = 10;
-        Integer[] storage = new Integer[size];
-        Queue<Integer> queue = new FixedQueue<>(size);
-        for (int i = 0; i < size; i++) {
-            queue.enqueue(i);
-            storage[i] = i;
-        }
-        assert queue.equals(queue.copy());
-        assert queue.peek() == size - 1;
-
-        assert Arrays.equals(storage, queue.toArray(new Integer[size]));
-
-        for (int i = 0; i < size; i++) {
-            assert i == queue.dequeue();
-        }
-
-//        Queue<Integer> queue = new FixedQueue<>(10);
-//        System.out.println(Arrays.toString(queue.toArray()));
-//        for (int i = 0; i < 10; i++) {
-//            queue.enqueue(i);
-//        }
-//        System.out.println(queue);
-//        System.out.println(queue.copy());
-//        while (!queue.isEmpty()) {
-//            System.out.println(queue.dequeue());
-//            System.out.println(queue);
-//        }
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        tree.insert(6);
+        tree.insert(4);
+        tree.insert(5);
+        tree.insert(10);
+        tree.insert(8);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(9);
+        tree.insert(2);
+        tree.insert(1);
+        System.out.println(tree.preOrder());
+        System.out.println(tree.remove(9));
+        System.out.println(tree);
     }
 }

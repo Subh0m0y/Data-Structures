@@ -219,6 +219,15 @@ public class LinkedQueue<E> extends Queue<E> {
         SinglyLinkedNode node2 = queue.front;
         // Iterate until one of them gets exhausted
         while (node1 != null && node2 != null) {
+            // Safe guard against null data
+            if (node1.data == null) {
+                if (node2 .data!= null) {
+                    return false;
+                } else {
+                    continue;
+                }
+            }
+            // For normal non-null data
             if (!node1.data.equals(node2.data)) {
                 return false;
             }
