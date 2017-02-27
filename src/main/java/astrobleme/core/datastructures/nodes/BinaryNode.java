@@ -168,10 +168,7 @@ public class BinaryNode<E extends Comparable<E>> {
         if (!(object instanceof BinaryNode)) {
             return false;
         }
-        BinaryNode node = ((BinaryNode) object);
-        return node.data.equals(data)
-                && equals(left, node.left)
-                && equals(right, node.right);
+        return equals(this, (BinaryNode) object);
     }
 
     /**
@@ -186,7 +183,7 @@ public class BinaryNode<E extends Comparable<E>> {
     private boolean equals(BinaryNode root1, BinaryNode root2) {
         return root1 == root2
                 || !(root1 == null || root2 == null)
-                && root1.equals(root2)
+                && root1.data.equals(root2.data)
                 && equals(root1.getLeft(), root2.getLeft())
                 && equals(root1.getRight(), root2.getRight());
     }

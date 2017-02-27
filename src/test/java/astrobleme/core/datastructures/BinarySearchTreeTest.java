@@ -24,6 +24,9 @@ package astrobleme.core.datastructures;
 
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.Random;
+
 import static org.testng.Assert.*;
 
 /**
@@ -31,64 +34,94 @@ import static org.testng.Assert.*;
  * @version 2017.02.27
  */
 public class BinarySearchTreeTest {
+    private final int size = 1_000_000;
+    private final int limit = size * 2;
+    private final Random random = new Random();
+
+    private BinarySearchTree<Integer> tree;
+    private Integer[] mirror;
+
     @Test
-    public void testInsert() throws Exception {
-
-    }
-
-    @Test
-    public void testIsPresent() throws Exception {
-
+    public void testInsertAndIsPresent() throws Exception {
+        tree = new BinarySearchTree<>();
+        mirror = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            int randomInt = random.nextInt(limit);
+            tree.insert(randomInt);
+            assertEquals(i + 1, tree.size());
+            mirror[i] = randomInt;
+        }
+        for (int element : mirror) {
+            assertTrue(tree.isPresent(element));
+        }
     }
 
     @Test
     public void testRemove() throws Exception {
-
+        tree = new BinarySearchTree<>();
+        mirror = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            int randomInt = random.nextInt(limit);
+            tree.insert(randomInt);
+            assertEquals(i + 1, tree.size());
+            mirror[i] = randomInt;
+        }
+        int s = size;
+        for (int element : mirror) {
+            if (tree.remove(element)) {
+                s--;
+                assertEquals(s, tree.size());
+            }
+        }
     }
 
     @Test
-    public void testMin() throws Exception {
-
-    }
-
-    @Test
-    public void testInOrder() throws Exception {
-
+    public void testMaxMinInOrder() throws Exception {
+        tree = new BinarySearchTree<>();
+        mirror = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            int randomInt = random.nextInt(limit);
+            tree.insert(randomInt);
+            assertEquals(i + 1, tree.size());
+            mirror[i] = randomInt;
+        }
+        Arrays.sort(mirror);
+        assertEquals(mirror[0], tree.min());
+        assertEquals(mirror[size - 1], tree.max());
+        assertEquals(mirror, tree.toArray());
+        assertEquals(mirror, tree.toArray(new Integer[size]));
     }
 
     @Test
     public void testMaxDepth() throws Exception {
-
-    }
-
-    @Test
-    public void testSize() throws Exception {
-
-    }
-
-    @Test
-    public void testToArray() throws Exception {
-
-    }
-
-    @Test
-    public void testClear() throws Exception {
-
+        tree = new BinarySearchTree<>();
+        for (int i = 0; i < size; i++) {
+            int randomInt = random.nextInt(limit);
+            tree.insert(randomInt);
+            assertEquals(i + 1, tree.size());
+        }
+        int maxDepth = tree.maxDepth();
+        assertTrue(minDepth(tree.size()) <= maxDepth);
+        assertTrue(tree.size() >= maxDepth);
     }
 
     @Test
     public void testCopy() throws Exception {
-
+        tree = new BinarySearchTree<>();
+        for (int i = 0; i < size; i++) {
+            int randomInt = random.nextInt(limit);
+            tree.insert(randomInt);
+            assertEquals(i + 1, tree.size());
+        }
+        BinarySearchTree<Integer> copy = tree.copy();
+        assertEquals(tree, copy);
+        assertEquals(tree.inOrder(), copy.inOrder());
+        assertEquals(tree.preOrder(), copy.preOrder());
+        assertEquals(tree.postOrder(), copy.postOrder());
+        assertEquals(tree.bfs(), copy.bfs());
     }
 
-    @Test
-    public void testToString() throws Exception {
-
+    private double minDepth(long size) {
+        return Math.log(size) / Math.log(2);
     }
-
-    @Test
-    public void testEquals() throws Exception {
-
-    }
-
 }
