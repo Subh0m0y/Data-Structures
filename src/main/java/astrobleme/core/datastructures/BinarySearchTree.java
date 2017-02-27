@@ -138,6 +138,14 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return getParentAndNodeFor(data, current, parent);
     }
 
+    /**
+     * Removes the given element from the Tree and returns {@code true} if
+     * the element was present and removal was successful. If no change
+     * occurred, then {@code false} is returned.
+     *
+     * @param data The data to remove from the Tree.
+     * @return If the tree was changed or not.
+     */
     public boolean remove(final E data) {
         if (data == null) {
             // Because all elements in this tree are non null.
@@ -161,6 +169,13 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return true;
     }
 
+    /**
+     * Deletes the node from the tree and updates its parent and children
+     * as necessary.
+     *
+     * @param node   The node to delete.
+     * @param parent The parent of the node to delete (maybe null).
+     */
     private void deleteNode(BinaryNode<E> node, BinaryNode<E> parent) {
         if (node.numberOfChildren() == 2) {
             recursivelyDelete(node, parent);
@@ -169,11 +184,35 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         }
     }
 
+    /**
+     * The node either has one child or no children. Unlink as if it were
+     * part of a linked list.
+     *
+     * @param node   The node to unlink.
+     * @param parent The parent of the node to unlink.
+     */
     private void unlink(BinaryNode<E> node, BinaryNode<E> parent) {
         BinaryNode<E> child = node.hasLeft() ? node.getLeft() : node.getRight();
         updateAppropriateChild(node, parent, child);
     }
 
+    /**
+     * This node has two children. To delete this node while maintaining the
+     * binary tree property takes some care. The following procedure is
+     * followed:
+     * <p>
+     * 1. Choose the in-order predecessor or successor depending on which side
+     * has more depth.
+     * 2. Keep it's data and recursively call delete on this node. If this
+     * node is a leaf, or has one child, recursion stops and the simple
+     * unlinking takes place. Otherwise this procedure itself is applied
+     * again to this new node.
+     * 3. Transplant the data of the predecessor/successor stored previously
+     * to the current node. (Take care of edge cases)
+     *
+     * @param node   The node to delete.
+     * @param parent The parent of the node (null in case of the root).
+     */
     private void recursivelyDelete(BinaryNode<E> node, BinaryNode<E> parent) {
         E valueToFind = maxDepth(node.getLeft()) > maxDepth(node.getRight())
                 ? max(node.getLeft())
@@ -187,19 +226,32 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         updateAppropriateChild(node, parent, transplant);
     }
 
-    private void updateAppropriateChild(BinaryNode<E> node, BinaryNode<E> parent, BinaryNode<E> child) {
+    /**
+     * Updates the node's parent (if non-null) and replaces this node with
+     * the new node.
+     *
+     * @param node    The node to replace.
+     * @param parent  The parent of the node to replace.
+     * @param newNode The new node to replace the existing node.
+     */
+    private void updateAppropriateChild(BinaryNode<E> node, BinaryNode<E> parent, BinaryNode<E> newNode) {
         if (parent == null) {
-            // This happens when the node is the root
-            root = child;
+            // This happens when the node is the root of the tree
+            root = newNode;
             return;
         }
         if (node == parent.getLeft()) {
-            parent.setLeft(child);
+            parent.setLeft(newNode);
         } else {
-            parent.setRight(child);
+            parent.setRight(newNode);
         }
     }
 
+    /**
+     * Returns the minimum element in the tree.
+     *
+     * @return The minimum element in the tree.
+     */
     public E min() {
         if (root == null) {
             return null;
@@ -207,6 +259,14 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return min(root);
     }
 
+    /**
+     * Returns the minimum element in the subtree with this node
+     * as the root.
+     *
+     * @param node The root of the subtree to check.
+     * @return The minimum element in the subtree with this node
+     * as the root.
+     */
     private E min(BinaryNode<E> node) {
         while (node.hasLeft()) {
             node = node.getLeft();
@@ -214,6 +274,12 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return node.data;
     }
 
+
+    /**
+     * Returns the maximum element in the tree.
+     *
+     * @return The maximum element in the tree.
+     */
     public E max() {
         if (root == null) {
             return null;
@@ -221,6 +287,14 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return max(root);
     }
 
+    /**
+     * Returns the maximum element in the subtree with this node
+     * as the root.
+     *
+     * @param node The root of the subtree to check.
+     * @return The maximum element in the subtree with this node
+     * as the root.
+     */
     private E max(BinaryNode<E> node) {
         while (node.hasRight()) {
             node = node.getRight();
@@ -228,6 +302,12 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return node.data;
     }
 
+    /**
+     * Returns a new Queue as per the size of this Tree.
+     *
+     * @param <T> The type of the Queue needed.
+     * @return A new Queue as per the size of this Tree.
+     */
     private <T> Queue<T> newQueue() {
         return willProbablyFitArray()
                 ? new FixedQueue<>((int) size)
@@ -296,10 +376,21 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return visited;
     }
 
+    /**
+     * Returns the maximum depth of this tree.
+     *
+     * @return The maximum depth of this tree.
+     */
     public int maxDepth() {
         return maxDepth(root);
     }
 
+    /**
+     * Returns the maximum depth of the subtree with the given root.
+     *
+     * @param node The root of the subtree to analyse.
+     * @return The maximum depth of the subtree with the given root.
+     */
     private int maxDepth(BinaryNode<E> node) {
         if (node == null) {
             return 0;
@@ -308,14 +399,14 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
     }
 
     /**
-     * Returns the number of elements currently in the Container. It is
+     * Returns the number of elements currently in the Tree. It is
      * guaranteed to be a non-negative number.
      * <p>
      * <b>NOTE:</b> If the number of elements exceeds
      * {@link Long#MAX_VALUE Long#MAX_VALUE}, then it will return
      * {@code Long#MAX_VALUE}.
      *
-     * @return The number of elements in this Container.
+     * @return The number of elements in this Tree.
      */
     @Override
     public long size() {
@@ -323,12 +414,13 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
     }
 
     /**
-     * Returns the elements of this Container in an array, if possible.
+     * Returns the elements of this Tree in an array in sorted order,
+     * if possible.
      * <p>
      * If it cannot fit the data into an array, and assuming no
      * {@link OutOfMemoryError} is thrown, this method will return {@code null}.
      *
-     * @return The elements of this Container in an array, if possible.
+     * @return The elements of this Tree in an array, if possible.
      */
     @Override
     public Object[] toArray() {
@@ -336,15 +428,15 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
     }
 
     /**
-     * Returns the elements of the Container in the given array, if it
-     * can accommodate, or a new array of the same type.
+     * Returns the elements of the Tree in the given array in sorted
+     * order, if it can accommodate, or a new array of the same type.
      * <p>
      * If it cannot fit the data into an array, and assuming no
      * {@link OutOfMemoryError} is thrown, this method will return {@code null}.
      *
      * @param array The array in which to store the elements if possible,
      *              or in a new array of the same type.
-     * @return The elements of the Container in the given array, if it
+     * @return The elements of the tree in the given array, if it
      * can accommodate, or a new array of the same type.
      * @throws ClassCastException If the elements cannot be converted to
      *                            the given type.
@@ -360,6 +452,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
     @Override
     public void clear() {
         root = null;
+        System.gc();
     }
 
     /**

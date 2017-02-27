@@ -88,5 +88,6 @@ public abstract class Queue<E> extends Container<E> {
         while (!isEmpty()) {
             dequeue();
         }
+        System.gc();
     }
 }

@@ -87,5 +87,6 @@ public abstract class Stack<E> extends Container<E> {
         while (!isEmpty()) {
             pop();
         }
+        System.gc();
     }
 }

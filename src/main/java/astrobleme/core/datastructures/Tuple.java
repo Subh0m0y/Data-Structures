@@ -32,7 +32,13 @@ import java.util.NoSuchElementException;
  * @version 2017.02.26
  */
 public class Tuple<E> extends Container<E> implements Iterable<E> {
+    /**
+     * The first element of the Tuple.
+     */
     public final E first;
+    /**
+     * The second element of the Tuple.
+     */
     public final E second;
 
     /**
@@ -94,7 +100,7 @@ public class Tuple<E> extends Container<E> implements Iterable<E> {
     }
 
     /**
-     * Removes all of its elements.
+     * Throws an Exception.
      */
     @Override
     public void clear() {
