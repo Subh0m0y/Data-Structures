@@ -1,4 +1,4 @@
-#Data Structures
+# Data Structures
 
 This project is meant to house implementations of commonly-used Data Structures
 and rarely some uncommon ones. The implementations are in Java.
@@ -16,13 +16,13 @@ ensure that no action seems arbitrary (unless that's a requirement).
 3. **Provide "Fixed" capacity implementations** of all types of Data Structures
 that act as light-weight wrappers around arrays and ensure great performance.
 
-##WARNING
+## WARNING
 Most of these implementations are **NOT Thread Safe** as opposed to the ones in
 `java.util` which are either Thread Safe or are aware of Concurrent Modifications.
 These implementations are simply oblivious to multi-threaded access and hence,
 respond as it were sequential operations.
 
-##Status
+## Status
 
 Development has just begun and will probably take a few years to be stable.
 
