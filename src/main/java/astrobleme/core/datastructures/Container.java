@@ -45,7 +45,7 @@ public abstract class Container<E> {
      *
      * @return The number of elements in this Container.
      */
-    abstract long size();
+    public abstract long size();
 
     /**
      * Returns {@code true} if the number of elements in this Container is
@@ -61,7 +61,7 @@ public abstract class Container<E> {
      * @return {@code false} if it is absolutely impossible to represent it
      * as an array.
      */
-    boolean willProbablyFitArray() {
+    public boolean willProbablyFitArray() {
         // The value allowed by most VMs:
         final long MAX = Integer.MAX_VALUE - 8;
         return size() <= MAX;

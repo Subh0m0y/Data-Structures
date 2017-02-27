@@ -113,10 +113,17 @@ public class BinaryNode<E extends Comparable<E>> {
     }
 
     public BinaryNode<E> transplant(final E data) {
-        BinaryNode<E> node = new BinaryNode<E>(data);
+        BinaryNode<E> node = new BinaryNode<>(data);
         node.setLeft(this.getLeft());
         node.setRight(this.getRight());
         return node;
+    }
+
+    public BinaryNode<E> copy() {
+        BinaryNode<E> copy = new BinaryNode<>(data);
+        if (hasLeft()) copy.setLeft(getLeft().copy());
+        if (hasRight()) copy.setRight(getRight().copy());
+        return copy;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class LinkedQueue<E> extends Queue<E> {
      * @return The number of elements in this Queue.
      */
     @Override
-    long size() {
+    public long size() {
         return size;
     }
 

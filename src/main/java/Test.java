@@ -23,8 +23,6 @@
 
 import astrobleme.core.datastructures.*;
 
-import java.util.Arrays;
-
 /**
  * @author Subhomoy Haldar
  * @version 2017.02.05
@@ -42,8 +40,11 @@ public class Test {
         tree.insert(9);
         tree.insert(2);
         tree.insert(1);
-        System.out.println(tree.preOrder());
-        System.out.println(tree.remove(9));
+        System.out.println(tree.postOrder());
+        System.out.println(tree.copy().postOrder());
+        System.out.println(tree.size());
+        tree.remove(4);
+        System.out.println(tree.size());
         System.out.println(tree);
     }
 }

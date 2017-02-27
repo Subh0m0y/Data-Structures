@@ -70,14 +70,12 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         if (data.compareTo(current.data) < 0) {
             if (!current.hasLeft()) {
                 current.setLeft(new BinaryNode<>(data));
-                size++;
             } else {
                 insert(current.getLeft(), data);
             }
         } else {
             if (!current.hasRight()) {
                 current.setRight(new BinaryNode<>(data));
-                size++;
             } else {
                 insert(current.getRight(), data);
             }
@@ -159,28 +157,33 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
             return true;
         }
         deleteNode(node, parent);
+        size--;
         return true;
     }
 
     private void deleteNode(BinaryNode<E> node, BinaryNode<E> parent) {
         if (node.numberOfChildren() == 2) {
-            deleteNodeWithBothChildren(node, parent);
+            recursivelyDelete(node, parent);
         } else {
-            deleteNodeWithOneOrNoChildren(node, parent);
+            unlink(node, parent);
         }
     }
 
-    private void deleteNodeWithOneOrNoChildren(BinaryNode<E> node, BinaryNode<E> parent) {
+    private void unlink(BinaryNode<E> node, BinaryNode<E> parent) {
         BinaryNode<E> child = node.hasLeft() ? node.getLeft() : node.getRight();
         updateAppropriateChild(node, parent, child);
     }
 
-    private void deleteNodeWithBothChildren(BinaryNode<E> node, BinaryNode<E> parent) {
-        // The in-order predecessor of this node
-        E largestValue = max(node.getLeft());
-        Tuple<BinaryNode<E>> tuple = getParentAndNodeFor(largestValue);
+    private void recursivelyDelete(BinaryNode<E> node, BinaryNode<E> parent) {
+        E valueToFind = maxDepth(node.getLeft()) > maxDepth(node.getRight())
+                ? max(node.getLeft())
+                : min(node.getRight());
+        Tuple<BinaryNode<E>> tuple = getParentAndNodeFor(valueToFind);
+        // Unlink/cascade first, then update this node
         deleteNode(tuple.second, tuple.first);
-        BinaryNode<E> transplant = node.transplant(largestValue);
+        // The transplant must be done later to prevent the promoted
+        // nodes from "sticking" to the transplant.
+        BinaryNode<E> transplant = node.transplant(valueToFind);
         updateAppropriateChild(node, parent, transplant);
     }
 
@@ -293,6 +296,17 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return visited;
     }
 
+    public int maxDepth() {
+        return maxDepth(root);
+    }
+
+    private int maxDepth(BinaryNode<E> node) {
+        if (node == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(node.getLeft()), maxDepth(node.getRight())) + 1;
+    }
+
     /**
      * Returns the number of elements currently in the Container. It is
      * guaranteed to be a non-negative number.
@@ -304,7 +318,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * @return The number of elements in this Container.
      */
     @Override
-    long size() {
+    public long size() {
         return size;
     }
 
@@ -349,14 +363,16 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
     }
 
     /**
-     * Copies all the elements of this Container to a new one of the same
-     * type (i.e. returns a FixedStack for a FixedStack and so on).
+     * Returns an Exact copy of this Binary tree.
      *
      * @return A new Container with the same elements in the same order
      * (if order is defined) and the same properties as this Container.
      */
     @Override
-    public Container copy() {
-        return null;
+    public BinarySearchTree<E> copy() {
+        BinarySearchTree<E> tree = new BinarySearchTree<E>();
+        tree.root = root.copy();
+        tree.size = size;
+        return tree;
     }
 }

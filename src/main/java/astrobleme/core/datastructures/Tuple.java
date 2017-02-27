@@ -52,7 +52,7 @@ public class Tuple<E> extends Container<E> implements Iterable<E> {
      * @return The number of elements in this Tuple i.e. 2.
      */
     @Override
-    long size() {
+    public long size() {
         return 2;
     }
 

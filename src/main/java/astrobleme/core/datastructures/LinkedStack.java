@@ -56,7 +56,7 @@ public class LinkedStack<E> extends Stack<E> {
      * @return The number of elements in this Stack.
      */
     @Override
-    long size() {
+    public long size() {
         return size;
     }
 
