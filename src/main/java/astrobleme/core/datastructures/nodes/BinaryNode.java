@@ -32,6 +32,7 @@ package astrobleme.core.datastructures.nodes;
  */
 public class BinaryNode<E extends Comparable<E>> {
     private E data;
+    private BinaryNode<E> parent;
     private BinaryNode<E> left;
     private BinaryNode<E> right;
 
@@ -41,7 +42,8 @@ public class BinaryNode<E extends Comparable<E>> {
      *
      * @param data The data for this Node.
      */
-    public BinaryNode(final E data) {
+    public BinaryNode(final BinaryNode<E> parent, final E data) {
+        this.parent = parent;
         this.data = data;
     }
 
@@ -62,6 +64,7 @@ public class BinaryNode<E extends Comparable<E>> {
      */
     public void setLeft(BinaryNode<E> left) {
         this.left = left;
+        left.parent = this;
     }
 
     /**
@@ -81,6 +84,15 @@ public class BinaryNode<E extends Comparable<E>> {
      */
     public void setRight(BinaryNode<E> right) {
         this.right = right;
+        right.parent = this;
+    }
+
+    public BinaryNode<E> getParent() {
+        return parent;
+    }
+
+    public void setParent(BinaryNode<E> parent) {
+        this.parent = parent;
     }
 
     /**
@@ -213,7 +225,7 @@ public class BinaryNode<E extends Comparable<E>> {
      * @return A new independent subtree from this node.
      */
     public BinaryNode<E> copy() {
-        BinaryNode<E> copy = new BinaryNode<>(data);
+        BinaryNode<E> copy = new BinaryNode<>(parent, data);
         if (hasLeft()) copy.setLeft(getLeft().copy());
         if (hasRight()) copy.setRight(getRight().copy());
         return copy;

@@ -52,7 +52,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      */
     public void insert(E data) {
         if (root == null) {
-            root = new BinaryNode<>(Objects.requireNonNull(data));
+            root = new BinaryNode<>(null, Objects.requireNonNull(data));
         } else {
             insert(root, Objects.requireNonNull(data));
         }
@@ -69,13 +69,13 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
     private void insert(BinaryNode<E> current, E data) {
         if (data.compareTo(current.getData()) < 0) {
             if (!current.hasLeft()) {
-                current.setLeft(new BinaryNode<>(data));
+                current.setLeft(new BinaryNode<>(current, data));
             } else {
                 insert(current.getLeft(), data);
             }
         } else {
             if (!current.hasRight()) {
-                current.setRight(new BinaryNode<>(data));
+                current.setRight(new BinaryNode<>(current, data));
             } else {
                 insert(current.getRight(), data);
             }
@@ -114,7 +114,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
             // Workaround for the root. We append it as a child to a
             // Temporary root, perform removal on it and then reset the
             // root as per removal result.
-            BinaryNode<E> auxiliaryRoot = new BinaryNode<>(null);
+            BinaryNode<E> auxiliaryRoot = new BinaryNode<>(null, null);
             auxiliaryRoot.setLeft(root);
             boolean result = root.removeRecursive(data, auxiliaryRoot);
             root = auxiliaryRoot.getLeft();
