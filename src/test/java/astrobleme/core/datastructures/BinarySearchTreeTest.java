@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.Random;
 
+import static astrobleme.core.datastructures.Traverals.*;
 import static org.testng.Assert.*;
 
 /**
@@ -118,10 +119,10 @@ public class BinarySearchTreeTest {
         }
         BinarySearchTree<Integer> copy = tree.copy();
         assertEquals(tree, copy);
-        assertEquals(tree.inOrder(), copy.inOrder());
-        assertEquals(tree.preOrder(), copy.preOrder());
-        assertEquals(tree.postOrder(), copy.postOrder());
-        assertEquals(tree.bfs(), copy.bfs());
+        assertEquals(inOrder(tree), inOrder(copy));
+        assertEquals(preOrder(tree), preOrder(copy));
+        assertEquals(postOrder(tree), postOrder(copy));
+        assertEquals(bfs(tree), bfs(copy));
     }
 
     private double minDepth(long size) {
