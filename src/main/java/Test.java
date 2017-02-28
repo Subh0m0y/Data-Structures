@@ -40,8 +40,8 @@ public class Test {
         tree.insert(9);
         tree.insert(2);
         tree.insert(1);
-        System.out.println(Traverals.postOrder(tree));
-        System.out.println(Traverals.postOrder(tree.copy()));
+        System.out.println(Traversals.postOrder(tree));
+        System.out.println(Traversals.postOrder(tree.copy()));
         System.out.println(tree.size());
         tree.remove(4);
         System.out.println(tree.size());

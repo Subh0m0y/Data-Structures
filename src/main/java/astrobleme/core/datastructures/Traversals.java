@@ -28,7 +28,7 @@ import astrobleme.core.datastructures.nodes.BinaryNode;
  * @author Subhomoy Haldar
  * @version 2017.02.28
  */
-public class Traverals {
+public class Traversals {
     /**
      * Returns a new Queue as per the size of the given Tree.
      *

@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.Random;
 
-import static astrobleme.core.datastructures.Traverals.*;
+import static astrobleme.core.datastructures.Traversals.*;
 import static org.testng.Assert.*;
 
 /**

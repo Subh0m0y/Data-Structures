@@ -127,14 +127,7 @@ public class LinkedQueue<E> extends Queue<E> {
         if (!willProbablyFitArray()) {
             return null;
         }
-        Object[] array = new Object[(int) size];
-        int index = 0;
-        SinglyLinkedNode<E> current = front;
-        while (current != null) {
-            array[index++] = current.data;
-            current = current.getNext();
-        }
-        return array;
+        return LinkedLists.toArray(front, (int) size);
     }
 
     /**
@@ -154,21 +147,10 @@ public class LinkedQueue<E> extends Queue<E> {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends E> T[] toArray(T[] array) throws ClassCastException {
-        T[] container;
-        if (array.length > size) {
-            container = array;
-        } else {
-            container = (T[]) java.lang.reflect.Array.newInstance(
-                    array.getClass().getComponentType(), (int) size
-            );
+        if (!willProbablyFitArray()) {
+            return null;
         }
-        int index = 0;
-        SinglyLinkedNode<E> current = front;
-        while (current != null) {
-            container[index++] = (T) current.data;
-            current = current.getNext();
-        }
-        return container;
+        return LinkedLists.toArray(array, front, (int) size);
     }
 
     /**
@@ -179,18 +161,10 @@ public class LinkedQueue<E> extends Queue<E> {
      */
     @Override
     public Queue<E> copy() {
-        SinglyLinkedNode<E> top2 = new SinglyLinkedNode<>(front.data);
-        SinglyLinkedNode<E> node1 = front;
-        SinglyLinkedNode<E> node2 = top2;
-        while (node1.getNext() != null) {
-            // Progress to the next node of this queue and get ready
-            // to link it to the node of the new queue.
-            node1 = node1.getNext();
-            node2.setNext(new SinglyLinkedNode<>(node1.data));
-            node2 = node2.getNext();
-        }
+        SinglyLinkedNode<E> front2 = new SinglyLinkedNode<>(front.data);
+        LinkedLists.copy(front, front2);
         LinkedQueue<E> copy = new LinkedQueue<>();
-        copy.front = top2;
+        copy.front = front2;
         copy.size = size;
         return copy;
     }
@@ -210,31 +184,6 @@ public class LinkedQueue<E> extends Queue<E> {
             return super.equals(object);
         }
         LinkedQueue queue = (LinkedQueue) object;
-        if (size != queue.size) {
-            return false;
-        }
-        // NOTE: Node 1 is for this queue and node 2
-        // is for the other queue.
-        SinglyLinkedNode node1 = front;
-        SinglyLinkedNode node2 = queue.front;
-        // Iterate until one of them gets exhausted
-        while (node1 != null && node2 != null) {
-            // Safe guard against null data
-            if (node1.data == null) {
-                if (node2 .data!= null) {
-                    return false;
-                } else {
-                    continue;
-                }
-            }
-            // For normal non-null data
-            if (!node1.data.equals(node2.data)) {
-                return false;
-            }
-            node1 = node1.getNext();
-            node2 = node2.getNext();
-        }
-        // Ensure that both of the lists got exhausted
-        return node1 == null && node2 == null;
+        return size == queue.size && LinkedLists.areEqual(front, queue.front);
     }
 }

@@ -200,7 +200,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      */
     @Override
     public Object[] toArray() {
-        return Traverals.inOrder(this).toArray();
+        return Traversals.inOrder(this).toArray();
     }
 
     /**
@@ -219,7 +219,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      */
     @Override
     public <T extends E> T[] toArray(T[] array) throws ClassCastException {
-        return Traverals.inOrder(this).toArray(array);
+        return Traversals.inOrder(this).toArray(array);
     }
 
     /**
