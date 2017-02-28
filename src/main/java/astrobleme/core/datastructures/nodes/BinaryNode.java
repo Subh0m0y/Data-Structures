@@ -137,6 +137,77 @@ public class BinaryNode<E extends Comparable<E>> {
     }
 
     /**
+     * Looks for the data in the subtree represented by this Node.
+     * Returns the Node which has the same data as the given data.
+     *
+     * @param data The data to search for.
+     * @return The Node containing the data.
+     */
+    public BinaryNode<E> locate(E data) {
+        int comparison = getData().compareTo(data);
+        if (comparison == 0) {
+            return this;
+        } else if (comparison > 0) {
+            return hasLeft() ? left.locate(data) : null;
+        } else {
+            return hasRight() ? right.locate(data) : null;
+        }
+    }
+
+    public boolean removeRecursive(E data, BinaryNode<E> parent) {
+        int comparisonResult = getData().compareTo(data);
+        if (comparisonResult < 0) {
+            return hasLeft() && left.removeRecursive(data, this);
+        } else if (comparisonResult > 0) {
+            return hasRight() && right.removeRecursive(data, this);
+        }
+        // The node to be removed is this one...
+        if (numberOfChildren() == 2) {
+            E newData = right.min();
+            setData(newData);
+            right.removeRecursive(newData, this);
+            return true;
+        }
+        BinaryNode<E> child = hasLeft() ? left : right;
+        if (parent.left == this) {
+            parent.setLeft(child);
+        } else {
+            parent.setRight(child);
+        }
+        return true;
+    }
+
+    /**
+     * Returns the minimum element in the subtree with this node
+     * as the root.
+     *
+     * @return The minimum element in the subtree with this node
+     * as the root.
+     */
+    public E min() {
+        BinaryNode<E> node = this;
+        while (node.hasLeft()) {
+            node = node.getLeft();
+        }
+        return node.getData();
+    }
+
+    /**
+     * Returns the maximum element in the subtree with this node
+     * as the root.
+     *
+     * @return The maximum element in the subtree with this node
+     * as the root.
+     */
+    public E max() {
+        BinaryNode<E> node = this;
+        while (node.hasRight()) {
+            node = node.getRight();
+        }
+        return node.getData();
+    }
+
+    /**
      * Creates a new independent subtree from this node.
      *
      * @return A new independent subtree from this node.

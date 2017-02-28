@@ -91,154 +91,40 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * is present in the tree.
      */
     public boolean isPresent(final E data) {
-        return getParentAndNodeFor(data).second != null;
+        return firstNodeFor(data) != null;
     }
 
     /**
-     * A simple edge-case abstraction that starts from the root.
-     * Helps simplify the rest of the code.
+     * Returns the first Node in the Tree that has the same data
+     * as this given data.
      *
-     * @param data The data we're looking for in the node.
-     * @return The parent
+     * @param data The data to search for.
+     * @return The Node having the same data.
      */
-    private Tuple<BinaryNode<E>> getParentAndNodeFor(final E data) {
+    private BinaryNode<E> firstNodeFor(E data) {
+        return root == null ? null : root.locate(data);
+    }
+
+    public boolean remove(E data) {
         if (root == null) {
-            return new Tuple<>(null, null);
+            // The tree is empty, nothing to remove
+            return false;
         }
         if (root.getData().equals(data)) {
-            return new Tuple<>(null, root);
-        }
-        return getParentAndNodeFor(data, root, null);
-    }
-
-    /**
-     * This method traverses the tree to find both the node
-     * which has the same data and its parent.
-     *
-     * @param data    The data we're looking for in the node.
-     * @param current The current subtree's root.
-     * @param parent  The parent of the current subtree's root.
-     * @return The required node and its parent.
-     */
-    private Tuple<BinaryNode<E>> getParentAndNodeFor(final E data,
-                                                     BinaryNode<E> current,
-                                                     BinaryNode<E> parent) {
-        // This condition is reached if the data is not present in the tree.
-        if (current == null) {
-            return new Tuple<>(null, null);
-        }
-        // We've found it! Return it and its parent
-        if (current.getData().equals(data)) {
-            return new Tuple<>(parent, current);
-        }
-        // Recursion step: this node becomes the parent and the current becomes
-        // the appropriate child.
-        parent = current;
-        current = data.compareTo(current.getData()) < 0 ? current.getLeft() : current.getRight();
-        return getParentAndNodeFor(data, current, parent);
-    }
-
-    /**
-     * Removes the given element from the Tree and returns {@code true} if
-     * the element was present and removal was successful. If no change
-     * occurred, then {@code false} is returned.
-     *
-     * @param data The data to remove from the Tree.
-     * @return If the tree was changed or not.
-     */
-    public boolean remove(final E data) {
-        if (data == null) {
-            // Because all elements in this tree are non null.
-            return false;
-        }
-        Tuple<BinaryNode<E>> tuple = getParentAndNodeFor(data);
-        BinaryNode<E> parent = tuple.first;
-        BinaryNode<E> node = tuple.second;
-        if (node == null) {
-            // The data is not present in the tree
-            return false;
-        }
-        // If the root is the only node and we need to remove it
-        if (size == 1) {    // And node == root is implied
-            root = null;
-            size = 0;
-            return true;
-        }
-        deleteNode(node, parent);
-        size--;
-        return true;
-    }
-
-    /**
-     * Deletes the node from the tree and updates its parent and children
-     * as necessary.
-     *
-     * @param node   The node to delete.
-     * @param parent The parent of the node to delete (maybe null).
-     */
-    private void deleteNode(BinaryNode<E> node, BinaryNode<E> parent) {
-        if (node.numberOfChildren() == 2) {
-            recursivelyDelete(node);
+            // Workaround for the root. We append it as a child to a
+            // Temporary root, perform removal on it and then reset the
+            // root as per removal result.
+            BinaryNode<E> auxiliaryRoot = new BinaryNode<>(null);
+            auxiliaryRoot.setLeft(root);
+            boolean result = root.removeRecursive(data, auxiliaryRoot);
+            root = auxiliaryRoot.getLeft();
+            if (result) size--;
+            return result;
         } else {
-            unlink(node, parent);
-        }
-    }
-
-    /**
-     * The node either has one child or no children. Unlink as if it were
-     * part of a linked list.
-     *
-     * @param node   The node to unlink.
-     * @param parent The parent of the node to unlink.
-     */
-    private void unlink(BinaryNode<E> node, BinaryNode<E> parent) {
-        BinaryNode<E> child = node.hasLeft() ? node.getLeft() : node.getRight();
-        if (node == root) {
-            root = child;
-        } else {
-            updateAppropriateChild(node, parent, child);
-        }
-    }
-
-    /**
-     * This node has two children. To delete this node while maintaining the
-     * binary tree property takes some care. The following procedure is
-     * followed:
-     * <p>
-     * 1. Choose the in-order predecessor or successor depending on which side
-     * has more depth.
-     * 2. Keep it's data and recursively call delete on this node. If this
-     * node is a leaf, or has one child, recursion stops and the simple
-     * unlinking takes place. Otherwise this procedure itself is applied
-     * again to this new node.
-     * 3. Transplant the data of the predecessor/successor stored previously
-     * to the current node. (Take care of edge cases)
-     *
-     * @param node The node to delete.
-     */
-    private void recursivelyDelete(BinaryNode<E> node) {
-//        E valueToFind = maxDepth(node.getLeft()) > maxDepth(node.getRight())
-//                ? max(node.getLeft())
-//                : min(node.getRight());
-        E valueToFind = max(node.getLeft());
-        node.setData(valueToFind);
-        Tuple<BinaryNode<E>> tuple = getParentAndNodeFor(valueToFind);
-        deleteNode(tuple.second, tuple.first);
-    }
-
-    /**
-     * Updates the node's parent (if non-null) and replaces this node with
-     * the new node.
-     *
-     * @param node    The node to replace.
-     * @param parent  The parent of the node to replace.
-     * @param newNode The new node to replace the existing node.
-     */
-    private void updateAppropriateChild(BinaryNode<E> node, BinaryNode<E> parent, BinaryNode<E> newNode) {
-        if (node == parent.getLeft()) {
-            parent.setLeft(newNode);
-        } else {
-            parent.setRight(newNode);
+            boolean result = root.removeRecursive(data, null);
+            ;
+            if (result) size--;
+            return result;
         }
     }
 
@@ -251,24 +137,8 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         if (root == null) {
             return null;
         }
-        return min(root);
+        return root.min();
     }
-
-    /**
-     * Returns the minimum element in the subtree with this node
-     * as the root.
-     *
-     * @param node The root of the subtree to check.
-     * @return The minimum element in the subtree with this node
-     * as the root.
-     */
-    private E min(BinaryNode<E> node) {
-        while (node.hasLeft()) {
-            node = node.getLeft();
-        }
-        return node.getData();
-    }
-
 
     /**
      * Returns the maximum element in the tree.
@@ -279,22 +149,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         if (root == null) {
             return null;
         }
-        return max(root);
-    }
-
-    /**
-     * Returns the maximum element in the subtree with this node
-     * as the root.
-     *
-     * @param node The root of the subtree to check.
-     * @return The maximum element in the subtree with this node
-     * as the root.
-     */
-    private E max(BinaryNode<E> node) {
-        while (node.hasRight()) {
-            node = node.getRight();
-        }
-        return node.getData();
+        return root.max();
     }
 
     /**
