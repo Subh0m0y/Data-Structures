@@ -1,4 +1,6 @@
 # Data Structures
+[![codebeat badge](https://codebeat.co/badges/d88e2840-4679-46b7-992e-0fd607553c6e)](https://codebeat.co/projects/github-com-subh0m0y-data-structures)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 This project is meant to house implementations of commonly-used Data Structures
 and rarely some uncommon ones. The implementations are in Java.
