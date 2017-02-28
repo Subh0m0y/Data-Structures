@@ -31,7 +31,7 @@ package astrobleme.core.datastructures.nodes;
  * @version 2017.02.25
  */
 public class BinaryNode<E extends Comparable<E>> {
-    public final E data;
+    private E data;
     private BinaryNode<E> left;
     private BinaryNode<E> right;
 
@@ -84,6 +84,24 @@ public class BinaryNode<E extends Comparable<E>> {
     }
 
     /**
+     * Returns the data encapsulated by this Node.
+     *
+     * @return The data encapsulated by this Node.
+     */
+    public E getData() {
+        return data;
+    }
+
+    /**
+     * Sets the data of this node to the new given value.
+     *
+     * @param data The new data to replace the old one.
+     */
+    public void setData(E data) {
+        this.data = data;
+    }
+
+    /**
      * Returns {@code true} if the Node has a left subtree.
      * <p>
      * Helps to write cleaner, more readable code.
@@ -119,21 +137,6 @@ public class BinaryNode<E extends Comparable<E>> {
     }
 
     /**
-     * Creates a new node with the same children as this node, but
-     * with the specified data.
-     *
-     * @param data The data to transplant in this node.
-     * @return A new node with the same children as this node, but
-     * with the specified data.
-     */
-    public BinaryNode<E> transplant(final E data) {
-        BinaryNode<E> node = new BinaryNode<>(data);
-        node.setLeft(this.getLeft());
-        node.setRight(this.getRight());
-        return node;
-    }
-
-    /**
      * Creates a new independent subtree from this node.
      *
      * @return A new independent subtree from this node.
@@ -165,10 +168,7 @@ public class BinaryNode<E extends Comparable<E>> {
      * is exactly identical to this node.
      */
     public boolean equals(Object object) {
-        if (!(object instanceof BinaryNode)) {
-            return false;
-        }
-        return equals(this, (BinaryNode) object);
+        return object instanceof BinaryNode && equals(this, (BinaryNode) object);
     }
 
     /**

@@ -34,7 +34,7 @@ import static org.testng.Assert.*;
  * @version 2017.02.27
  */
 public class BinarySearchTreeTest {
-    private final int size = 1_000_000;
+    private final int size = 1_00;
     private final int limit = size * 2;
     private final Random random = new Random();
 

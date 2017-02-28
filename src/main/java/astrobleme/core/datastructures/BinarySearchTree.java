@@ -67,7 +67,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * @param data    The data to insert.
      */
     private void insert(BinaryNode<E> current, E data) {
-        if (data.compareTo(current.data) < 0) {
+        if (data.compareTo(current.getData()) < 0) {
             if (!current.hasLeft()) {
                 current.setLeft(new BinaryNode<>(data));
             } else {
@@ -105,7 +105,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         if (root == null) {
             return new Tuple<>(null, null);
         }
-        if (root.data.equals(data)) {
+        if (root.getData().equals(data)) {
             return new Tuple<>(null, root);
         }
         return getParentAndNodeFor(data, root, null);
@@ -128,13 +128,13 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
             return new Tuple<>(null, null);
         }
         // We've found it! Return it and its parent
-        if (current.data.equals(data)) {
+        if (current.getData().equals(data)) {
             return new Tuple<>(parent, current);
         }
         // Recursion step: this node becomes the parent and the current becomes
         // the appropriate child.
         parent = current;
-        current = data.compareTo(current.data) < 0 ? current.getLeft() : current.getRight();
+        current = data.compareTo(current.getData()) < 0 ? current.getLeft() : current.getRight();
         return getParentAndNodeFor(data, current, parent);
     }
 
@@ -178,7 +178,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      */
     private void deleteNode(BinaryNode<E> node, BinaryNode<E> parent) {
         if (node.numberOfChildren() == 2) {
-            recursivelyDelete(node, parent);
+            recursivelyDelete(node);
         } else {
             unlink(node, parent);
         }
@@ -193,7 +193,11 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      */
     private void unlink(BinaryNode<E> node, BinaryNode<E> parent) {
         BinaryNode<E> child = node.hasLeft() ? node.getLeft() : node.getRight();
-        updateAppropriateChild(node, parent, child);
+        if (node == root) {
+            root = child;
+        } else {
+            updateAppropriateChild(node, parent, child);
+        }
     }
 
     /**
@@ -210,20 +214,16 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * 3. Transplant the data of the predecessor/successor stored previously
      * to the current node. (Take care of edge cases)
      *
-     * @param node   The node to delete.
-     * @param parent The parent of the node (null in case of the root).
+     * @param node The node to delete.
      */
-    private void recursivelyDelete(BinaryNode<E> node, BinaryNode<E> parent) {
-        E valueToFind = maxDepth(node.getLeft()) > maxDepth(node.getRight())
-                ? max(node.getLeft())
-                : min(node.getRight());
+    private void recursivelyDelete(BinaryNode<E> node) {
+//        E valueToFind = maxDepth(node.getLeft()) > maxDepth(node.getRight())
+//                ? max(node.getLeft())
+//                : min(node.getRight());
+        E valueToFind = max(node.getLeft());
+        node.setData(valueToFind);
         Tuple<BinaryNode<E>> tuple = getParentAndNodeFor(valueToFind);
-        // Unlink/cascade first, then update this node
         deleteNode(tuple.second, tuple.first);
-        // The transplant must be done later to prevent the promoted
-        // nodes from "sticking" to the transplant.
-        BinaryNode<E> transplant = node.transplant(valueToFind);
-        updateAppropriateChild(node, parent, transplant);
     }
 
     /**
@@ -235,11 +235,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * @param newNode The new node to replace the existing node.
      */
     private void updateAppropriateChild(BinaryNode<E> node, BinaryNode<E> parent, BinaryNode<E> newNode) {
-        if (parent == null) {
-            // This happens when the node is the root of the tree
-            root = newNode;
-            return;
-        }
         if (node == parent.getLeft()) {
             parent.setLeft(newNode);
         } else {
@@ -271,7 +266,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         while (node.hasLeft()) {
             node = node.getLeft();
         }
-        return node.data;
+        return node.getData();
     }
 
 
@@ -299,7 +294,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         while (node.hasRight()) {
             node = node.getRight();
         }
-        return node.data;
+        return node.getData();
     }
 
     /**
@@ -364,7 +359,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         if (root == null) {
             return;
         }
-        queue.enqueue(root.data);
+        queue.enqueue(root.getData());
         preOrder(root.getLeft(), queue);
         preOrder(root.getRight(), queue);
     }
@@ -382,7 +377,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         }
         postOrder(root.getLeft(), queue);
         postOrder(root.getRight(), queue);
-        queue.enqueue(root.data);
+        queue.enqueue(root.getData());
     }
 
     /**
@@ -397,7 +392,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
             return;
         }
         inOrder(root.getLeft(), queue);
-        queue.enqueue(root.data);
+        queue.enqueue(root.getData());
         inOrder(root.getRight(), queue);
     }
 
@@ -412,7 +407,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         Queue<BinaryNode<E>> unvisited = newQueue();
         BinaryNode<E> node = root;
         while (node != null) {
-            visited.enqueue(node.data);
+            visited.enqueue(node.getData());
             if (node.hasLeft()) {
                 unvisited.enqueue(node.getLeft());
             }
