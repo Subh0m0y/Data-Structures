@@ -25,6 +25,7 @@ package astrobleme.core.datastructures;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 import static astrobleme.core.datastructures.Traversals.*;
@@ -41,13 +42,14 @@ public class BinarySearchTreeTest {
     private final int size = 1_000_000;
     private final int limit = size * 2;
     private final Random random = new Random();
+    private final Comparator<Integer> comparator = (a, b) -> b - a;
 
     private BinarySearchTree<Integer> tree;
     private Integer[] mirror;
 
     @Test
     public void testInsertAndIsPresent() throws Exception {
-        tree = new BinarySearchTree<>();
+        tree = new BinarySearchTree<>(comparator);
         mirror = new Integer[size];
         for (int i = 0; i < size; i++) {
             int randomInt = random.nextInt(limit);
@@ -62,7 +64,7 @@ public class BinarySearchTreeTest {
 
     @Test
     public void testRemove() throws Exception {
-        tree = new BinarySearchTree<>();
+        tree = new BinarySearchTree<>(comparator);
         mirror = new Integer[size];
         for (int i = 0; i < size; i++) {
             int randomInt = random.nextInt(limit);
@@ -81,7 +83,7 @@ public class BinarySearchTreeTest {
 
     @Test
     public void testMaxMinInOrder() throws Exception {
-        tree = new BinarySearchTree<>();
+        tree = new BinarySearchTree<>(comparator);
         mirror = new Integer[size];
         for (int i = 0; i < size; i++) {
             int randomInt = random.nextInt(limit);
@@ -89,7 +91,7 @@ public class BinarySearchTreeTest {
             assertEquals(i + 1, tree.size());
             mirror[i] = randomInt;
         }
-        Arrays.sort(mirror);
+        Arrays.sort(mirror, comparator);
         assertEquals(mirror[0], tree.min());
         assertEquals(mirror[size - 1], tree.max());
         assertEquals(mirror, tree.toArray());
@@ -98,7 +100,7 @@ public class BinarySearchTreeTest {
 
     @Test
     public void testCopy() throws Exception {
-        tree = new BinarySearchTree<>();
+        tree = new BinarySearchTree<>(comparator);
         for (int i = 0; i < size; i++) {
             int randomInt = random.nextInt(limit);
             tree.insert(randomInt);

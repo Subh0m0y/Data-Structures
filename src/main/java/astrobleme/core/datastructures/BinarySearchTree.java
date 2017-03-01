@@ -25,6 +25,7 @@ package astrobleme.core.datastructures;
 import astrobleme.core.datastructures.exceptions.UnderflowException;
 import astrobleme.core.datastructures.nodes.BinaryNode;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -35,6 +36,7 @@ import java.util.Objects;
  * @version 2017.02.25
  */
 public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
+    private final Comparator<E> comparator;
     protected BinaryNode<E> root;
     private long size;
 
@@ -42,8 +44,20 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * Creates a new blank Binary Search Tree.
      */
     public BinarySearchTree() {
+        this(Comparator.naturalOrder());
+    }
+
+    /**
+     * Creates a new blank Binary Search Tree that uses the ordering
+     * principle as defined by the Comparator.
+     *
+     * @param comparator The Comparator which defines the ordering of
+     *                   the Comparable elements.
+     */
+    public BinarySearchTree(final Comparator<E> comparator) {
         root = null;
         size = 0;
+        this.comparator = comparator;
     }
 
     /**
@@ -68,7 +82,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * @param data    The data to insert.
      */
     private void insert(BinaryNode<E> current, E data) {
-        if (data.compareTo(current.getData()) < 0) {
+        if (comparator.compare(data, current.getData()) < 0) {
             if (!current.hasLeft()) {
                 current.setLeft(new BinaryNode<>(current, data));
             } else {
@@ -103,7 +117,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      * @return The Node having the same data.
      */
     private BinaryNode<E> firstNodeFor(E data) {
-        return root == null ? null : root.locate(data);
+        return root == null ? null : root.locate(data, comparator);
     }
 
     /**
@@ -125,12 +139,12 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
             // root as per removal result.
             BinaryNode<E> auxiliaryRoot = new BinaryNode<>(null, null);
             auxiliaryRoot.setLeft(root);
-            boolean result = root.removeRecursive(data);
+            boolean result = root.removeRecursive(data, comparator);
             root = auxiliaryRoot.getLeft();
             if (result) size--;
             return result;
         } else {
-            boolean result = root.removeRecursive(data);
+            boolean result = root.removeRecursive(data, comparator);
             if (result) size--;
             return result;
         }
@@ -225,7 +239,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
      */
     @Override
     public BinarySearchTree<E> copy() {
-        BinarySearchTree<E> tree = new BinarySearchTree<>();
+        BinarySearchTree<E> tree = new BinarySearchTree<>(comparator);
         tree.root = root.copy();
         tree.size = size;
         return tree;

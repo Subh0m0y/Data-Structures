@@ -22,6 +22,8 @@
 
 package astrobleme.core.datastructures.nodes;
 
+import java.util.Comparator;
+
 /**
  * A simple, re-usable Node for use in Binary Trees. It has wraps a
  * {@link Comparable} data and has links to its "left" and "right"
@@ -166,17 +168,19 @@ public class BinaryNode<E extends Comparable<E>> {
      * Looks for the data in the subtree represented by this Node.
      * Returns the Node which has the same data as the given data.
      *
-     * @param data The data to search for.
+     * @param data       The data to search for.
+     * @param comparator The The Comparator which defines the ordering of
+     *                   the Comparable elements.
      * @return The Node containing the data.
      */
-    public BinaryNode<E> locate(E data) {
-        int comparison = getData().compareTo(data);
+    public BinaryNode<E> locate(E data, Comparator<E> comparator) {
+        int comparison = comparator.compare(getData(), data);
         if (comparison == 0) {
             return this;
         } else if (comparison > 0) {
-            return hasLeft() ? left.locate(data) : null;
+            return hasLeft() ? left.locate(data, comparator) : null;
         } else {
-            return hasRight() ? right.locate(data) : null;
+            return hasRight() ? right.locate(data, comparator) : null;
         }
     }
 
@@ -185,23 +189,25 @@ public class BinaryNode<E extends Comparable<E>> {
      * represented by this Node. If deletion was successful, it
      * returns {@code true}, otherwise it returns {@code false}.
      *
-     * @param data The data to remove.
+     * @param data       The data to remove.
+     * @param comparator The The Comparator which defines the ordering of
+     *                   the Comparable elements.
      * @return If deletion was successful, it
      * returns {@code true}, otherwise it returns {@code false}.
      */
-    public boolean removeRecursive(E data) {
-        int comparisonResult = getData().compareTo(data);
+    public boolean removeRecursive(E data, Comparator<E> comparator) {
+        int comparisonResult = comparator.compare(getData(), data);
         if (comparisonResult < 0) {
-            return hasLeft() && left.removeRecursive(data);
+            return hasLeft() && left.removeRecursive(data, comparator);
         } else if (comparisonResult > 0) {
-            return hasRight() && right.removeRecursive(data);
+            return hasRight() && right.removeRecursive(data, comparator);
         }
         // The node to be removed is this one...
         if (numberOfChildren() == 2) {
             // Make a random choice between the inorder successor or the predecessor
             E newData = Math.random() < 0.5 ? right.min() : left.max();
             setData(newData);
-            right.removeRecursive(newData);
+            right.removeRecursive(newData, comparator);
             return true;
         }
         BinaryNode<E> child = hasLeft() ? left : right;
