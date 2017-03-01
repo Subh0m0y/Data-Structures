@@ -31,7 +31,7 @@ import static astrobleme.core.datastructures.Traversals.*;
 import static org.testng.Assert.*;
 
 /**
- * Checks for repeatable, random values. If it passes, then the
+ * Checks with repeatable, random values. If it passes, then the
  * BST is most probably bug free.
  *
  * @author Subhomoy Haldar
@@ -97,19 +97,6 @@ public class BinarySearchTreeTest {
     }
 
     @Test
-    public void testMaxDepth() throws Exception {
-        tree = new BinarySearchTree<>();
-        for (int i = 0; i < size; i++) {
-            int randomInt = random.nextInt(limit);
-            tree.insert(randomInt);
-            assertEquals(i + 1, tree.size());
-        }
-        int maxDepth = tree.maxDepth();
-        assertTrue(minDepth(tree.size()) <= maxDepth);
-        assertTrue(tree.size() >= maxDepth);
-    }
-
-    @Test
     public void testCopy() throws Exception {
         tree = new BinarySearchTree<>();
         for (int i = 0; i < size; i++) {
@@ -123,9 +110,5 @@ public class BinarySearchTreeTest {
         assertEquals(preOrder(tree), preOrder(copy));
         assertEquals(postOrder(tree), postOrder(copy));
         assertEquals(bfs(tree), bfs(copy));
-    }
-
-    private double minDepth(long size) {
-        return Math.log(size) / Math.log(2);
     }
 }

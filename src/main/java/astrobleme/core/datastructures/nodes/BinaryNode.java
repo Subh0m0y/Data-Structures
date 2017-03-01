@@ -64,7 +64,9 @@ public class BinaryNode<E extends Comparable<E>> {
      */
     public void setLeft(BinaryNode<E> left) {
         this.left = left;
-        left.parent = this;
+        if (hasLeft()) {
+            left.setParent(this);
+        }
     }
 
     /**
@@ -84,13 +86,25 @@ public class BinaryNode<E extends Comparable<E>> {
      */
     public void setRight(BinaryNode<E> right) {
         this.right = right;
-        right.parent = this;
+        if (hasRight()) {
+            right.setParent(this);
+        }
     }
 
+    /**
+     * Returns the Parent Node of this Node, if any.
+     *
+     * @return The Parent Node of this Node, if any.
+     */
     public BinaryNode<E> getParent() {
         return parent;
     }
 
+    /**
+     * Sets the parent of this Node. Maybe null.
+     *
+     * @param parent The new Parent of this Node.
+     */
     public void setParent(BinaryNode<E> parent) {
         this.parent = parent;
     }
@@ -166,18 +180,18 @@ public class BinaryNode<E extends Comparable<E>> {
         }
     }
 
-    public boolean removeRecursive(E data, BinaryNode<E> parent) {
+    public boolean removeRecursive(E data) {
         int comparisonResult = getData().compareTo(data);
         if (comparisonResult < 0) {
-            return hasLeft() && left.removeRecursive(data, this);
+            return hasLeft() && left.removeRecursive(data);
         } else if (comparisonResult > 0) {
-            return hasRight() && right.removeRecursive(data, this);
+            return hasRight() && right.removeRecursive(data);
         }
         // The node to be removed is this one...
         if (numberOfChildren() == 2) {
             E newData = right.min();
             setData(newData);
-            right.removeRecursive(newData, this);
+            right.removeRecursive(newData);
             return true;
         }
         BinaryNode<E> child = hasLeft() ? left : right;

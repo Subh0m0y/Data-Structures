@@ -116,13 +116,12 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
             // root as per removal result.
             BinaryNode<E> auxiliaryRoot = new BinaryNode<>(null, null);
             auxiliaryRoot.setLeft(root);
-            boolean result = root.removeRecursive(data, auxiliaryRoot);
+            boolean result = root.removeRecursive(data);
             root = auxiliaryRoot.getLeft();
             if (result) size--;
             return result;
         } else {
-            boolean result = root.removeRecursive(data, null);
-            ;
+            boolean result = root.removeRecursive(data);
             if (result) size--;
             return result;
         }
@@ -150,28 +149,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
             return null;
         }
         return root.max();
-    }
-
-    /**
-     * Returns the maximum depth of this tree.
-     *
-     * @return The maximum depth of this tree.
-     */
-    public int maxDepth() {
-        return maxDepth(root);
-    }
-
-    /**
-     * Returns the maximum depth of the subtree with the given root.
-     *
-     * @param node The root of the subtree to analyse.
-     * @return The maximum depth of the subtree with the given root.
-     */
-    private int maxDepth(BinaryNode<E> node) {
-        if (node == null) {
-            return 0;
-        }
-        return Math.max(maxDepth(node.getLeft()), maxDepth(node.getRight())) + 1;
     }
 
     /**
