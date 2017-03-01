@@ -35,3 +35,8 @@ The list of Completed Data Structures (implemented and tested):
 2. LinkedStack
 3. FixedQueue
 4. LinkedQueue
+5. BinarySearchTree (basic structure for other trees to build on)
+
+## General Advice
+
+1. Regarding

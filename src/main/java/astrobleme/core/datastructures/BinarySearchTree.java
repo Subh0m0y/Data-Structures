@@ -22,6 +22,7 @@
 
 package astrobleme.core.datastructures;
 
+import astrobleme.core.datastructures.exceptions.UnderflowException;
 import astrobleme.core.datastructures.nodes.BinaryNode;
 
 import java.util.Objects;
@@ -105,7 +106,15 @@ public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
         return root == null ? null : root.locate(data);
     }
 
-    public boolean remove(E data) {
+    /**
+     * Tries to remove the given data from the Tree if it is present.
+     * If a successful modification takes place, it returns {@code true}
+     * otherwise, it returns {@code false}.
+     *
+     * @param data The data to remove from the Tree.
+     * @return {@code true} if the tree was modified.
+     */
+    public boolean remove(E data) throws UnderflowException {
         if (root == null) {
             // The tree is empty, nothing to remove
             return false;

@@ -180,6 +180,15 @@ public class BinaryNode<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Recursively tries to remove the given data from the subtree
+     * represented by this Node. If deletion was successful, it
+     * returns {@code true}, otherwise it returns {@code false}.
+     *
+     * @param data The data to remove.
+     * @return If deletion was successful, it
+     * returns {@code true}, otherwise it returns {@code false}.
+     */
     public boolean removeRecursive(E data) {
         int comparisonResult = getData().compareTo(data);
         if (comparisonResult < 0) {
@@ -189,7 +198,8 @@ public class BinaryNode<E extends Comparable<E>> {
         }
         // The node to be removed is this one...
         if (numberOfChildren() == 2) {
-            E newData = right.min();
+            // Make a random choice between the inorder successor or the predecessor
+            E newData = Math.random() < 0.5 ? right.min() : left.max();
             setData(newData);
             right.removeRecursive(newData);
             return true;
