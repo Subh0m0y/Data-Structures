@@ -1,0 +1,5 @@
+{
+    "JAVA": {
+        "TOO_MANY_FUNCTIONS": [20, 25, 35, 40]
+    }
+}

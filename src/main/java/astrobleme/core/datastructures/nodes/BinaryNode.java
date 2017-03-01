@@ -67,7 +67,7 @@ public class BinaryNode<E extends Comparable<E>> {
     public void setLeft(BinaryNode<E> left) {
         this.left = left;
         if (hasLeft()) {
-            left.setParent(this);
+            left.parent = this;
         }
     }
 
@@ -89,26 +89,8 @@ public class BinaryNode<E extends Comparable<E>> {
     public void setRight(BinaryNode<E> right) {
         this.right = right;
         if (hasRight()) {
-            right.setParent(this);
+            right.parent = this;
         }
-    }
-
-    /**
-     * Returns the Parent Node of this Node, if any.
-     *
-     * @return The Parent Node of this Node, if any.
-     */
-    public BinaryNode<E> getParent() {
-        return parent;
-    }
-
-    /**
-     * Sets the parent of this Node. Maybe null.
-     *
-     * @param parent The new Parent of this Node.
-     */
-    public void setParent(BinaryNode<E> parent) {
-        this.parent = parent;
     }
 
     /**
@@ -152,19 +134,6 @@ public class BinaryNode<E extends Comparable<E>> {
     }
 
     /**
-     * Returns the number of children this node has. A child
-     * is defined as a non-null node that this node links to.
-     *
-     * @return The number of children this node has.
-     */
-    public int numberOfChildren() {
-        int count = 0;
-        if (hasLeft()) count++;
-        if (hasRight()) count++;
-        return count;
-    }
-
-    /**
      * Looks for the data in the subtree represented by this Node.
      * Returns the Node which has the same data as the given data.
      *
@@ -203,7 +172,7 @@ public class BinaryNode<E extends Comparable<E>> {
             return hasRight() && right.removeRecursive(data, comparator);
         }
         // The node to be removed is this one...
-        if (numberOfChildren() == 2) {
+        if (hasLeft() && hasRight()) {
             // Make a random choice between the inorder successor or the predecessor
             E newData = Math.random() < 0.5 ? right.min() : left.max();
             setData(newData);
