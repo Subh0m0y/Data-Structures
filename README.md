@@ -39,4 +39,19 @@ The list of Completed Data Structures (implemented and tested):
 
 ## General Advice
 
-1. Regarding
+1. **Regarding Fixed v/s Linked:** In general, the Fixed implementations tend to
+perform better than the Linked ones. Therefore, it is advised to use the Fixed
+version where-ever possible. If the there is no way to pre-determine the size
+requirement, Linked implementations must be used.
+
+2. **For more elements than can be held in an array:** Depending on the VM
+configuration, the Linked implementations *may* be able to accommodate more
+elements than their Fixed counter parts. However, an informed decision must
+be made and the performance must be analysed before accepting this as
+a final solution. Maybe you should try reducing the overhead of the data-type
+or maybe, splitting the data-set into smaller manageable pieces.
+
+3. **Custom ordering can be implemented:** The data-structures which force their
+data-types to be `Comparable` are designed to work with `Comparators`, which
+can be used to order the data in any desired way. By default, the natural ordering
+is applied.

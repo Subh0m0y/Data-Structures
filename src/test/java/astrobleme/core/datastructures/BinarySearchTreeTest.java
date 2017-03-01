@@ -42,7 +42,7 @@ public class BinarySearchTreeTest {
     private final int size = 1_000_000;
     private final int limit = size * 2;
     private final Random random = new Random();
-    private final Comparator<Integer> comparator = (a, b) -> b - a;
+    private final Comparator<Integer> comparator = Comparator.reverseOrder();
 
     private BinarySearchTree<Integer> tree;
     private Integer[] mirror;
