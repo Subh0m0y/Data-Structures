@@ -44,6 +44,13 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
     private Object[] data;
     private int size;
 
+    /**
+     * Creates a new blank binary heap with the given minimum capacity and
+     * the comparator to use for priority ordering.
+     *
+     * @param initialCapacity The required minimum capacity.
+     * @param comparator      The comparator to use for priority ordering.
+     */
     public BinaryHeap(final int initialCapacity, final Comparator<E> comparator) {
         super(comparator);
         data = new Object[initialCapacity];
@@ -65,6 +72,9 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
         heapify();
     }
 
+    /**
+     * Maintains the heap property after one element is added.
+     */
     @SuppressWarnings("unchecked")
     private void heapify() {
         int i = size - 1;
@@ -80,6 +90,9 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
         }
     }
 
+    /**
+     * Increases the capacity of the heap.
+     */
     private void resize() {
         int newSize = (int) (data.length * 1.5);
         Object[] newArray = new Object[newSize];
@@ -87,6 +100,13 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
         data = newArray;
     }
 
+    /**
+     * Returns the index of the given element in the heap. Useful during
+     * removal of elements.
+     *
+     * @param item The item to look for.
+     * @return
+     */
     @Override
     @SuppressWarnings("unchecked")
     protected int indexOf(final E item) {
@@ -132,6 +152,13 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
         return index >= 0 && removeIndex(index);
     }
 
+    /**
+     * Removes the element at the given index. Does not check the
+     * argument.
+     *
+     * @param indexToRemove The index of the element to remove.
+     * @return {@code true} if the item was successfully removed.
+     */
     @SuppressWarnings("unchecked")
     private boolean removeIndex(final int indexToRemove) {
         int index = indexToRemove;

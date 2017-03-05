@@ -142,6 +142,12 @@ public class PriorityQueue<E extends Comparable<E>> extends Queue<E> {
         return first;
     }
 
+    /**
+     * Adds the element to the Queue. Depending on its priority,
+     * it will be dequeued from the Queue.
+     *
+     * @param data The data to add to this queue.
+     */
     @Override
     public void enqueue(@NotNull final E data) {
         heap.insert(data);
@@ -160,6 +166,16 @@ public class PriorityQueue<E extends Comparable<E>> extends Queue<E> {
     @Override
     public long size() {
         return heap.size();
+    }
+
+    /**
+     * Checks if the given item is present in the Queue.
+     *
+     * @param item The item to look for in the Queue.
+     * @return {@code true} if the item is non-null and present.
+     */
+    public boolean contains(final E item) {
+        return item != null && heap.contains(item);
     }
 
     /**

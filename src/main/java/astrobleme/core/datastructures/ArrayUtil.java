@@ -22,6 +22,7 @@
 
 package astrobleme.core.datastructures;
 
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -47,17 +48,50 @@ public class ArrayUtil {
         }
     }
 
+    /**
+     * Swaps the two items in the given array as indicated by their indices.
+     *
+     * @param array  The backing array.
+     * @param index1 The index of the first element to swap.
+     * @param index2 The index of the second element to swap.
+     * @param <T>    The type of the array.
+     */
     public static <T> void swap(T[] array, int index1, int index2) {
         T data = array[index1];
         array[index1] = array[index2];
         array[index2] = data;
     }
 
+    /**
+     * Performs the Fischer-Yates shuffle on the given array.
+     *
+     * @param array  The array to shuffle.
+     * @param random The PRNG to use.
+     * @param <T>    The type of the array.
+     */
     public static <T> void shuffle(T[] array, Random random) {
         int length = array.length;
         for (int i = 0; i < length - 1; i++) {
             int j = random.nextInt(length - i - 1) + i + 1;
             swap(array, i, j);
         }
+    }
+
+    /**
+     * Checks if the given array is sorted.
+     *
+     * @param array      The array to check.
+     * @param comparator The comparator to use for checking order.
+     * @param <T>        The element type of the array.
+     * @return {@code true} if the array is sorted.
+     */
+    public static <T extends Comparable> boolean isSorted(T[] array,
+                                                          Comparator<T> comparator) {
+        for (int i = 1; i < array.length; i++) {
+            if (comparator.compare(array[i - 1], array[i]) > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }

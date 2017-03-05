@@ -53,6 +53,9 @@ public class PriorityQueueTest {
             queue.enqueue(mirror[i]);
             assertEquals(queue.size(), i + 1);
         }
+        for (int i = 0; i < 10; i++) {
+            assertTrue(queue.contains(mirror[i]));
+        }
         for (int i = 0; i < size; i++) {
             assertEquals(queue.peek().intValue(), i);
             assertEquals(queue.dequeue().intValue(), i);
@@ -72,6 +75,9 @@ public class PriorityQueueTest {
         for (int i = 0; i < size; i++) {
             queue.enqueue(mirror[i]);
             assertEquals(queue.size(), i + 1);
+        }
+        for (int i = 0; i < 10; i++) {
+            assertTrue(queue.contains(mirror[i]));
         }
         for (int i = size - 1; i >= 0; i--) {
             assertEquals(queue.peek().intValue(), i);
@@ -93,6 +99,9 @@ public class PriorityQueueTest {
             queue.enqueue(mirror[i]);
             assertEquals(queue.size(), i + 1);
         }
+        for (int i = 0; i < 10; i++) {
+            assertTrue(queue.contains(mirror[i]));
+        }
         for (int i = 0; i < size; i++) {
             assertEquals(queue.peek().intValue(), i);
             assertEquals(queue.dequeue().intValue(), i);
@@ -112,6 +121,9 @@ public class PriorityQueueTest {
         for (int i = 0; i < size; i++) {
             queue.enqueue(mirror[i]);
             assertEquals(queue.size(), i + 1);
+        }
+        for (int i = 0; i < 10; i++) {
+            assertTrue(queue.contains(mirror[i]));
         }
         for (int i = size - 1; i >= 0; i--) {
             assertEquals(queue.peek().intValue(), i);
