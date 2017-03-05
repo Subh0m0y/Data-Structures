@@ -22,8 +22,6 @@
 
 package astrobleme.core.datastructures.heaps;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -99,7 +97,7 @@ public abstract class Heap<E extends Comparable<E>> {
      * @param item The non-null item to search for.
      * @return {@code true} if the item is present.
      */
-    public boolean contains(@NotNull final E item) {
+    public boolean contains(final E item) {
         return indexOf(Objects.requireNonNull(item)) > -1;
     }
 

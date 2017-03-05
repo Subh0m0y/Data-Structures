@@ -22,8 +22,6 @@
 
 package astrobleme.core.datastructures.heaps;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -64,7 +62,7 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
     }
 
     @Override
-    public void insert(@NotNull final E item) {
+    public void insert(final E item) {
         if (size == data.length) {
             resize();
         }
@@ -100,13 +98,6 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
         data = newArray;
     }
 
-    /**
-     * Returns the index of the given element in the heap. Useful during
-     * removal of elements.
-     *
-     * @param item The item to look for.
-     * @return
-     */
     @Override
     @SuppressWarnings("unchecked")
     protected int indexOf(final E item) {
@@ -147,7 +138,7 @@ public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
     }
 
     @Override
-    public boolean remove(@NotNull final E item) {
+    public boolean remove(final E item) {
         int index = indexOf(Objects.requireNonNull(item));
         return index >= 0 && removeIndex(index);
     }

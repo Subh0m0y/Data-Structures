@@ -25,7 +25,6 @@ package astrobleme.core.datastructures;
 import astrobleme.core.datastructures.exceptions.UnderflowException;
 import astrobleme.core.datastructures.heaps.BinaryHeap;
 import astrobleme.core.datastructures.heaps.Heap;
-import com.sun.istack.internal.NotNull;
 
 import java.util.Comparator;
 
@@ -149,7 +148,7 @@ public class PriorityQueue<E extends Comparable<E>> extends Queue<E> {
      * @param data The data to add to this queue.
      */
     @Override
-    public void enqueue(@NotNull final E data) {
+    public void enqueue(final E data) {
         heap.insert(data);
     }
 

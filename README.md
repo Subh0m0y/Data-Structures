@@ -36,6 +36,7 @@ The list of Completed Data Structures (implemented and tested):
 3. FixedQueue
 4. LinkedQueue
 5. BinarySearchTree (basic structure for other trees to build on)
+6. PriorityQueue (with a binary heap backing it)
 
 ## General Advice
 
