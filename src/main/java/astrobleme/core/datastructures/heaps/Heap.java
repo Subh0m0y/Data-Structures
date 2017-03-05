@@ -20,44 +20,42 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.heaps;
 
-import java.util.Random;
+import java.util.Comparator;
 
 /**
- * A utility class that performs operation on arrays.
- *
  * @author Subhomoy Haldar
- * @version 2017.02.15
+ * @version 2017.03.05
  */
-public class ArrayUtil {
-    /**
-     * Reverses the elements of the given array within the specified range.
-     *
-     * @param a    The array to change.
-     * @param from The starting index (inclusive).
-     * @param to   The ending index (exclusive).
-     * @param <T>  The type of the array.
-     */
-    public static <T> void reverse(T[] a, int from, int to) {
-        for (int i = from, j = to - 1; i < j; i++, j--) {
-            T temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
+public abstract class Heap<E extends Comparable<E>> {
+    protected final Comparator<E> comparator;
+
+    Heap(final Comparator<E> comparator) {
+        this.comparator = comparator;
     }
 
-    public static <T> void swap(T[] array, int index1, int index2) {
-        T data = array[index1];
-        array[index1] = array[index2];
-        array[index2] = data;
+    protected int parent(final int index) {
+        return (index - 1) / 2;
     }
 
-    public static <T> void shuffle(T[] array, Random random) {
-        int length = array.length;
-        for (int i = 0; i < length - 1; i++) {
-            int j = random.nextInt(length - i - 1) + i + 1;
-            swap(array, i, j);
-        }
+    protected int left(final int index) {
+        return 1 + (index << 1);
     }
+
+    protected int right(final int index) {
+        return 2 + (index << 1);
+    }
+
+    public abstract E first();
+
+    public abstract void insert(final E item);
+
+    protected abstract int indexOf(final E item);
+
+    public abstract boolean remove(final E item);
+
+    public abstract int size();
+
+    public abstract Heap<E> copy();
 }

@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.heaps;
 
 import com.sun.istack.internal.NotNull;
 
@@ -40,39 +40,28 @@ import static astrobleme.core.datastructures.ArrayUtil.swap;
  * @author Subhomoy Haldar
  * @version 2017.03.02
  */
-class Heap<E extends Comparable<E>> {
+public class BinaryHeap<E extends Comparable<E>> extends Heap<E> {
     private Object[] data;
     private int size;
-    private final Comparator<E> comparator;
 
-    Heap(final int initialCapacity, final Comparator<E> comparator) {
+    public BinaryHeap(final int initialCapacity, final Comparator<E> comparator) {
+        super(comparator);
         data = new Object[initialCapacity];
         size = 0;
-        this.comparator = comparator;
     }
 
-    private int parent(final int index) {
-        return (index - 1) / 2;
-    }
-
-    private int left(final int index) {
-        return 1 + (index << 1);
-    }
-
-    private int right(final int index) {
-        return 2 + (index << 1);
-    }
-
+    @Override
     @SuppressWarnings("unchecked")
-    E first() {
+    public E first() {
         return (E) data[0];
     }
 
-    void insert(@NotNull final E value) {
+    @Override
+    public void insert(@NotNull final E item) {
         if (size == data.length) {
             resize();
         }
-        data[size++] = Objects.requireNonNull(value);
+        data[size++] = Objects.requireNonNull(item);
         heapify();
     }
 
@@ -98,8 +87,9 @@ class Heap<E extends Comparable<E>> {
         data = newArray;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    private int indexOf(final E item) {
+    protected int indexOf(final E item) {
         // index is the location of the current element being examined
         int index = 0;
         // This stores the number of nodes in each level
@@ -136,13 +126,14 @@ class Heap<E extends Comparable<E>> {
         return -1;
     }
 
-    boolean remove(@NotNull final E item) {
+    @Override
+    public boolean remove(@NotNull final E item) {
         int index = indexOf(Objects.requireNonNull(item));
         return index >= 0 && removeIndex(index);
     }
 
     @SuppressWarnings("unchecked")
-    boolean removeIndex(final int indexToRemove) {
+    private boolean removeIndex(final int indexToRemove) {
         int index = indexToRemove;
         size--;
         if (size == 0) {
@@ -163,24 +154,22 @@ class Heap<E extends Comparable<E>> {
             index = nextIndex;
             // Update all helpers
             left = left(index);
-            // Prevent ArrayIndexOutOfBoundsException
-            if (left >= size) {
-                return true;
-            }
             right = right(index);
             current = (E) data[index];
         }
         return true;
     }
 
-    int size() {
+    @Override
+    public int size() {
         return size;
     }
 
-    Heap<E> copy() {
+    @Override
+    public BinaryHeap<E> copy() {
         Object[] array = new Object[data.length];
         System.arraycopy(data, 0, array, 0, size);
-        Heap<E> heap = new Heap<>(data.length, comparator);
+        BinaryHeap<E> heap = new BinaryHeap<>(data.length, comparator);
         heap.data = array;
         heap.size = size;
         return heap;

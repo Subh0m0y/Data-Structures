@@ -22,9 +22,9 @@
 
 package astrobleme.core.datastructures;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Comparator;
 import java.util.Random;
 
 import static org.testng.Assert.*;
@@ -41,14 +41,10 @@ public class PriorityQueueTest {
     private PriorityQueue<Integer> queue;
     private Integer[] mirror;
 
-    @BeforeMethod
-    public void setUp() throws Exception {
-        queue = new PriorityQueue<>(size);
-        mirror = new Integer[size];
-    }
-
     @Test
     public void testAll() throws Exception {
+        queue = new PriorityQueue<>(size);
+        mirror = new Integer[size];
         for (int i = 0; i < size; i++) {
             mirror[i] = i;
         }
@@ -61,5 +57,67 @@ public class PriorityQueueTest {
             assertEquals(queue.peek().intValue(), i);
             assertEquals(queue.dequeue().intValue(), i);
         }
+        queue.clear();
+        assertEquals(queue.size(), 0);
+    }
+
+    @Test
+    public void testReverse() throws Exception {
+        queue = new PriorityQueue<>(size, Comparator.<Integer>reverseOrder());
+        mirror = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            mirror[i] = size - i - 1;
+        }
+        ArrayUtil.shuffle(mirror, random);
+        for (int i = 0; i < size; i++) {
+            queue.enqueue(mirror[i]);
+            assertEquals(queue.size(), i + 1);
+        }
+        for (int i = size - 1; i >= 0; i--) {
+            assertEquals(queue.peek().intValue(), i);
+            assertEquals(queue.dequeue().intValue(), i);
+        }
+        queue.clear();
+        assertEquals(queue.size(), 0);
+    }
+
+    @Test
+    public void testAllWithResize() throws Exception {
+        queue = new PriorityQueue<>();
+        mirror = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            mirror[i] = i;
+        }
+        ArrayUtil.shuffle(mirror, random);
+        for (int i = 0; i < size; i++) {
+            queue.enqueue(mirror[i]);
+            assertEquals(queue.size(), i + 1);
+        }
+        for (int i = 0; i < size; i++) {
+            assertEquals(queue.peek().intValue(), i);
+            assertEquals(queue.dequeue().intValue(), i);
+        }
+        queue.clear();
+        assertEquals(queue.size(), 0);
+    }
+
+    @Test
+    public void testReverseWithResize() throws Exception {
+        queue = new PriorityQueue<>(Comparator.<Integer>reverseOrder());
+        mirror = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            mirror[i] = size - i - 1;
+        }
+        ArrayUtil.shuffle(mirror, random);
+        for (int i = 0; i < size; i++) {
+            queue.enqueue(mirror[i]);
+            assertEquals(queue.size(), i + 1);
+        }
+        for (int i = size - 1; i >= 0; i--) {
+            assertEquals(queue.peek().intValue(), i);
+            assertEquals(queue.dequeue().intValue(), i);
+        }
+        queue.clear();
+        assertEquals(queue.size(), 0);
     }
 }
