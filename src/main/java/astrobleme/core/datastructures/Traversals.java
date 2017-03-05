@@ -25,6 +25,13 @@ package astrobleme.core.datastructures;
 import astrobleme.core.datastructures.nodes.BinaryNode;
 
 /**
+ * A class that generates traversal queues for various data structures,
+ * like Trees and Heaps. It is refactored out to provide modularity.
+ * <p>
+ * The required traversals are returned as Queues which can be used to
+ * access the items. These queues are independent from the data-structures
+ * they were generated from.
+ *
  * @author Subhomoy Haldar
  * @version 2017.02.28
  */

@@ -22,42 +22,44 @@
 
 package astrobleme.core.datastructures;
 
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import java.util.Random;
 
+import static org.testng.Assert.*;
+
 /**
- * A utility class that performs operation on arrays.
- *
  * @author Subhomoy Haldar
- * @version 2017.02.15
+ * @version 2017.03.05
  */
-class ArrayUtil {
-    /**
-     * Reverses the elements of the given array within the specified range.
-     *
-     * @param a    The array to change.
-     * @param from The starting index (inclusive).
-     * @param to   The ending index (exclusive).
-     * @param <T>  The type of the array.
-     */
-    static <T> void reverse(T[] a, int from, int to) {
-        for (int i = from, j = to - 1; i < j; i++, j--) {
-            T temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
+public class PriorityQueueTest {
+    private final int size = 1_000_000;
+    //    private final int limit = size * 2;
+    private final Random random = new Random();
+
+    private PriorityQueue<Integer> queue;
+    private Integer[] mirror;
+
+    @BeforeMethod
+    public void setUp() throws Exception {
+        queue = new PriorityQueue<>(size);
+        mirror = new Integer[size];
+    }
+
+    @Test
+    public void testAll() throws Exception {
+        for (int i = 0; i < size; i++) {
+            mirror[i] = i;
         }
-    }
-
-    static <T> void swap(T[] array, int index1, int index2) {
-        T data = array[index1];
-        array[index1] = array[index2];
-        array[index2] = data;
-    }
-
-    static <T> void shuffle(T[] array, Random random) {
-        int length = array.length;
-        for (int i = 0; i < length - 1; i++) {
-            int j = random.nextInt(length - i - 1) + i + 1;
-            swap(array, i, j);
+        ArrayUtil.shuffle(mirror, random);
+        for (int i = 0; i < size; i++) {
+            queue.enqueue(mirror[i]);
+            assertEquals(queue.size(), i + 1);
+        }
+        for (int i = 0; i < size; i++) {
+            assertEquals(queue.peek().intValue(), i);
+            assertEquals(queue.dequeue().intValue(), i);
         }
     }
 }
