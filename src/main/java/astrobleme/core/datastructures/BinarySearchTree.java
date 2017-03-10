@@ -37,7 +37,7 @@ import java.util.Objects;
  */
 public class BinarySearchTree<E extends Comparable<E>> extends Container<E> {
     private final Comparator<E> comparator;
-    protected BinaryNode<E> root;
+    BinaryNode<E> root;
     private long size;
 
     /**

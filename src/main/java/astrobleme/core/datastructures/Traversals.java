@@ -35,7 +35,7 @@ import astrobleme.core.datastructures.nodes.BinaryNode;
  * @author Subhomoy Haldar
  * @version 2017.02.28
  */
-public class Traversals {
+class Traversals {
     /**
      * Returns a new Queue as per the size of the given Tree.
      *
@@ -56,7 +56,7 @@ public class Traversals {
      * @return A Queue with the elements in the order that would
      * be obtained by a pre-order traversal of the Tree.
      */
-    public static <E extends Comparable<E>> Queue<E> preOrder(BinarySearchTree<E> tree) {
+    static <E extends Comparable<E>> Queue<E> preOrder(BinarySearchTree<E> tree) {
         Queue<E> queue = newQueue(tree);
         preOrder(tree.root, queue);
         return queue;
@@ -69,7 +69,7 @@ public class Traversals {
      * @return A Queue with the elements in the order that would
      * be obtained by a post-order traversal of the Tree.
      */
-    public static <E extends Comparable<E>> Queue<E> postOrder(BinarySearchTree<E> tree) {
+    static <E extends Comparable<E>> Queue<E> postOrder(BinarySearchTree<E> tree) {
         Queue<E> queue = newQueue(tree);
         postOrder(tree.root, queue);
         return queue;
@@ -82,7 +82,7 @@ public class Traversals {
      * @return A Queue with the elements in the order that would
      * be obtained by an in-order traversal of the Tree.
      */
-    public static <E extends Comparable<E>> Queue<E> inOrder(BinarySearchTree<E> tree) {
+    static <E extends Comparable<E>> Queue<E> inOrder(BinarySearchTree<E> tree) {
         Queue<E> queue = newQueue(tree);
         inOrder(tree.root, queue);
         return queue;
@@ -142,7 +142,7 @@ public class Traversals {
      *
      * @return The queue to store elements yielded by the BFS.
      */
-    public static <E extends Comparable<E>> Queue<E> bfs(BinarySearchTree<E> tree) {
+    static <E extends Comparable<E>> Queue<E> bfs(BinarySearchTree<E> tree) {
         Queue<E> visited = newQueue(tree);
         Queue<BinaryNode<E>> unvisited = newQueue(tree);
         BinaryNode<E> node = tree.root;

@@ -36,7 +36,7 @@ public abstract class Heap<E extends Comparable<E>> {
     /**
      * This comparator determines the order of the priorities.
      */
-    protected final Comparator<E> comparator;
+    final Comparator<E> comparator;
 
     /**
      * @param comparator The comparator needed for every comparison.
@@ -51,7 +51,7 @@ public abstract class Heap<E extends Comparable<E>> {
      * @param index The index whose parent to find.
      * @return The parent index of the given index.
      */
-    protected int parent(final int index) {
+    int parent(final int index) {
         return (index - 1) / 2; // NOTE: (index - 1) >>> 1 doesn't work
     }
 
@@ -61,7 +61,7 @@ public abstract class Heap<E extends Comparable<E>> {
      * @param index The index whose left child to find.
      * @return The index of the left child of the given index.
      */
-    protected int left(final int index) {
+    int left(final int index) {
         return 1 + (index << 1);
     }
 
@@ -71,7 +71,7 @@ public abstract class Heap<E extends Comparable<E>> {
      * @param index The index whose right child to find.
      * @return The index of the right child of the given index.
      */
-    protected int right(final int index) {
+    int right(final int index) {
         return 2 + (index << 1);
     }
 
