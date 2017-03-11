@@ -42,7 +42,8 @@ public class BinaryNode<E extends Comparable<E>> {
      * Creates a new BinaryNode with the given data and no
      * children.
      *
-     * @param data The data for this Node.
+     * @param parent The parent for this Node (maybe null).
+     * @param data   The data for this Node.
      */
     public BinaryNode(final BinaryNode<E> parent, final E data) {
         this.parent = parent;

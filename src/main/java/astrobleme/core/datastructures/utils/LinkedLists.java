@@ -60,6 +60,7 @@ public class LinkedLists {
      * @param size  The size to traverse. It won't go any further.
      * @param array The array to store the data in, if it's big enough.
      * @param <E>   The type of data the Node stores.
+     * @param <T>   The type of array we need.
      * @return An array of the given size, with the Linked List's elements.
      */
     @SuppressWarnings("unchecked")
