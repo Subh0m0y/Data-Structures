@@ -20,8 +20,10 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.queues;
 
+import astrobleme.core.datastructures.queues.PriorityQueue;
+import astrobleme.core.datastructures.utils.ArrayUtil;
 import org.testng.annotations.Test;
 
 import java.util.Comparator;

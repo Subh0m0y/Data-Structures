@@ -20,8 +20,10 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.stacks;
 
+import astrobleme.core.datastructures.stacks.LinkedStack;
+import astrobleme.core.datastructures.stacks.Stack;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -36,51 +38,45 @@ import static org.testng.Assert.*;
  * @author Subhomoy Haldar
  * @version 2017.02.24
  */
-public class FixedQueueTest {
+public class LinkedStackTest {
 
     private final int size = 1_000_000;
     private final int limit = size * 2;
     private final Random random = new Random();
 
-    private FixedQueue<Integer> queue;
+    private LinkedStack<Integer> stack;
     private Integer[] mirror;
 
     @BeforeMethod
     public void setUp() throws Exception {
-        queue = new FixedQueue<>(size);
+        stack = new LinkedStack<>();
         mirror = new Integer[size];
-        // Randomly enqueue some elements to see how
-        // resetting works
-        for (int i = 0; i < size; i++) {
-            queue.enqueue(i);
-        }
-        for (int i = 0; i < size; i++) {
+        for (int i = size - 1; i >= 0; i--) {
             int randomInt = random.nextInt(limit);
             mirror[i] = randomInt;
-            queue.dequeue();
-            queue.enqueue(randomInt);
+            stack.push(randomInt);
         }
     }
 
     @Test
     public void testSize() throws Exception {
-        assertEquals(size, queue.size());
+        assertEquals(size, stack.size());
     }
 
     @Test
-    public void testEnqueue() throws Exception {
+    public void testPush() throws Exception {
         mirror = new Integer[size];
-        queue.clear();
-        assertTrue(queue.isEmpty());
-        for (int i = 0; i < size; i++) {
+        stack.clear();
+        assertTrue(stack.isEmpty());
+        for (int i = 0, j = size - 1; i < size; i++, j--) {
             int randomInt = random.nextInt(limit);
-            queue.enqueue(randomInt);
-            mirror[i] = randomInt;
-            assertEquals(i + 1, queue.size());
+            stack.push(randomInt);
+            mirror[j] = randomInt;
+            assertEquals(randomInt, stack.peek().intValue());
+            assertEquals(i + 1, stack.size());
         }
         for (int element : mirror) {
-            assertEquals(element, queue.peek().intValue());
-            assertEquals(element, queue.dequeue().intValue());
+            assertEquals(element, stack.pop().intValue());
         }
     }
 
@@ -88,24 +84,24 @@ public class FixedQueueTest {
     public void testToArray() throws Exception {
         Object[] array = new Object[size];
         System.arraycopy(mirror, 0, array, 0, size);
-        assertEquals(array, queue.toArray());
-        assertEquals(mirror, queue.toArray(new Integer[size]));
+        assertEquals(array, stack.toArray());
+        assertEquals(mirror, stack.toArray(new Integer[size]));
     }
 
     @Test
     public void testCopy() throws Exception {
-        Queue<Integer> copy = queue.copy();
-        assertEquals(copy, queue);
+        Stack<Integer> copy = stack.copy();
+        assertEquals(copy, stack);
         assertEquals(copy.toArray(new Integer[size]), mirror);
     }
 
     @Test
     public void testWillProbablyFitArray() throws Exception {
-        assertTrue(queue.willProbablyFitArray());
+        assertTrue(stack.willProbablyFitArray());
     }
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(Arrays.toString(mirror), queue.toString());
+        assertEquals(Arrays.toString(mirror), stack.toString());
     }
 }

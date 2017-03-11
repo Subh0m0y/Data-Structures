@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.utils;
 
 import astrobleme.core.datastructures.nodes.SinglyLinkedNode;
 
@@ -31,7 +31,7 @@ import astrobleme.core.datastructures.nodes.SinglyLinkedNode;
  * @author Subhomoy Haldar
  * @version 2017.02.28
  */
-class LinkedLists {
+public class LinkedLists {
     /**
      * Starting with the given node, it converts the Linked List to
      * an Object array of the expected size.
@@ -41,7 +41,7 @@ class LinkedLists {
      * @param <E>  The type of data the Node stores.
      * @return An array of the given size, with the Linked List's elements.
      */
-    static <E> Object[] toArray(SinglyLinkedNode<E> node, int size) {
+    public static <E> Object[] toArray(SinglyLinkedNode<E> node, int size) {
         Object[] array = new Object[size];
         int index = 0;
         SinglyLinkedNode<E> current = node;
@@ -63,7 +63,7 @@ class LinkedLists {
      * @return An array of the given size, with the Linked List's elements.
      */
     @SuppressWarnings("unchecked")
-    static <T, E> T[] toArray(T[] array, SinglyLinkedNode<E> node, int size) {
+    public static <T, E> T[] toArray(T[] array, SinglyLinkedNode<E> node, int size) {
         T[] container;
         container = array.length > size ? array : (T[]) java.lang.reflect.Array.newInstance(
                 array.getClass().getComponentType(), size
@@ -84,7 +84,7 @@ class LinkedLists {
      * @param copy     The start of the list to copy into.
      * @param <E>      The type of data stored by the node.
      */
-    static <E> void copy(SinglyLinkedNode<E> original, SinglyLinkedNode<E> copy) {
+    public static <E> void copy(SinglyLinkedNode<E> original, SinglyLinkedNode<E> copy) {
         while (original.getNext() != null) {
             // Progress to the next node of this stack and get ready
             // to link it to the node of the new stack.
@@ -99,7 +99,7 @@ class LinkedLists {
      * @param node2 The second linked list's node.
      * @return {@code true} if the lists are identical.
      */
-    static boolean areEqual(SinglyLinkedNode node1, SinglyLinkedNode node2) {
+    public static boolean areEqual(SinglyLinkedNode node1, SinglyLinkedNode node2) {
         // Iterate until one of them gets exhausted
         while (node1 != null && node2 != null) {
             // Safe guard against null data

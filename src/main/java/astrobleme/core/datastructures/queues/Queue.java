@@ -20,8 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.queues;
 
+import astrobleme.core.datastructures.Container;
 import astrobleme.core.datastructures.exceptions.OverflowException;
 import astrobleme.core.datastructures.exceptions.UnderflowException;
 

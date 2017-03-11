@@ -20,8 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.stacks;
 
+import astrobleme.core.datastructures.utils.ArrayUtil;
 import astrobleme.core.datastructures.exceptions.OverflowException;
 import astrobleme.core.datastructures.exceptions.UnderflowException;
 
@@ -169,7 +170,7 @@ public class FixedStack<E> extends Stack<E> {
      */
     @Override
     public Stack<E> copy() {
-        FixedStack<E> copy = new FixedStack<E>(a.length);
+        FixedStack<E> copy = new FixedStack<>(a.length);
         System.arraycopy(a, 0, copy.a, 0, a.length);
         copy.top = top;
         return copy;

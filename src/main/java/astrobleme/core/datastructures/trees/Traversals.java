@@ -20,9 +20,12 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.trees;
 
 import astrobleme.core.datastructures.nodes.BinaryNode;
+import astrobleme.core.datastructures.queues.FixedQueue;
+import astrobleme.core.datastructures.queues.LinkedQueue;
+import astrobleme.core.datastructures.queues.Queue;
 
 /**
  * A class that generates traversal queues for various data structures,

@@ -20,8 +20,10 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.queues;
 
+import astrobleme.core.datastructures.queues.LinkedQueue;
+import astrobleme.core.datastructures.queues.Queue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

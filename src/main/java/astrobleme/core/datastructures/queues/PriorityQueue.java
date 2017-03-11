@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.queues;
 
 import astrobleme.core.datastructures.exceptions.UnderflowException;
 import astrobleme.core.datastructures.heaps.BinaryHeap;

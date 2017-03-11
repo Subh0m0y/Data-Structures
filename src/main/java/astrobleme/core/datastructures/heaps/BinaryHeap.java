@@ -25,7 +25,7 @@ package astrobleme.core.datastructures.heaps;
 import java.util.Comparator;
 import java.util.Objects;
 
-import static astrobleme.core.datastructures.ArrayUtil.swap;
+import static astrobleme.core.datastructures.utils.ArrayUtil.swap;
 
 /**
  * Represents a simple, MinHeap that is capable of working with

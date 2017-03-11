@@ -20,39 +20,43 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.queues;
 
 import astrobleme.core.datastructures.exceptions.OverflowException;
 import astrobleme.core.datastructures.exceptions.UnderflowException;
-import astrobleme.core.datastructures.nodes.SinglyLinkedNode;
 
 /**
- * A Linked-List based implementation of a Queue that has the potential to
- * store more elements than an array can (depending on the VM configuration).
+ * An array-based implementation of a Queue that has a fixed capacity.
+ * It is designed to be light-weight and fast as well.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.25
+ * @version 2017.02.24
  */
-public class LinkedQueue<E> extends Queue<E> {
-    private SinglyLinkedNode<E> front;
-    private SinglyLinkedNode<E> rear;
-    private long size;
+public class FixedQueue<E> extends Queue<E> {
+    private final Object[] a;
+    private int front;
+    private int rear;
+    private int size;
 
     /**
-     * Creates a new empty Queue.
+     * Creates a new Queue with the given capacity.
+     * <p>
+     * <b>NOTE:</b> The capacity must be non-negative.
+     *
+     * @param capacity The required non-negative capacity.
      */
-    public LinkedQueue() {
-        front = rear = null;
+    public FixedQueue(final int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Capacity must be non-negative.");
+        }
+        a = new Object[capacity];
+        front = rear = -1;
         size = 0;
     }
 
     /**
      * Returns the number of elements currently in the Queue. It is
      * guaranteed to be a non-negative number.
-     * <p>
-     * <b>NOTE:</b> If the number of elements exceeds
-     * {@link Long#MAX_VALUE Long#MAX_VALUE}, then it will return
-     * {@code Long#MAX_VALUE}.
      *
      * @return The number of elements in this Queue.
      */
@@ -72,14 +76,18 @@ public class LinkedQueue<E> extends Queue<E> {
      */
     @Override
     public void enqueue(E element) throws OverflowException {
-        SinglyLinkedNode<E> node = new SinglyLinkedNode<>(element);
-        if (front == null) {
-            // No elements
-            front = rear = node;
+        if (front == -1) {
+            // This means that the Queue is empty
+            front = 0;
+            rear = 0;
         } else {
-            rear.setNext(node);
-            rear = node;
+            // Increment the rear with a wrap-around
+            rear = (rear + 1) % a.length;
+            if (rear == front) {
+                throw new OverflowException(a.length);
+            }
         }
+        a[rear] = element;
         size++;
     }
 
@@ -92,14 +100,22 @@ public class LinkedQueue<E> extends Queue<E> {
      * @throws UnderflowException If the Queue has no elements.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public E dequeue() throws UnderflowException {
-        if (front == null) {
+        if (front == -1) {
+            // Queue is empty
             throw new UnderflowException();
         }
-        E data = front.data;
-        front = front.getNext();
+        E element = (E) a[front];
+        a[front] = null;    // Remove the reference to help GC
+        if (front == rear) {
+            // Reset to the beginning
+            front = rear = -1;
+        } else {
+            front = (front + 1) % a.length;
+        }
         size--;
-        return data;
+        return element;
     }
 
     /**
@@ -110,8 +126,9 @@ public class LinkedQueue<E> extends Queue<E> {
      * @return The front-most element of the Queue.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public E peek() {
-        return front == null ? null : front.data;
+        return front == -1 ? null : (E) a[front];
     }
 
     /**
@@ -124,10 +141,19 @@ public class LinkedQueue<E> extends Queue<E> {
      */
     @Override
     public Object[] toArray() {
-        if (!willProbablyFitArray()) {
-            return null;
+        if (front == -1) {
+            // An empty array for an empty Queue
+            return new Object[0];
         }
-        return LinkedLists.toArray(front, (int) size);
+        Object[] elements = new Object[size];
+        if (front <= rear) {
+            System.arraycopy(a, front, elements, 0, size);
+        } else {
+            int separator = a.length - front;
+            System.arraycopy(a, front, elements, 0, separator);
+            System.arraycopy(a, 0, elements, separator, rear + 1);
+        }
+        return elements;
     }
 
     /**
@@ -144,13 +170,21 @@ public class LinkedQueue<E> extends Queue<E> {
      * @throws ClassCastException If the elements cannot be converted to
      *                            the given type.
      */
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public <T extends E> T[] toArray(T[] array) throws ClassCastException {
-        if (!willProbablyFitArray()) {
-            return null;
+        T[] container;
+        if (array.length >= size) {
+            container = array;
+        } else {
+            container = (T[]) java.lang.reflect.Array.newInstance(
+                    array.getClass().getComponentType(), size
+            );
         }
-        return LinkedLists.toArray(array, front, (int) size);
+        for (int i = front, j = 0; j < size; i = (i + 1) % a.length, j++) {
+            container[j] = (T) a[i];
+        }
+        return container;
     }
 
     /**
@@ -161,29 +195,11 @@ public class LinkedQueue<E> extends Queue<E> {
      */
     @Override
     public Queue<E> copy() {
-        SinglyLinkedNode<E> front2 = new SinglyLinkedNode<>(front.data);
-        LinkedLists.copy(front, front2);
-        LinkedQueue<E> copy = new LinkedQueue<>();
-        copy.front = front2;
+        FixedQueue<E> copy = new FixedQueue<>(a.length);
+        System.arraycopy(a, 0, copy.a, 0, a.length);
+        copy.front = front;
+        copy.rear = rear;
         copy.size = size;
         return copy;
-    }
-
-    /**
-     * Override of the standard implementation, allowing for checking potentially
-     * large LinkedQueues reliably.
-     *
-     * @param object The object to check against.
-     * @return {@code true} if the given object is a LinkedQueue and has the same
-     * elements in the required order.
-     */
-    @Override
-    public boolean equals(Object object) {
-        // Same reason as LinkedStack
-        if (!(object instanceof LinkedQueue)) {
-            return super.equals(object);
-        }
-        LinkedQueue queue = (LinkedQueue) object;
-        return size == queue.size && LinkedLists.areEqual(front, queue.front);
     }
 }

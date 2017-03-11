@@ -20,8 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.stacks;
 
+import astrobleme.core.datastructures.utils.LinkedLists;
 import astrobleme.core.datastructures.exceptions.OverflowException;
 import astrobleme.core.datastructures.exceptions.UnderflowException;
 import astrobleme.core.datastructures.nodes.SinglyLinkedNode;

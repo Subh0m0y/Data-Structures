@@ -20,8 +20,10 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.stacks;
 
+import astrobleme.core.datastructures.stacks.FixedStack;
+import astrobleme.core.datastructures.stacks.Stack;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -31,23 +33,23 @@ import java.util.Random;
 import static org.testng.Assert.*;
 
 /**
- * Trivial test cases.
+ * Mostly trivial test cases.
  *
  * @author Subhomoy Haldar
- * @version 2017.02.24
+ * @version 2017.02.15
  */
-public class LinkedStackTest {
+public class FixedStackTest {
 
     private final int size = 1_000_000;
     private final int limit = size * 2;
     private final Random random = new Random();
 
-    private LinkedStack<Integer> stack;
+    private FixedStack<Integer> stack;
     private Integer[] mirror;
 
     @BeforeMethod
     public void setUp() throws Exception {
-        stack = new LinkedStack<>();
+        stack = new FixedStack<>(size);
         mirror = new Integer[size];
         for (int i = size - 1; i >= 0; i--) {
             int randomInt = random.nextInt(limit);

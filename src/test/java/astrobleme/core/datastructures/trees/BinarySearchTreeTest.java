@@ -20,15 +20,16 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.trees;
 
+import astrobleme.core.datastructures.trees.BinarySearchTree;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
-import static astrobleme.core.datastructures.Traversals.*;
+import static astrobleme.core.datastructures.trees.Traversals.*;
 import static org.testng.Assert.*;
 
 /**

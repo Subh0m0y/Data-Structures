@@ -20,8 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package astrobleme.core.datastructures;
+package astrobleme.core.datastructures.trees;
 
+import astrobleme.core.datastructures.Container;
 import astrobleme.core.datastructures.exceptions.UnderflowException;
 import astrobleme.core.datastructures.nodes.BinaryNode;
 
