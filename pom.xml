@@ -24,9 +24,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>astrobleme.core</groupId>
+    <groupId>com.github.subh0m0y</groupId>
     <artifactId>datastructures</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <build>
         <plugins>
             <plugin>
@@ -34,8 +34,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.9</source>
+                    <target>1.9</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -109,7 +109,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.11</version>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 </project>

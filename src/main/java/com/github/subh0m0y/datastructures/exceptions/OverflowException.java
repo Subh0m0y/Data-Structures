@@ -20,39 +20,38 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-import com.github.subh0m0y.datastructures.queues.PriorityQueue;
-import com.github.subh0m0y.datastructures.utils.ArrayUtil;
-
-import java.util.Comparator;
-import java.util.Random;
+package com.github.subh0m0y.datastructures.exceptions;
 
 /**
+ * A custom Exception to define if the Stack or Queue or any other Container
+ * has run out of space (which may happen in case of a FixedStack or if the number of
+ * elements is too large, comparable to {@link Integer#MAX_VALUE}).
+ *
  * @author Subhomoy Haldar
- * @version 2017.02.05
+ * @version 2017.02.07
  */
-public class Test {
-    private static final int SIZE = 1_000_000;
-    private static Integer[] array = new Integer[SIZE];
+public class OverflowException extends RuntimeException {
+    private final int maxSize;
 
-    public static void main(String[] args) {
-        for (int i = 0; i < SIZE; i++) {
-            array[i] = i;
-        }
-        ArrayUtil.shuffle(args, new Random());
-        long time = System.nanoTime();
-        pqSort();               // around 2.2 s
-        //Arrays.sort(array);   // around 0.02 s (yes I know, stop laughing)
-        time = System.nanoTime() - time;
-        assert ArrayUtil.isSorted(array, Comparator.naturalOrder());
-        System.out.println(time * 1e-9);
+    /**
+     * Creates a custom Exception with fixed size or -1 if it is expandable.
+     *
+     * @param size The capacity of the Stack or -1 to indicate an expandable
+     *             Collection.
+     */
+    public OverflowException(final int size) {
+        maxSize = size;
     }
 
-    private static void pqSort() {
-        PriorityQueue<Integer> queue = new PriorityQueue<>(SIZE);
-        for (Integer element : array) {
-            queue.enqueue(element);
-        }
-        array = queue.toArray(array);
+    /**
+     * Returns the message that is displayed when the Exception is thrown.
+     *
+     * @return The message that is displayed when the Exception is thrown.
+     */
+    @Override
+    public String getMessage() {
+        return maxSize != -1
+                ? "Cannot store any more elements in Container of size : " + maxSize
+                : "Too many elements, cannot accommodate.";
     }
 }

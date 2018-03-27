@@ -20,39 +20,51 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-import com.github.subh0m0y.datastructures.queues.PriorityQueue;
-import com.github.subh0m0y.datastructures.utils.ArrayUtil;
-
-import java.util.Comparator;
-import java.util.Random;
+package com.github.subh0m0y.datastructures.nodes;
 
 /**
+ * A simple, re-usable wrapper that contains an element and one pointer to
+ * the "next" SinglyLinkedNode.
+ *
  * @author Subhomoy Haldar
- * @version 2017.02.05
+ * @version 2017.02.15
  */
-public class Test {
-    private static final int SIZE = 1_000_000;
-    private static Integer[] array = new Integer[SIZE];
+public class SinglyLinkedNode<E> {
+    /**
+     * This is the data that this Node wraps. Made public and
+     * final for easy and safe usage.
+     */
+    public final E data;
+    private SinglyLinkedNode<E> next;
 
-    public static void main(String[] args) {
-        for (int i = 0; i < SIZE; i++) {
-            array[i] = i;
-        }
-        ArrayUtil.shuffle(args, new Random());
-        long time = System.nanoTime();
-        pqSort();               // around 2.2 s
-        //Arrays.sort(array);   // around 0.02 s (yes I know, stop laughing)
-        time = System.nanoTime() - time;
-        assert ArrayUtil.isSorted(array, Comparator.naturalOrder());
-        System.out.println(time * 1e-9);
+    /**
+     * Creates a new SinglyLinkedNode with the given data and
+     * and empty link.
+     *
+     * @param data The data for this Node.
+     */
+    public SinglyLinkedNode(final E data) {
+        this.data = data;
     }
 
-    private static void pqSort() {
-        PriorityQueue<Integer> queue = new PriorityQueue<>(SIZE);
-        for (Integer element : array) {
-            queue.enqueue(element);
-        }
-        array = queue.toArray(array);
+    /**
+     * Returns the Node that this one points to.
+     *
+     * @return The "next" node in the List.
+     */
+    public SinglyLinkedNode<E> getNext() {
+        return next;
+    }
+
+    /**
+     * Updates the link for this Node.
+     * <p>
+     * <b>NOTE:</b> This link is allowed to be null, to help
+     * unlink the rest of the list and allow garbage collection.
+     *
+     * @param next The new Node to point to.
+     */
+    public void setNext(SinglyLinkedNode<E> next) {
+        this.next = next;
     }
 }

@@ -20,39 +20,11 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-
-import com.github.subh0m0y.datastructures.queues.PriorityQueue;
-import com.github.subh0m0y.datastructures.utils.ArrayUtil;
-
-import java.util.Comparator;
-import java.util.Random;
-
 /**
+ * This project contains efficient, light-weight, fast implementations of Data
+ * Structures that are commonly used in Computer Science.
+ *
  * @author Subhomoy Haldar
- * @version 2017.02.05
+ * @version 2017.02.15
  */
-public class Test {
-    private static final int SIZE = 1_000_000;
-    private static Integer[] array = new Integer[SIZE];
-
-    public static void main(String[] args) {
-        for (int i = 0; i < SIZE; i++) {
-            array[i] = i;
-        }
-        ArrayUtil.shuffle(args, new Random());
-        long time = System.nanoTime();
-        pqSort();               // around 2.2 s
-        //Arrays.sort(array);   // around 0.02 s (yes I know, stop laughing)
-        time = System.nanoTime() - time;
-        assert ArrayUtil.isSorted(array, Comparator.naturalOrder());
-        System.out.println(time * 1e-9);
-    }
-
-    private static void pqSort() {
-        PriorityQueue<Integer> queue = new PriorityQueue<>(SIZE);
-        for (Integer element : array) {
-            queue.enqueue(element);
-        }
-        array = queue.toArray(array);
-    }
-}
+package com.github.subh0m0y.datastructures;
